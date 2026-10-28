@@ -30,7 +30,16 @@ function markUnsupported(reason) {
   }
 }
 
+let controller;
+
+/* Appearance follows the page background: white page → light glass,
+   black page (dark mode) → dark glass. */
+function currentAppearance() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
 export async function bootGlass() {
+  if (controller) return;
   const scene = document.querySelector(".glass-scene");
   const content = document.querySelector(".glass-content");
   const navPill = document.querySelector(".site-nav");
@@ -47,14 +56,16 @@ export async function bootGlass() {
     return;
   }
 
-  let controller;
+  let newController;
   try {
     const { createGlassScene, attachGeometryMotion } = await import(
       "@glass-sdk/liquid-glass/dom"
     );
     await import("@glass-sdk/liquid-glass/styles.css");
 
-    controller = createGlassScene(scene, {
+    const appearance = currentAppearance();
+
+    newController = createGlassScene(scene, {
       maxSurfaces: 8,
       onDiagnostic(diagnostic) {
         if (diagnostic.error) {
@@ -64,7 +75,7 @@ export async function bootGlass() {
       },
     });
 
-    controller.setContent(content);
+    newController.setContent(content);
 
     // The nav pill IS the surface: its content renders above the glass
     // layer the library inserts inside it.
@@ -77,11 +88,11 @@ export async function bootGlass() {
       layout: true,
       motion: () => "full",
     });
-    controller.addAnimator(animator);
+    newController.addAnimator(animator);
 
-    controller.addSurface(navPill, {
+    newController.addSurface(navPill, {
       material: "regular",
-      appearance: "dark",
+      appearance,
       interactive: true,
       fluid: true,
       radius: "capsule",
@@ -92,7 +103,7 @@ export async function bootGlass() {
     console.warn("[glass] renderer unavailable, using fallback material", error);
     markUnsupported("玻璃渲染器不可用，已启用毛玻璃降级材质");
     navPill.classList.remove("lg-surface");
-    controller?.dispose();
+    newController?.dispose();
   }
 }
 
