@@ -262,7 +262,10 @@ main {
 .glass-scene {
   position: relative;
   isolation: isolate;
-  height: 100dvh;
+  /* 100svh keeps the scene a CONSTANT size even when iOS Safari's
+     toolbars collapse/expand — otherwise the whole scene resizes and
+     the glass lens lags behind the nav while new maps are prepared. */
+  height: 100svh;
   overflow: hidden;
 }
 

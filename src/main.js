@@ -1,7 +1,7 @@
 /* Shared entry: boots the glass scene, mobile nav, and reveal animations. */
 
 import "./styles.css";
-import { bootGlass, initReveal } from "./glass.js";
+import { bootGlass, initGlassResync, initReveal } from "./glass.js";
 
 function initMobileNav() {
   const nav = document.querySelector(".site-nav");
@@ -40,6 +40,7 @@ function stampCurrentYear() {
 initMobileNav();
 stampCurrentYear();
 initReveal();
+initGlassResync();
 
 // Let the first paint happen before allocating GPU resources.
 if ("requestIdleCallback" in window) {

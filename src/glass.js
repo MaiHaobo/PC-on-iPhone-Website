@@ -38,6 +38,41 @@ function currentAppearance() {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
+/** Tear the scene down and boot it again: the lens geometry and the
+ *  prepared material maps are re-derived from the live DOM, which
+ *  re-syncs the glass with the nav after viewport/zoom changes. */
+export async function rebuildGlass() {
+  const navPill = document.querySelector(".site-nav");
+  controller?.dispose();
+  controller = undefined;
+  if (navPill) {
+    navPill.classList.remove("lg-surface");
+    delete navPill.dataset.glassActive;
+  }
+  await bootGlass();
+}
+
+/* Debounced re-sync: iOS Safari's toolbars collapsing, rotating the
+   device, or browser zoom can shift the geometry the lens was built
+   from faster than the scene re-measures it. */
+let resyncTimer;
+function scheduleResync() {
+  if (!controller) return;
+  clearTimeout(resyncTimer);
+  resyncTimer = setTimeout(() => {
+    rebuildGlass().catch(() => {});
+  }, 250);
+}
+
+export function initGlassResync() {
+  window.addEventListener("resize", scheduleResync);
+  window.addEventListener("orientationchange", scheduleResync);
+  window.visualViewport?.addEventListener("resize", scheduleResync);
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) scheduleResync(); // bfcache restore
+  });
+}
+
 export async function bootGlass() {
   if (controller) return;
   const scene = document.querySelector(".glass-scene");
