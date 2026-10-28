@@ -55,7 +55,7 @@ body {
 /* Animated colour field that the glass refracts. */
 .bg-field {
   position: absolute;
-  inset: -10vmax;
+  inset: 0;
   z-index: -2;
   background:
     radial-gradient(38vmax 38vmax at 18% 12%, rgba(76, 141, 255, 0.55), transparent 62%),
@@ -229,6 +229,7 @@ a {
 .glass-content {
   z-index: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,.25) transparent;
