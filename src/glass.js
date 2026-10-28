@@ -1,19 +1,15 @@
 /* ============================================================
-   Liquid Glass wiring
+   Liquid Glass wiring — official DOM structure
    ------------------------------------------------------------
-   The material is rendered by @glass-sdk/liquid-glass (WGSL /
-   WebGPU). It has no CDN build, so it is bundled by Vite.
-
-   Every `.glass` element keeps a CSS backdrop-filter fallback in
-   styles.css. Only when the renderer reports a working scene do we
-   flag the surface with [data-glass-active="true"] and let the
-   real material take over. On Safari, older browsers, or machines
-   without a WebGPU adapter the page still looks intentional.
+   Follows the library's documented "Without React" pattern:
+   a bounded scene root (.lg-scene), a scrolling content layer
+   (.lg-content[data-layout=scroll]) that the glass refracts,
+   and surfaces that are real content-bearing elements (nav pill)
+   registered with addSurface().
    ============================================================ */
 
 const GLASS_SELECTOR = ".glass";
 
-/** Feature probe: WebGPU needs a secure context and a live adapter. */
 async function hasWebGPU() {
   if (!("gpu" in navigator)) return false;
   if (!window.isSecureContext && location.hostname !== "localhost") return false;
@@ -34,14 +30,17 @@ function markUnsupported(reason) {
   }
 }
 
-/**
- * Boot the glass scene for the current page.
- * `root` is the element that holds the page background the glass
- * should refract (the <main> wrapper), so one scene per document.
- */
-export async function bootGlass(root = document.body) {
-  const surfaces = root.querySelectorAll(GLASS_SELECTOR);
-  if (!surfaces.length) return;
+export async function bootGlass() {
+  const scene = document.querySelector(".glass-scene");
+  const content = document.querySelector(".glass-content");
+  const navPill = document.querySelector(".site-nav");
+  if (!scene || !content || !navPill) return;
+
+  // Elements that live inside the scrolling content cannot be refracted
+  // by the same scene; they keep the CSS material.
+  content.querySelectorAll(GLASS_SELECTOR).forEach((el) => {
+    el.dataset.glassInner = "true";
+  });
 
   if (!(await hasWebGPU())) {
     markUnsupported("当前浏览器未提供 WebGPU，已启用毛玻璃降级材质");
@@ -50,10 +49,13 @@ export async function bootGlass(root = document.body) {
 
   let controller;
   try {
-    const { createGlassScene } = await import("@glass-sdk/liquid-glass/dom");
+    const { createGlassScene, attachGeometryMotion } = await import(
+      "@glass-sdk/liquid-glass/dom"
+    );
     await import("@glass-sdk/liquid-glass/styles.css");
 
-    controller = createGlassScene(root, {
+    controller = createGlassScene(scene, {
+      maxSurfaces: 8,
       onDiagnostic(diagnostic) {
         if (diagnostic.error) {
           console.warn("[glass] diagnostic", diagnostic.error);
@@ -62,26 +64,34 @@ export async function bootGlass(root = document.body) {
       },
     });
 
-    surfaces.forEach((surface) => {
-      const isInteractive =
-        surface.hasAttribute("data-glass-interactive") ||
-        surface.tagName === "BUTTON" ||
-        surface.tagName === "A";
+    controller.setContent(content);
 
-      controller.addSurface(surface, {
-        material: surface.dataset.glassMaterial || "regular",
-        appearance: "dark",
-        interactive: isInteractive,
-        fluid: true,
-      });
+    // The nav pill IS the surface: its content renders above the glass
+    // layer the library inserts inside it.
+    navPill.classList.add("lg-surface");
 
-      surface.dataset.glassActive = "true";
+    // React components wire geometry via this hook; without it the
+    // surface never produces a LensFrame and the glass is not painted.
+    const animator = attachGeometryMotion(navPill, {
+      radius: "capsule",
+      layout: true,
+      motion: () => "full",
     });
+    controller.addAnimator(animator);
 
+    controller.addSurface(navPill, {
+      material: "regular",
+      appearance: "dark",
+      interactive: true,
+      fluid: true,
+      radius: "capsule",
+    });
+    navPill.dataset.glassActive = "true";
     document.documentElement.dataset.glass = "active";
   } catch (error) {
     console.warn("[glass] renderer unavailable, using fallback material", error);
     markUnsupported("玻璃渲染器不可用，已启用毛玻璃降级材质");
+    navPill.classList.remove("lg-surface");
     controller?.dispose();
   }
 }
@@ -117,8 +127,6 @@ export function initReveal() {
 
   targets.forEach((el) => observer.observe(el));
 
-  // Safety net: if nothing reveals within 2.5s (printing, odd embeds,
-  // observers that never fire), show everything rather than hide content.
   setTimeout(() => {
     targets.forEach((el) => {
       if (el.style.opacity === "0") {

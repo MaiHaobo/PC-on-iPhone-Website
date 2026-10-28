@@ -43,7 +43,7 @@ initReveal();
 
 // Let the first paint happen before allocating GPU resources.
 if ("requestIdleCallback" in window) {
-  requestIdleCallback(() => bootGlass(document.body), { timeout: 1200 });
+  requestIdleCallback(() => bootGlass(), { timeout: 1200 });
 } else {
-  window.addEventListener("load", () => bootGlass(document.body), { once: true });
+  window.addEventListener("load", () => bootGlass(), { once: true });
 }
