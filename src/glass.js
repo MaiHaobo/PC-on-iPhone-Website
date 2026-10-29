@@ -10,7 +10,17 @@
 
 const GLASS_SELECTOR = ".glass";
 
+/* Safari/WebKit renders the GPU glass path with broken geometry on iOS:
+   the nav text gets refracted into ghosts and a misplaced glass sheet
+   covers the page while scrolling. The frosted CSS fallback is stable
+   and visually close, so WebKit deliberately uses it. */
+function isWebKit() {
+  const ua = navigator.userAgent;
+  return /Safari/i.test(ua) && !/Chrom|Chromium|Edg|OPR|Firefox/i.test(ua);
+}
+
 async function hasWebGPU() {
+  if (isWebKit()) return false;
   if (!("gpu" in navigator)) return false;
   if (!window.isSecureContext && location.hostname !== "localhost") return false;
   try {
@@ -87,7 +97,11 @@ export async function bootGlass() {
   });
 
   if (!(await hasWebGPU())) {
-    markUnsupported("当前浏览器未提供 WebGPU，已启用毛玻璃降级材质");
+    markUnsupported(
+      isWebKit()
+        ? "iPhone Safari 暂用毛玻璃材质（更稳定）"
+        : "当前浏览器未提供 WebGPU，已启用毛玻璃降级材质"
+    );
     return;
   }
 
