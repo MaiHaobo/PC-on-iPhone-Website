@@ -53,9 +53,7 @@
   }
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -73,12 +71,10 @@ body {
   background: var(--page);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip; /* 💡 修改点：用 clip 替代 hidden，避免影响原生滚动链 */
 }
 
-/* Plain page backdrop. It sits behind the scrolling content and is
-   pinned to the viewport, so the glass always has a surface to
-   refract — including at the very top, while scrolling. */
+/* Plain page backdrop */
 .page-bg {
   position: fixed;
   inset: 0;
@@ -87,9 +83,6 @@ body {
   background: var(--page);
 }
 
-/* Very soft tint wash so large white/black areas are not dead flat.
-   Deliberately low contrast: the liquid glass needs a lit surface,
-   not a busy one. */
 .page-bg::before {
   content: "";
   position: absolute;
@@ -102,9 +95,7 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  .page-bg::before {
-    opacity: 0.55;
-  }
+  .page-bg::before { opacity: 0.55; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -185,41 +176,27 @@ main {
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
 
 /* ============================================================
-   Glass surfaces
-   The material itself is rendered by @glass-sdk/liquid-glass.
-   These rules only dress the element and provide the fallback
-   look when WebGPU is unavailable.
+   Glass surfaces (Replaced with pure CSS fallback)
    ============================================================ */
 
 .glass {
   position: relative;
   border-radius: var(--radius-lg);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.62),
-    rgba(255, 255, 255, 0.28)
-  );
+  /* 💡 修改点：去掉了 blur 模糊，改用高质感的半透明纯色背景 */
+  background: rgba(255, 255, 255, 0.75); 
   box-shadow:
-    0 24px 60px -22px rgba(30, 45, 90, 0.22),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9),
-    inset 0 -10px 24px rgba(255, 255, 255, 0.25),
+    0 20px 40px -15px rgba(30, 45, 90, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 1),
     inset 0 0 0 1px var(--hairline);
-  backdrop-filter: blur(14px) saturate(1.5);
-  -webkit-backdrop-filter: blur(14px) saturate(1.5);
   overflow: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
   .glass {
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.035)
-    );
+    background: rgba(30, 32, 38, 0.75);
     box-shadow:
-      0 24px 60px -20px rgba(0, 0, 0, 0.75),
-      inset 0 1px 1px rgba(255, 255, 255, 0.35),
-      inset 0 -10px 24px rgba(255, 255, 255, 0.04),
+      0 20px 40px -15px rgba(0, 0, 0, 0.6),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1),
       inset 0 0 0 1px var(--hairline);
   }
 }
@@ -233,77 +210,31 @@ main {
   padding: clamp(22px, 3vw, 34px);
 }
 
-/* Sheen along the top edge — sells the "material" at small sizes. */
+/* Sheen along the top edge */
 .glass::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.16),
-    transparent 34%
-  );
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 34%);
   mix-blend-mode: screen;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 /* ============================================================
-   Glass scene layering
-   ------------------------------------------------------------
-   .glass-scene  — scene root for @glass-sdk/liquid-glass
-   .glass-content— the layer the glass samples/refracts
-   .glass-mirror — the actual glass surface drawn above content
+   Glass scene layering (💡 修改点：去掉固定高度，恢复自然文档流)
    ============================================================ */
 
-/* Bounded scene: the content layer scrolls internally, the glass
-   nav stays stationary above it (official layout="scroll" pattern). */
 .glass-scene {
   position: relative;
   isolation: isolate;
-  /* 100svh keeps the scene a CONSTANT size even when iOS Safari's
-     toolbars collapse/expand — otherwise the whole scene resizes and
-     the glass lens lags behind the nav while new maps are prepared. */
-  height: 100dvh;
-  overflow: hidden;
+  /* 删除了 height: 100dvh 和 overflow: hidden */
 }
 
-/* Content layer = scrolling viewport. The library styles .lg-content
-   (absolute inset 0); scrolling comes from the data-layout attribute. */
 .glass-content {
-  z-index: 0;
-  
-  /* 1. 必须恢复滚动，并且给一个高度，否则内容无法撑开 */
-  height: 100%; 
-  overflow-y: auto; 
-  overflow-x: clip;
-  
-  /* 2. 启用 iOS 原生惯性滚动（注意符号是英文半角） */
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
-
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,.25) transparent;
-}
-
-/* When the real material is running on the nav, drop its CSS dressing
-   so the two do not stack into a grey wash. */
-[data-glass-active="true"] {
-  background: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-[data-glass-active="true"]::after {
-  display: none !important;
-}
-
-/* Surfaces inside the scrolling content keep a stronger CSS material. */
-[data-glass-inner="true"] {
-  backdrop-filter: blur(18px) saturate(1.6);
-  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  /* 删除了一堆 overflow 相关代码，页面直接由 body 接管滚动 */
+  padding-bottom: env(safe-area-inset-bottom); /* 适配 iPhone 底部小黑条 */
 }
 
 /* ============================================================
@@ -317,7 +248,7 @@ main {
   right: 0;
   z-index: 50;
   padding-inline: var(--gutter);
-  pointer-events: none; /* only the pill itself is interactive */
+  pointer-events: none;
 }
 
 .site-nav-wrap .site-nav { pointer-events: auto; }
@@ -418,8 +349,6 @@ main {
     padding: 10px;
     border-radius: var(--radius-md);
     background: var(--menu-bg);
-    backdrop-filter: blur(22px) saturate(1.4);
-    -webkit-backdrop-filter: blur(22px) saturate(1.4);
     box-shadow: inset 0 0 0 1px var(--hairline);
     opacity: 0;
     visibility: hidden;
@@ -535,16 +464,13 @@ main {
   padding: clamp(10px, 2vw, 20px);
 }
 
-/* Hero screenshot — the image already contains its own device frame. */
 .hero-shot {
   display: block;
   width: 100%;
   height: auto;
-  /* Drop a soft shadow under the baked-in frame for depth; no extra border. */
   filter: drop-shadow(0 34px 60px rgba(0, 0, 0, 0.55));
 }
 
-/* Kept for potential future portrait use; not rendered by default. */
 .phone {
   position: relative;
   width: min(300px, 72vw);
@@ -563,8 +489,7 @@ main {
   height: 100%;
   border-radius: 38px;
   overflow: hidden;
-  background:
-    radial-gradient(120% 80% at 50% 0%, #1d2a52, #0b0e18 70%);
+  background: radial-gradient(120% 80% at 50% 0%, #1d2a52, #0b0e18 70%);
   display: flex;
   flex-direction: column;
   isolation: isolate;
@@ -607,8 +532,6 @@ main {
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.12);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .dock-icon {
@@ -789,7 +712,7 @@ main {
 }
 
 /* ============================================================
-   Capability notice (shown when the GPU renderer is absent)
+   Capability notice
    ============================================================ */
 
 .glass-note {
