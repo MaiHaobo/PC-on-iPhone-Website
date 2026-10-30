@@ -113,7 +113,7 @@
             </div>
 
             <div class="grid grid-3">
-              <!-- 1. 基于 QEMU (替换为虚拟机盒子图标) -->
+              <!-- 1. 基于 QEMU (虚拟机盒子图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
@@ -130,7 +130,7 @@
                 </div>
               </article>
 
-              <!-- 2. 支持30+处理器架构 (替换为芯片图标) -->
+              <!-- 2. 支持30+处理器架构 (芯片图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
@@ -150,7 +150,7 @@
                 </div>
               </article>
 
-              <!-- 3. 图形模式 (替换为带图形的显示器图标) -->
+              <!-- 3. 图形模式 (带图形的显示器图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
@@ -169,7 +169,7 @@
                 </div>
               </article>
               
-              <!-- 4. 文本终端模式 (替换为代码终端图标) -->
+              <!-- 4. 文本终端模式 (代码终端图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
@@ -184,63 +184,69 @@
                   <p>使用文本终端模式。</p>
                 </div>
               </article>
-              
-              <!-- 4. 文本终端模式 (替换为代码终端图标) -->
+
+              <!-- 5. USB 设备直通 (USB/连接图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="4 17 10 11 4 5"></polyline>
-                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                       </svg>
                     </span>
-                    <h3> USB 设备直通</h3>
+                    <h3>USB 设备直通</h3>
                   </div>
-                  <p> USB 设备直通。</p>
+                  <p>USB 设备直通。</p>
                 </div>
               </article>
-              
-              <!-- 4. 文本终端模式 (替换为代码终端图标) -->
+
+              <!-- 6. JIT 加速 (闪电加速图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="4 17 10 11 4 5"></polyline>
-                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                       </svg>
                     </span>
-                    <h3> JIT 加速</h3>
+                    <h3>JIT 加速</h3>
                   </div>
                   <p>基于 QEMU TCG JIT 加速。</p>
                 </div>
               </article>
-              
-              <!-- 4. 文本终端模式 (替换为代码终端图标) -->
+
+              <!-- 7. 最新 API (代码括号图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="4 17 10 11 4 5"></polyline>
-                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
                       </svg>
                     </span>
-                    <h3> 最新 API </h3>
+                    <h3>最新 API</h3>
                   </div>
-                  <p>采用最新 API ，为iOS 11以上版本从头设计的前端。</p>
+                  <p>采用最新 API，为 iOS 11 以上版本从头设计的前端。</p>
                 </div>
               </article>
-              
-              <!-- 4. 文本终端模式 (替换为代码终端图标) -->
+
+              <!-- 8. 快速管理 (控制面板/滑杆图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="4 17 10 11 4 5"></polyline>
-                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
                       </svg>
                     </span>
                     <h3>快速管理</h3>
@@ -248,6 +254,7 @@
                   <p>直接在设备上新建、管理、移除虚拟机，支持管理缓存。</p>
                 </div>
               </article>
+
             </div>
           </section>
 
