@@ -158,7 +158,6 @@ main {
   z-index: 1;
 }
 
-/* 💡 加大了模块之间的上下间距 */
 .section {
   padding-block: clamp(64px, 10vw, 120px);
 }
@@ -166,7 +165,6 @@ main {
 .stack > * + * { margin-top: 1.25rem; }
 .stack-lg > * + * { margin-top: 1.75rem; }
 
-/* 💡 加大了卡片网格之间的间距，不再拥挤 */
 .grid {
   display: grid;
   gap: 20px;
@@ -180,7 +178,7 @@ main {
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
 
 /* ============================================================
-   Glass surfaces (纯 CSS 质感，告别卡顿)
+   Glass surfaces (纯 CSS 质感)
    ============================================================ */
 
 .glass {
@@ -207,7 +205,6 @@ main {
 .glass--sm { border-radius: var(--radius-sm); }
 .glass--md { border-radius: var(--radius-md); }
 
-/* 💡 增加了卡片内部的留白，让文字透口气 */
 .glass-body {
   position: relative;
   z-index: 1;
@@ -245,7 +242,8 @@ main {
 
 .site-nav-wrap {
   position: absolute;
-  top: 14px;
+  /* 💡 修复：加上 safe-area-inset-top，防止在 iPhone 上被灵动岛/状态栏遮挡 */
+  top: calc(14px + env(safe-area-inset-top)); 
   left: 0;
   right: 0;
   z-index: 50;
@@ -417,7 +415,8 @@ main {
    ============================================================ */
 
 .hero {
-  padding-top: clamp(40px, 7vw, 80px);
+  /* 💡 修复：将顶部间距加大，让出悬浮导航栏的位置，并适配安全区 */
+  padding-top: calc(100px + env(safe-area-inset-top)); 
   padding-bottom: clamp(40px, 6vw, 72px);
 }
 
@@ -444,7 +443,6 @@ main {
   max-width: 46ch;
 }
 
-/* 💡 按钮之间拉开一点距离 */
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -491,7 +489,7 @@ main {
 .card-title {
   display: flex;
   align-items: center;
-  gap: 12px; /* 图标和标题稍微拉开一点 */
+  gap: 12px;
 }
 
 .card-icon {
@@ -507,7 +505,6 @@ main {
 
 .card-icon svg { width: 18px; height: 18px; opacity: 0.92; }
 
-/* 💡 卡片描述的顶部间距稍微加大 */
 .card p { 
   margin-top: 14px; 
   font-size: 0.95rem; 
@@ -525,7 +522,7 @@ main {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 16px;
-  padding: clamp(24px, 4vw, 30px); /* 💡 加大步骤卡片内部留白 */
+  padding: clamp(24px, 4vw, 30px); 
 }
 
 .step::before {
@@ -545,7 +542,7 @@ main {
    FAQ accordion
    ============================================================ */
 
-.faq-list { display: grid; gap: 16px; /* 💡 稍微拉开 FAQ 卡片间距 */ }
+.faq-list { display: grid; gap: 16px; }
 
 .faq-item { padding: 0; }
 
@@ -597,7 +594,8 @@ main {
    ============================================================ */
 
 .page-head {
-  padding-top: clamp(36px, 6vw, 72px);
+  /* 💡 修复：内部页面（如 FAQ、关于）的顶部同样留出导航栏的高度 */
+  padding-top: calc(100px + env(safe-area-inset-top)); 
   padding-bottom: clamp(20px, 3vw, 36px);
   display: grid;
   gap: 16px;
@@ -611,7 +609,7 @@ main {
 .site-footer {
   position: relative;
   z-index: 1;
-  margin-top: clamp(56px, 8vw, 100px); /* 💡 底部整体离上面更远 */
+  margin-top: clamp(56px, 8vw, 100px); 
   padding-bottom: 40px;
   pointer-events: none;
 }
@@ -686,7 +684,7 @@ main {
 
 /* ==== HTML 优化配套工具类 ==== */
 .mb-40 {
-  margin-bottom: clamp(32px, 5vw, 40px); /* 💡 标题和卡片距离拉开 */
+  margin-bottom: clamp(32px, 5vw, 40px); 
 }
 
 .pt-0 {
@@ -701,7 +699,7 @@ main {
 
 .cta-body {
   display: grid;
-  gap: 24px; /* 💡 结尾卡片内部元素间距拉大 */
+  gap: 24px; 
   justify-items: start;
   padding: clamp(32px, 6vw, 56px);
 }
@@ -715,7 +713,7 @@ main {
 }
 
 .step-desc {
-  margin-top: 10px; /* 💡 加大步骤描述距离 */
+  margin-top: 10px; 
   font-size: 0.95rem;
   line-height: 1.6;
 }
