@@ -18,7 +18,6 @@
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   </head>
   <body>
-    <!-- 清理了失效的 lg-scene 等特效类名 -->
     <div class="glass-scene">
       <header class="site-nav-wrap">
         <nav class="site-nav glass glass--sm" aria-label="主导航">
@@ -32,14 +31,12 @@
             PC on iPhone
           </a>
 
-          <!-- 增加 aria-controls，关联下方的菜单区域 -->
           <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="切换菜单">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <path d="M4 7h16M4 12h16M4 17h16" />
             </svg>
           </button>
 
-          <!-- 增加 id="nav-menu" -->
           <div class="nav-links" id="nav-menu">
             <a href="./index.html" aria-current="page">首页</a>
             <a href="./features.html">功能</a>
@@ -51,7 +48,6 @@
         </nav>
       </header>
 
-      <!-- 清理了失效的 lg-content 和 data-layout -->
       <div class="glass-content">
         <div class="page-bg" aria-hidden="true"></div>
 
@@ -73,6 +69,7 @@
                 </p>
 
                 <div class="hero-actions">
+                  <!-- 这里的“开始”按钮跳转到下方的三步教程 -->
                   <a class="btn btn--primary" href="#get-started">
                     开始
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -270,20 +267,20 @@
             <div class="grid grid-3 steps">
               <div class="glass glass--md step" data-reveal>
                 <div>
-                  <h3>下载安装</h3>
-                  <p class="step-desc">占位：说明安装渠道与系统版本要求。</p>
+                  <h3>从 GitHub 下载</h3>
+                  <p class="step-desc">在 GitHub 仓库 Release 页面中下载安装包。</p>
                 </div>
               </div>
               <div class="glass glass--md step" data-reveal>
                 <div>
-                  <h3>完成授权</h3>
-                  <p class="step-desc">占位：说明需要开启哪些系统权限及原因。</p>
+                  <h3>完成安装和信任</h3>
+                  <p class="step-desc">使用签名工具签名安装，安装后在设置 > 通用 > VPN与设备管理中信任证书。</p>
                 </div>
               </div>
               <div class="glass glass--md step" data-reveal>
                 <div>
                   <h3>开始使用</h3>
-                  <p class="step-desc">占位：说明首次启动后的初始设置。</p>
+                  <p class="step-desc">非 SE 版本需要使用配置工具打开 JIT 加速，完成后方可使用； SE 版直接打开使用即可。</p>
                 </div>
               </div>
             </div>
@@ -295,13 +292,16 @@
           <section class="section" data-reveal>
             <div class="glass">
               <div class="glass-body cta-body">
-                <span class="eyebrow">占位结尾段落</span>
+                <span class="eyebrow">结尾段落</span>
                 <h2 class="cta-title">准备好把它装进你的 iPhone 了吗？</h2>
                 <p class="cta-desc">
-                  这句结尾文案同样为占位内容，用于引导用户点击下载。替换文案时请保持一句话长度。
+                  点击下方“立即下载”立刻下载体验 PC on iPhone！
                 </p>
                 <div class="hero-actions">
-                  <a class="btn btn--primary" href="#">下载（占位链接）</a>
+                  <!-- ✅ 这里已经修改为真实的 Releases 链接，并加上 target="_blank" 在新窗口打开 -->
+                  <a class="btn btn--primary" href="https://github.com/MaiHaobo/PC-on-iPhone/releases" target="_blank" rel="noopener">
+                    立即下载 →
+                  </a>
                   <a class="btn btn--ghost" href="./faq.html">先看常见问题</a>
                 </div>
               </div>
@@ -343,7 +343,6 @@
       </div>
     </div>
 
-    <!-- 脚本移到 body 底部，确保 DOM 加载完毕再执行 -->
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
