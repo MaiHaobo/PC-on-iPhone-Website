@@ -71,7 +71,7 @@ body {
   background: var(--page);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: clip; /* 💡 修改点：用 clip 替代 hidden，避免影响原生滚动链 */
+  overflow-x: clip; /* 用 clip 替代 hidden，避免影响原生滚动 */
 }
 
 /* Plain page backdrop */
@@ -176,13 +176,12 @@ main {
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
 
 /* ============================================================
-   Glass surfaces (Replaced with pure CSS fallback)
+   Glass surfaces (纯 CSS 降级版，告别卡顿)
    ============================================================ */
 
 .glass {
   position: relative;
   border-radius: var(--radius-lg);
-  /* 💡 修改点：去掉了 blur 模糊，改用高质感的半透明纯色背景 */
   background: rgba(255, 255, 255, 0.75); 
   box-shadow:
     0 20px 40px -15px rgba(30, 45, 90, 0.15),
@@ -223,18 +222,18 @@ main {
 }
 
 /* ============================================================
-   Glass scene layering (💡 修改点：去掉固定高度，恢复自然文档流)
+   Glass scene layering (恢复自然文档流滚动)
    ============================================================ */
 
 .glass-scene {
   position: relative;
   isolation: isolate;
-  /* 删除了 height: 100dvh 和 overflow: hidden */
+  /* 移除了固定高度，让页面自然变长 */
 }
 
 .glass-content {
-  /* 删除了一堆 overflow 相关代码，页面直接由 body 接管滚动 */
-  padding-bottom: env(safe-area-inset-bottom); /* 适配 iPhone 底部小黑条 */
+  /* 页面由 body 接管滚动，此处仅做底部安全区适配 */
+  padding-bottom: env(safe-area-inset-bottom); 
 }
 
 /* ============================================================
@@ -337,8 +336,16 @@ main {
   place-items: center;
 }
 
+/* 💡 移动端导航修复核心区 */
 @media (max-width: 780px) {
   .nav-toggle { display: grid; }
+  
+  .site-nav {
+    position: relative;
+    overflow: visible !important; /* 强制允许下拉菜单溢出，解决点击无反应问题 */
+    z-index: 100; 
+  }
+
   .nav-links {
     position: absolute;
     top: calc(100% + 8px);
@@ -349,18 +356,20 @@ main {
     padding: 10px;
     border-radius: var(--radius-md);
     background: var(--menu-bg);
-    box-shadow: inset 0 0 0 1px var(--hairline);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--hairline);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-6px);
     transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    z-index: 101;
   }
-  .site-nav { position: relative; }
+
   .site-nav[data-open="true"] .nav-links {
     opacity: 1;
     visibility: visible;
     transform: none;
   }
+
   .nav-links a { padding: 12px 14px; }
   .nav-cta { display: none; }
 }
