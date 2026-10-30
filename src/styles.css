@@ -276,6 +276,8 @@ main {
   /*overflow-y: auto;*/
   overflow-x: clip;
   /*overscroll-behavior: contain;*/
+  -webkit-overflow-scrolling：touch；
+  touch- action：pan-y；
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,.25) transparent;
 }
