@@ -2,6 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <!-- 增加 viewport-fit=cover，完美适配 iPhone 底部小黑条 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>PC on iPhone — 在 iPhone 上运行电脑虚拟机</title>
     <meta
@@ -13,12 +14,11 @@
     <meta property="og:title" content="PC on iPhone" />
     <meta property="og:description" content="在 iPhone 上运行真正的电脑系统。" />
     <meta property="og:type" content="website" />
-    <!-- 建议补充 og:image，例如：<meta property="og:image" content="./screenshot-boot.png" /> -->
     
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   </head>
   <body>
-    <!-- 删除残留的 lg-scene 类名 -->
+    <!-- 清理了失效的 lg-scene 等特效类名 -->
     <div class="glass-scene">
       <header class="site-nav-wrap">
         <nav class="site-nav glass glass--sm" aria-label="主导航">
@@ -51,7 +51,7 @@
         </nav>
       </header>
 
-      <!-- 删除残留的 lg-content 和 data-layout -->
+      <!-- 清理了失效的 lg-content 和 data-layout -->
       <div class="glass-content">
         <div class="page-bg" aria-hidden="true"></div>
 
@@ -64,7 +64,6 @@
                   <span class="dot" aria-hidden="true"></span>占位文案 · 待替换
                 </span>
 
-                <!-- 清理冗长的内联样式，直接使用 h1 默认样式，利用 CSS 类处理 -->
                 <h1 class="hero-title">
                   <span class="grad">PC on iPhone</span>
                 </h1>
@@ -74,7 +73,6 @@
                 </p>
 
                 <div class="hero-actions">
-                  <!-- 删除了已失效的 data-glass-interactive 属性 -->
                   <a class="btn btn--primary" href="#get-started">
                     开始
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -87,10 +85,9 @@
                 <div class="hero-meta">
                   <span><span class="dot" aria-hidden="true"></span>占位状态：内测中</span>
                   <span>要求：iOS 11 及以上</span>
-                  <span>安装包体积：标准版 148 MB / SE版 236 MB</span>
+                  <span>安装包：标准版 148 MB / SE版 236 MB</span>
                 </div>
 
-                <!-- 如果不需要显示 GPU 不支持提示，这个空元素可以删掉 -->
                 <p class="glass-note" data-glass-note></p>
               </div>
 
@@ -116,13 +113,15 @@
             </div>
 
             <div class="grid grid-3">
+              <!-- 1. 基于 QEMU (替换为虚拟机盒子图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2.5" y="4" width="19" height="13" rx="2.5" />
-                        <path d="M8 21h8M12 17v4" />
+                        <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+                        <path d="m3.3 7 8.7 5 8.7-5"></path>
+                        <path d="M12 22V12"></path>
                       </svg>
                     </span>
                     <h3>基于 QEMU</h3>
@@ -131,12 +130,18 @@
                 </div>
               </article>
 
+              <!-- 2. 支持30+处理器架构 (替换为芯片图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M13 2.5 4.5 13.5H11l-1 8 8.5-11H12l1-8Z" />
+                        <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                        <rect x="9" y="9" width="6" height="6"></rect>
+                        <path d="M15 2v2"></path><path d="M15 20v2"></path>
+                        <path d="M2 15h2"></path><path d="M2 9h2"></path>
+                        <path d="M20 15h2"></path><path d="M20 9h2"></path>
+                        <path d="M9 2v2"></path><path d="M9 20v2"></path>
                       </svg>
                     </span>
                     <h3>支持30+处理器架构</h3>
@@ -145,28 +150,33 @@
                 </div>
               </article>
 
+              <!-- 3. 图形模式 (替换为带图形的显示器图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2.5 4 6.5v5c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10v-5l-8-4Z" />
-                        <path d="M9 12l2.2 2.2L15.5 10" />
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                        <path d="M12 13v-4"></path>
+                        <path d="m9.5 10.5 2.5 2 2.5-2"></path>
                       </svg>
                     </span>
                     <h3>图形模式</h3>
                   </div>
-                  <p>使用 SPICE与QXL VGA 图形模式。</p>
+                  <p>使用 SPICE 与 QXL VGA 图形模式。</p>
                 </div>
               </article>
               
+              <!-- 4. 文本终端模式 (替换为代码终端图标) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2.5 4 6.5v5c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10v-5l-8-4Z" />
-                        <path d="M9 12l2.2 2.2L15.5 10" />
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="12" y1="19" x2="20" y2="19"></line>
                       </svg>
                     </span>
                     <h3>文本终端模式</h3>
