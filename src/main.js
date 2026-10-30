@@ -1,7 +1,8 @@
 /* Shared entry: boots the glass scene, mobile nav, and reveal animations. */
 
 import "./styles.css";
-import { bootGlass, initGlassResync, initReveal } from "./glass.js";
+// 👇 注意这里：把 bootGlass 和 initGlassResync 去掉了，只留 initReveal (入场动画)
+import { initReveal } from "./glass.js"; 
 
 function initMobileNav() {
   const nav = document.querySelector(".site-nav");
@@ -40,11 +41,13 @@ function stampCurrentYear() {
 initMobileNav();
 stampCurrentYear();
 initReveal();
-initGlassResync();
 
-// Let the first paint happen before allocating GPU resources.
-if ("requestIdleCallback" in window) {
-  requestIdleCallback(() => bootGlass(), { timeout: 1200 });
-} else {
-  window.addEventListener("load", () => bootGlass(), { once: true });
-}
+// 👇 下面这整块启动 GPU 渲染的代码全部注释/删掉
+// initGlassResync();
+//
+// // Let the first paint happen before allocating GPU resources.
+// if ("requestIdleCallback" in window) {
+//   requestIdleCallback(() => bootGlass(), { timeout: 1200 });
+// } else {
+//   window.addEventListener("load", () => bootGlass(), { once: true });
+// }
