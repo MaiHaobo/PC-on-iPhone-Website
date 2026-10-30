@@ -4,7 +4,6 @@
 
 :root {
   /* Colour --------------------------------------------------- */
-  /* Page background: white by default, black when the OS is in dark mode. */
   --page: #ffffff;
   --ink: #14161d;
   --ink-soft: rgba(20, 22, 29, 0.66);
@@ -12,7 +11,6 @@
   --tint: #2f6ae0;
   --tint-2: #7a3ff2;
 
-  /* Translucent layers need a tint that flips with the page colour. */
   --lift: rgba(20, 30, 60, 0.05);
   --lift-strong: rgba(20, 30, 60, 0.09);
   --hairline: rgba(20, 30, 60, 0.12);
@@ -34,7 +32,7 @@
   color-scheme: light;
 }
 
-/* Dark mode — black page, light ink. */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --page: #000000;
@@ -71,7 +69,7 @@ body {
   background: var(--page);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: clip; /* 用 clip 替代 hidden，避免影响原生滚动 */
+  overflow-x: clip;
 }
 
 /* Plain page backdrop */
@@ -160,23 +158,29 @@ main {
   z-index: 1;
 }
 
+/* 💡 加大了模块之间的上下间距 */
 .section {
-  padding-block: clamp(56px, 9vw, 120px);
+  padding-block: clamp(64px, 10vw, 120px);
 }
 
-.stack > * + * { margin-top: 1rem; }
+.stack > * + * { margin-top: 1.25rem; }
 .stack-lg > * + * { margin-top: 1.75rem; }
 
+/* 💡 加大了卡片网格之间的间距，不再拥挤 */
 .grid {
   display: grid;
-  gap: clamp(14px, 2vw, 22px);
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .grid { gap: 24px; }
 }
 
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
 
 /* ============================================================
-   Glass surfaces (纯 CSS 降级版，告别卡顿)
+   Glass surfaces (纯 CSS 质感，告别卡顿)
    ============================================================ */
 
 .glass {
@@ -203,10 +207,11 @@ main {
 .glass--sm { border-radius: var(--radius-sm); }
 .glass--md { border-radius: var(--radius-md); }
 
+/* 💡 增加了卡片内部的留白，让文字透口气 */
 .glass-body {
   position: relative;
   z-index: 1;
-  padding: clamp(22px, 3vw, 34px);
+  padding: clamp(26px, 4vw, 34px);
 }
 
 /* Sheen along the top edge */
@@ -222,17 +227,15 @@ main {
 }
 
 /* ============================================================
-   Glass scene layering (恢复自然文档流滚动)
+   Glass scene layering
    ============================================================ */
 
 .glass-scene {
   position: relative;
   isolation: isolate;
-  /* 移除了固定高度，让页面自然变长 */
 }
 
 .glass-content {
-  /* 页面由 body 接管滚动，此处仅做底部安全区适配 */
   padding-bottom: env(safe-area-inset-bottom); 
 }
 
@@ -336,13 +339,13 @@ main {
   place-items: center;
 }
 
-/* 💡 移动端导航修复核心区 */
+/* 移动端导航修复 */
 @media (max-width: 780px) {
   .nav-toggle { display: grid; }
   
   .site-nav {
     position: relative;
-    overflow: visible !important; /* 强制允许下拉菜单溢出，解决点击无反应问题 */
+    overflow: visible !important; 
     z-index: 100; 
   }
 
@@ -441,10 +444,11 @@ main {
   max-width: 46ch;
 }
 
+/* 💡 按钮之间拉开一点距离 */
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px; 
 }
 
 .hero-meta {
@@ -480,89 +484,6 @@ main {
   filter: drop-shadow(0 34px 60px rgba(0, 0, 0, 0.55));
 }
 
-.phone {
-  position: relative;
-  width: min(300px, 72vw);
-  aspect-ratio: 9 / 19.2;
-  border-radius: 46px;
-  padding: 9px;
-  background: linear-gradient(160deg, #3a3f52, #14161f 46%, #2c3040);
-  box-shadow:
-    0 50px 90px -30px rgba(0, 0, 0, 0.85),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-    inset 0 1px 2px rgba(255, 255, 255, 0.35);
-}
-
-.phone-screen {
-  position: relative;
-  height: 100%;
-  border-radius: 38px;
-  overflow: hidden;
-  background: radial-gradient(120% 80% at 50% 0%, #1d2a52, #0b0e18 70%);
-  display: flex;
-  flex-direction: column;
-  isolation: isolate;
-}
-
-.phone-notch {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  translate: -50% 0;
-  width: 34%;
-  height: 22px;
-  border-radius: 999px;
-  background: #05060a;
-  z-index: 3;
-}
-
-.phone-wall {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(60% 40% at 30% 20%, rgba(76, 141, 255, 0.7), transparent 70%),
-    radial-gradient(55% 40% at 78% 68%, rgba(154, 107, 255, 0.6), transparent 70%),
-    linear-gradient(170deg, #131a33, #06070c);
-}
-
-.phone-ui {
-  position: relative;
-  z-index: 2;
-  margin-top: auto;
-  padding: 18px;
-  display: grid;
-  gap: 12px;
-}
-
-.phone-dock {
-  display: flex;
-  justify-content: space-around;
-  padding: 12px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
-}
-
-.dock-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.1));
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
-}
-
-.dock-icon--accent {
-  background: linear-gradient(150deg, var(--tint), var(--tint-2));
-}
-
-.phone-bar {
-  height: 4px;
-  width: 34%;
-  margin: 0 auto 6px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.4);
-}
-
 /* ============================================================
    Feature cards
    ============================================================ */
@@ -570,12 +491,12 @@ main {
 .card-title {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px; /* 图标和标题稍微拉开一点 */
 }
 
 .card-icon {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   display: grid;
   place-items: center;
@@ -584,9 +505,14 @@ main {
   box-shadow: inset 0 0 0 1px var(--hairline);
 }
 
-.card-icon svg { width: 17px; height: 17px; opacity: 0.92; }
+.card-icon svg { width: 18px; height: 18px; opacity: 0.92; }
 
-.card p { margin-top: 10px; font-size: 0.93rem; }
+/* 💡 卡片描述的顶部间距稍微加大 */
+.card p { 
+  margin-top: 14px; 
+  font-size: 0.95rem; 
+  line-height: 1.6;
+}
 
 /* ============================================================
    Steps / numbered list
@@ -599,7 +525,7 @@ main {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 16px;
-  padding: clamp(18px, 2.4vw, 24px);
+  padding: clamp(24px, 4vw, 30px); /* 💡 加大步骤卡片内部留白 */
 }
 
 .step::before {
@@ -619,7 +545,7 @@ main {
    FAQ accordion
    ============================================================ */
 
-.faq-list { display: grid; gap: 12px; }
+.faq-list { display: grid; gap: 16px; /* 💡 稍微拉开 FAQ 卡片间距 */ }
 
 .faq-item { padding: 0; }
 
@@ -628,7 +554,7 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: clamp(18px, 2.4vw, 24px);
+  padding: clamp(20px, 3vw, 24px);
   cursor: pointer;
   font-weight: 600;
   font-size: 1rem;
@@ -660,7 +586,7 @@ main {
 .faq-item[open] summary .plus::after { transform: rotate(0deg); }
 
 .faq-answer {
-  padding: 0 clamp(18px, 2.4vw, 24px) clamp(18px, 2.4vw, 24px);
+  padding: 0 clamp(20px, 3vw, 24px) clamp(20px, 3vw, 24px);
   font-size: 0.95rem;
 }
 
@@ -685,7 +611,7 @@ main {
 .site-footer {
   position: relative;
   z-index: 1;
-  margin-top: clamp(40px, 7vw, 90px);
+  margin-top: clamp(56px, 8vw, 100px); /* 💡 底部整体离上面更远 */
   padding-bottom: 40px;
   pointer-events: none;
 }
@@ -698,7 +624,7 @@ main {
   gap: 20px 40px;
   justify-content: space-between;
   align-items: flex-start;
-  padding: clamp(22px, 3vw, 30px);
+  padding: clamp(24px, 4vw, 32px);
 }
 
 .footer-brand { display: grid; gap: 8px; max-width: 30ch; }
@@ -707,7 +633,7 @@ main {
 .footer-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 26px;
+  gap: 12px 26px;
   font-size: 0.88rem;
   color: var(--ink-soft);
 }
@@ -721,7 +647,7 @@ main {
 }
 
 /* ============================================================
-   Capability notice
+   Capability notice & Utilities
    ============================================================ */
 
 .glass-note {
@@ -738,8 +664,6 @@ main {
 }
 
 .glass-note[data-visible="true"] { display: inline-flex; }
-
-/* Utility --------------------------------------------------- */
 
 .visually-hidden {
   position: absolute;
@@ -758,4 +682,40 @@ main {
   background: linear-gradient(90deg, transparent, var(--hairline), transparent);
   border: 0;
   margin: 0;
+}
+
+/* ==== HTML 优化配套工具类 ==== */
+.mb-40 {
+  margin-bottom: clamp(32px, 5vw, 40px); /* 💡 标题和卡片距离拉开 */
+}
+
+.pt-0 {
+  padding-top: 0 !important;
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 4.6vw, 4.2rem) !important; 
+  letter-spacing: -0.03em !important;
+  white-space: nowrap;
+}
+
+.cta-body {
+  display: grid;
+  gap: 24px; /* 💡 结尾卡片内部元素间距拉大 */
+  justify-items: start;
+  padding: clamp(32px, 6vw, 56px);
+}
+
+.cta-title {
+  max-width: 22ch;
+}
+
+.cta-desc {
+  max-width: 52ch;
+}
+
+.step-desc {
+  margin-top: 10px; /* 💡 加大步骤描述距离 */
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
