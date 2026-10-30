@@ -274,7 +274,7 @@ main {
 .glass-content {
   z-index: 0;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: clip;
   /*overscroll-behavior: contain;*/
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,.25) transparent;
