@@ -273,7 +273,7 @@ main {
    (absolute inset 0); scrolling comes from the data-layout attribute. */
 .glass-content {
   z-index: 0;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
   overflow-x: clip;
   /*overscroll-behavior: contain;*/
   scrollbar-width: thin;
