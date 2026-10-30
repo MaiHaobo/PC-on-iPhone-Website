@@ -275,7 +275,7 @@ main {
   z-index: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  overscroll-behavior: contain;
+  /*overscroll-behavior: contain;*/
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,.25) transparent;
 }
