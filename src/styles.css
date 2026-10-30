@@ -273,11 +273,16 @@ main {
    (absolute inset 0); scrolling comes from the data-layout attribute. */
 .glass-content {
   z-index: 0;
-  /*overflow-y: auto;*/
+  
+  /* 1. 必须恢复滚动，并且给一个高度，否则内容无法撑开 */
+  height: 100%; 
+  overflow-y: auto; 
   overflow-x: clip;
-  /*overscroll-behavior: contain;*/
-  -webkit-overflow-scrolling：touch；
-  touch- action：pan-y；
+  
+  /* 2. 启用 iOS 原生惯性滚动（注意符号是英文半角） */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,.25) transparent;
 }
