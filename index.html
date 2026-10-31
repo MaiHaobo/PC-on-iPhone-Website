@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>详细使用教程 - PC on iPhone</title>
-    <meta name="description" content="PC on iPhone 虚拟机创建与使用指南，包含系统镜像下载指引。" />
+    <title>PC on iPhone — 在 iPhone 上运行电脑虚拟机</title>
+    <meta name="description" content="PC on iPhone 让 iPhone 突破移动端的边界，获得电脑的体验。" />
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="使用教程 - PC on iPhone" />
-    <meta property="og:description" content="教你如何使用 PC on iPhone 运行系统。" />
+    <!-- Open Graph (社交分享) -->
+    <meta property="og:title" content="PC on iPhone" />
+    <meta property="og:description" content="在 iPhone 上运行真正的电脑系统。" />
     <meta property="og:type" content="website" />
     
     <link rel="icon" href="./favicon.svg?v=2" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="glass-scene">
       <header class="site-nav-wrap">
         <nav class="site-nav glass glass--sm" aria-label="主导航">
           <a class="brand" href="./index.html">
+            <!-- 新图标 -->
             <span class="brand-mark" aria-hidden="true">
               <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
@@ -37,11 +37,11 @@
           </button>
 
           <div class="nav-links" id="nav-menu">
-            <a href="./index.html">首页</a>
+            <a href="./index.html" aria-current="page">首页</a>
             <a href="./features.html">功能</a>
             <a href="./download.html">下载安装</a>
             <a href="./install.html">详细安装教程</a>
-            <a href="./guide.html" aria-current="page">详细使用教程</a>
+            <a href="./guide.html">详细使用教程</a>
             <a href="./faq.html">常见问题</a>
             <a href="./about.html">关于</a>
           </div>
@@ -54,65 +54,103 @@
         <div class="page-bg" aria-hidden="true"></div>
 
         <main class="shell">
-          <!-- ================= HEADER ================= -->
-          <section class="hero" style="padding-bottom: 20px;">
-            <div class="stack-lg">
-              <span class="eyebrow">
-                <span class="dot" aria-hidden="true"></span>使用指南
-              </span>
-              <h1 class="hero-title" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
-                开始你的第一台 <span class="grad">虚拟机</span>
-              </h1>
-              <p class="hero-sub" style="max-width: 60ch;">
-                成功安装应用后，你需要创建虚拟机并加载系统镜像。由于操作环境是 iPhone / iPad，触控操作会有些不同，请参考以下指南。
-              </p>
+          <!-- ================= HERO ================= -->
+          <section class="hero">
+            <div class="hero-inner">
+              <div class="stack-lg">
+                <span class="eyebrow">
+                  <span class="dot" aria-hidden="true"></span>内测中 · 欢迎体验
+                </span>
+
+                <h1 class="hero-title">
+                  <span class="grad">PC on iPhone</span>
+                </h1>
+
+                <p class="hero-sub">
+                  PC on iPhone 作为 UTM 的优化版，适用于 iOS 的全功能系统模拟器与虚拟机宿主。它基于 QEMU，让你在 iPhone 和 iPad 上运行 Windows、Linux 等系统。
+                </p>
+
+                <div class="hero-actions">
+                  <a class="btn btn--primary" href="#get-started">
+                    开始
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h13M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                  <a class="btn btn--ghost" href="./features.html">了解功能</a>
+                </div>
+
+                <!-- UTM 官网入口 -->
+                <div class="hero-meta">
+                  <span><span class="dot" aria-hidden="true"></span>状态：内测中</span>
+                  <span>要求：iOS 11 及以上</span>
+                  <span>安装包：标准版 148 MB / SE版 236 MB</span>
+                  <span>
+                    基于 <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--tint); text-decoration: underline; font-weight: 500;">UTM</a> 优化驱动
+                  </span>
+                </div>
+              </div>
+
+              <div class="phone-stage" data-reveal>
+                <img
+                  class="hero-shot"
+                  src="./screenshot-boot.png"
+                  alt="PC on iPhone：在 iPhone 上正在启动 Windows"
+                  width="1564"
+                  height="768"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
             </div>
           </section>
 
-          <!-- ================= GRID FEATURES ================= -->
-          <section class="section" style="padding-top: 20px;">
-            <div class="grid grid-2">
-              
-              <!-- 1. 创建虚拟机 -->
+          <!-- ================= FEATURE CARDS ================= -->
+          <section class="section" aria-labelledby="highlights">
+            <div class="stack-lg mb-40">
+              <span class="eyebrow">核心亮点</span>
+              <h2 id="highlights">PC on iPhone 的特色</h2>
+            </div>
+
+            <div class="grid grid-3">
+              <!-- 1. 基于 QEMU -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+                        <path d="m3.3 7 8.7 5 8.7-5"></path>
+                        <path d="M12 22V12"></path>
                       </svg>
                     </span>
-                    <h3>1. 新建虚拟机</h3>
+                    <h3>基于 QEMU</h3>
                   </div>
-                  <p>打开应用后，点击底部 Tab 栏的“新建”。你需要为虚拟机分配内存（RAM）和 CPU 核心数。</p>
-                  <p>对于标准版和 HV 版，建议内存至少 2GB，CPU 核心数设置 2-4 个以保证流畅。</p>
-                  <p>对于 SE 版，建议内存不要超过 2GB，CPU 核心数设置 1 个，以免占用内存过多。</p>
+                  <p>基于 QEMU 全系统模拟（MMU、设备等）。</p>
                 </div>
               </article>
 
-              <!-- 2. 挂载镜像 -->
+              <!-- 2. 支持30+处理器架构 -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                        <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                        <rect x="9" y="9" width="6" height="6"></rect>
+                        <path d="M15 2v2"></path><path d="M15 20v2"></path>
+                        <path d="M2 15h2"></path><path d="M2 9h2"></path>
+                        <path d="M20 15h2"></path><path d="M20 9h2"></path>
+                        <path d="M9 2v2"></path><path d="M9 20v2"></path>
                       </svg>
                     </span>
-                    <h3>2. 挂载系统镜像</h3>
+                    <h3>支持30+处理器架构</h3>
                   </div>
-                  <p>在新建虚拟机界面/虚拟机设置中找到“启动ISO镜像”或“CD/DVD”，点击“浏览”，选择你提前下载好的系统镜像。</p>
-                  <!-- 💡 修改点 1：在挂载卡片中补充了画廊退役的提示 -->
-                  <p class="muted" style="font-size: 0.85rem; margin-top: 8px; color: var(--ink-faint);">
-                    * 提示：UTM 官方画廊已停止维护，推荐使用下方指引获取纯净镜像。
-                  </p>
+                  <p>包括 x86_64、ARM64 和 RISC-V。</p>
                 </div>
               </article>
 
-              <!-- 3. 鼠标与键盘操作 -->
+              <!-- 3. 图形模式 -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
@@ -121,72 +159,153 @@
                         <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
                         <line x1="8" y1="21" x2="16" y2="21"></line>
                         <line x1="12" y1="17" x2="12" y2="21"></line>
+                        <path d="M12 13v-4"></path>
+                        <path d="m9.5 10.5 2.5 2 2.5-2"></path>
                       </svg>
                     </span>
-                    <h3>3. 键鼠模拟操作</h3>
+                    <h3>图形模式</h3>
                   </div>
-                  <p><strong>屏幕触控</strong>：单指滑动是移动鼠标指针，轻点代表左键单击，双指轻点代表右键。在偏好设置中还可以调整触控板行为或连接实体鼠标。</p>
+                  <p>使用 SPICE 与 QXL VGA 图形模式。</p>
                 </div>
               </article>
-
-              <!-- 4. 触发 JIT 与启动 -->
+              
+              <!-- 4. 文本终端模式 -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 3l14 9-14 9V3z"></path>
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="12" y1="19" x2="20" y2="19"></line>
                       </svg>
                     </span>
-                    <h3>4. 启动与 JIT 加速</h3>
+                    <h3>文本终端模式</h3>
                   </div>
-                  <p>点击屏幕上的“播放”按钮启动。如果你使用的是标准版/HV 版，需要用 StikDebug 等工具注入 JIT。如果卡在启动界面黑屏，请检查 JIT 是否成功开启。</p>
+                  <p>使用文本终端模式。</p>
                 </div>
               </article>
+
+              <!-- 5. USB 设备直通 -->
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                    </span>
+                    <h3>USB 设备直通</h3>
+                  </div>
+                  <p>USB 设备直通。</p>
+                </div>
+              </article>
+
+              <!-- 6. JIT 加速 -->
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                      </svg>
+                    </span>
+                    <h3>JIT 加速</h3>
+                  </div>
+                  <p>基于 QEMU TCG JIT 加速。</p>
+                </div>
+              </article>
+
+              <!-- 7. 最新 API -->
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                      </svg>
+                    </span>
+                    <h3>最新 API</h3>
+                  </div>
+                  <p>采用最新 API，为 iOS 11 以上版本从头设计的前端。</p>
+                </div>
+              </article>
+
+              <!-- 8. 快速管理 -->
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                      </svg>
+                    </span>
+                    <h3>快速管理</h3>
+                  </div>
+                  <p>直接在设备上新建、管理、移除虚拟机，支持管理缓存。</p>
+                </div>
+              </article>
+
             </div>
           </section>
 
           <hr class="divider" />
 
-          <!-- 💡 修改点 2：新增的系统镜像下载指引板块 -->
-          <section class="section" data-reveal>
-            <div class="glass">
-              <div class="glass-body cta-body" style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start; border-left: 4px solid var(--tint);">
-                <span class="eyebrow" style="color: var(--tint);">资源指引</span>
-                <h2 class="cta-title" style="font-size: 1.5rem;">去哪里下载系统镜像？</h2>
-                <p class="cta-desc">
-                  正如 UTM 官方所述，原有的官方画廊已经退役。你可以通过以下渠道获取可靠的系统镜像：
-                </p>
-                <ul style="list-style: none; padding: 0; margin: 0 0 10px 0; color: var(--ink-soft); font-size: 0.95rem; display: grid; gap: 12px;">
-                  <li>
-                    <strong>① 官方系统源 (最推荐)</strong>：直接前往微软、Ubuntu、Debian 等官网下载最新原版 ISO 镜像。虽然需要自己走系统安装流程，但最纯净、最安全。
-                  </li>
-                  <li>
-                    <strong>② Internet Archive 备份</strong>：UTM 官方保留了旧版画廊镜像的备份（已停止维护，存在一定安全风险），开箱即用。 
-                    <br>
-                    <a href="https://archive.org/details/utm_gallery" target="_blank" rel="noopener" style="color: var(--tint); text-decoration: underline; font-weight: 500; display: inline-flex; margin-top: 4px;">前往 Internet Archive 下载 &rarr;</a>
-                  </li>
-                </ul>
-                <a class="btn btn--ghost" href="https://docs.getutm.app/guides/" target="_blank" rel="noopener">查看 UTM 官方安装指南</a>
+          <!-- ================= GET STARTED ================= -->
+          <section class="section" id="get-started" aria-labelledby="start">
+            <div class="stack-lg mb-40">
+              <span class="eyebrow">上手流程</span>
+              <h2 id="start">三步开始</h2>
+            </div>
+
+            <div class="grid grid-3 steps">
+              <div class="glass glass--md step" data-reveal>
+                <div>
+                  <h3>从 GitHub 下载</h3>
+                  <p class="step-desc">在 GitHub 仓库 Release 页面中下载安装包。</p>
+                </div>
+              </div>
+              <div class="glass glass--md step" data-reveal>
+                <div>
+                  <h3>完成安装和信任</h3>
+                  <p class="step-desc">使用签名工具签名安装，安装后在设置 > 通用 > VPN与设备管理中信任证书。</p>
+                </div>
+              </div>
+              <div class="glass glass--md step" data-reveal>
+                <div>
+                  <h3>开始使用</h3>
+                  <p class="step-desc">非 SE 版本需要使用配置工具打开 JIT 加速，完成后方可使用； SE 版直接打开使用即可。</p>
+                </div>
               </div>
             </div>
           </section>
 
           <hr class="divider" />
 
-          <!-- ================= TIPS ================= -->
+          <!-- ================= CTA ================= -->
           <section class="section" data-reveal>
             <div class="glass">
-              <div class="glass-body cta-body" style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start; border-left: 4px solid #f5a623;">
-                <span class="eyebrow" style="color: #f5a623;">性能优化建议</span>
-                <h2 class="cta-title" style="font-size: 1.5rem;">如何让虚拟机跑得更快？</h2>
-                <ul style="list-style: none; padding: 0; margin: 0; color: var(--ink-soft); font-size: 0.95rem; display: grid; gap: 10px;">
-                  <li>• 关闭 iPhone 的“低电量模式”，它会严重限制 CPU 性能。</li>
-                  <li>• 在应用设置中尝试开启“多线程加速”（TCG Multi-threading）。</li>
-                  <li>• 尽量选择轻量级系统（如 TinyCore Linux 或 Windows XP 进行测试），运行 Windows 10/11 可能会非常卡顿。</li>
-                  <li>• 保持手机电量充足，边充边玩时注意手机散热。</li>
-                </ul>
-                <a class="btn btn--ghost" href="./faq.html" style="margin-top: 10px;">遇到问题？转到常见问题 → </a>
+              <div class="glass-body cta-body">
+                <span class="eyebrow">开始体验</span>
+                <h2 class="cta-title">准备好把它装进你的 iPhone 了吗？</h2>
+                <p class="cta-desc">
+                  点击下方“立即下载”立刻下载体验 PC on iPhone！
+                </p>
+                <div class="hero-actions">
+                  <a class="btn btn--primary" href="https://github.com/MaiHaobo/PC-on-iPhone/releases" target="_blank" rel="noopener">
+                    立即下载 →
+                  </a>
+                  <a class="btn btn--ghost" href="./faq.html">先看常见问题</a>
+                </div>
               </div>
             </div>
           </section>
@@ -210,6 +329,11 @@
                 </a>
               </div>
               
+              <!-- 版权信息 -->
+              <p class="footer-legal" style="margin: 0 0 4px 0;">
+                Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>
+              </p>
+              
               <p class="footer-legal" style="margin: 0;">
                 © <span data-year>2026</span> PC on iPhone. All rights reserved.
               </p>
@@ -219,6 +343,7 @@
       </div>
     </div>
 
+    <!-- 脚本移到 body 底部，确保 DOM 加载完毕再执行 -->
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
