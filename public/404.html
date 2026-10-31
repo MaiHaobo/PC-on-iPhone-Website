@@ -4,102 +4,86 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
-    <meta name="description" content="找不到您要访问的页面。" />
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style>
+      /* 💡 直接在这里写样式，不依赖外部 CSS 文件 */
+      :root {
+        --page: #ffffff;
+        --ink: #14161d;
+        --ink-soft: rgba(20, 22, 29, 0.66);
+        --hairline: rgba(20, 30, 60, 0.12);
+        --tint: #2f6ae0;
+        --tint-2: #7a3ff2;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --page: #000000;
+          --ink: #f5f6fa;
+          --ink-soft: rgba(245, 246, 250, 0.68);
+          --hairline: rgba(255, 255, 255, 0.14);
+          --tint: #4c8dff;
+          --tint-2: #9a6bff;
+        }
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--page);
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .box {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.75);
+        padding: 40px 20px;
+        border-radius: 34px;
+        box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 0 0 1px var(--hairline);
+        max-width: 500px;
+        width: 100%;
+      }
+      @media (prefers-color-scheme: dark) {
+        .box { background: rgba(30, 32, 38, 0.75); }
+      }
+      .code {
+        font-size: 6rem;
+        font-weight: 800;
+        line-height: 1;
+        margin: 0 0 20px 0;
+        background: linear-gradient(135deg, var(--tint), var(--tint-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      h1 { font-size: 1.5rem; margin-bottom: 12px; }
+      p { color: var(--ink-soft); margin-bottom: 30px; font-size: 0.95rem; }
+      .btn {
+        display: inline-block;
+        padding: 14px 28px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #2f7dff, #1450e0);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
+        transition: transform 0.18s ease;
+      }
+      .btn:hover { transform: translateY(-2px); }
+    </style>
   </head>
   <body>
-    <div class="glass-scene">
-      <!-- ================= NAV ================= -->
-      <header class="site-nav-wrap">
-        <nav class="site-nav glass glass--sm" aria-label="主导航">
-          <a class="brand" href="./index.html">
-            <span class="brand-mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                <path d="M10 5h4" />
-              </svg>
-            </span>
-            PC on iPhone
-          </a>
-
-          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="切换菜单">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
-          </button>
-
-          <div class="nav-links" id="nav-menu">
-            <a href="./index.html">首页</a>
-            <a href="./features.html">功能</a>
-            <a href="./faq.html">常见问题</a>
-            <a href="./about.html">关于</a>
-          </div>
-
-          <a class="nav-cta" href="./index.html#get-started">开始使用</a>
-        </nav>
-      </header>
-
-      <!-- ================= CONTENT ================= -->
-      <div class="glass-content">
-        <div class="page-bg" aria-hidden="true"></div>
-
-        <main class="shell error-page">
-          <div class="glass" data-reveal>
-            <div class="glass-body error-content">
-              <h1 class="error-code">404</h1>
-              <h2 class="error-title">页面走丢了</h2>
-              <p class="error-desc">
-                非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。
-              </p>
-              <div class="hero-actions" style="justify-content: center; margin-top: 24px;">
-                <a class="btn btn--primary" href="./index.html">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;">
-                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                  </svg>
-                  返回首页
-                </a>
-                <a class="btn btn--ghost" href="./faq.html">看看常见问题</a>
-              </div>
-            </div>
-          </div>
-        </main>
-
-        <!-- ================= FOOTER ================= -->
-        <footer class="site-footer shell">
-          <div class="glass glass--md">
-            <div class="footer-inner">
-              <div class="footer-brand">
-                <a class="brand" href="./index.html">
-                  <span class="brand-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                      <path d="M10 5h4" />
-                    </svg>
-                  </span>
-                  PC on iPhone
-                </a>
-                <p>占位简介：一句话说明项目定位。</p>
-              </div>
-
-              <nav class="footer-links" aria-label="页脚导航">
-                <a href="./features.html">功能</a>
-                <a href="./faq.html">常见问题</a>
-                <a href="./about.html">关于</a>
-                <a href="https://github.com/MaiHaobo/PC-on-iPhone" target="_blank" rel="noopener">GitHub</a>
-              </nav>
-            </div>
-
-            <div class="footer-inner pt-0">
-              <p class="footer-legal">
-                © <span data-year>2026</span> PC on iPhone · 本站为占位版本，所有文案待替换
-              </p>
-            </div>
-          </div>
-        </footer>
-      </div>
+    <div class="box">
+      <h1 class="code">404</h1>
+      <h1>页面走丢了</h1>
+      <p>非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。</p>
+      
+      <!-- 返回首页的链接，使用相对路径 -->
+      <a class="btn" href="/">返回首页</a>
     </div>
-
-    <!-- 引入原本的脚本，保证年份和移动端菜单正常工作 -->
-    <script type="module" src="./src/main.js"></script>
   </body>
 </html>
