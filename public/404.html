@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
-    <link rel="icon" href="/PC-on-iPhone-Website/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/PC-on-iPhone-Website/favicon.svg?v=2" type="image/svg+xml" />
     <style>
       /* =========================================
          1. 基础变量
@@ -18,8 +18,6 @@
         --tint-2: #7a3ff2;
         --lift: rgba(20, 30, 60, 0.05);
         --lift-strong: rgba(20, 30, 60, 0.09);
-        
-        /* 💡 核心修复：降低透明度，让毛玻璃效果显现 */
         --menu-bg: rgba(255, 255, 255, 0.85); 
       }
 
@@ -111,7 +109,8 @@
         background: linear-gradient(145deg, var(--tint), var(--tint-2));
         box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
       }
-      .brand-mark svg { width: 15px; height: 15px; }
+      /* 适配新图标的尺寸 */
+      .brand-mark svg { width: 18px; height: 18px; }
 
       .nav-toggle {
         display: none;
@@ -149,7 +148,7 @@
       }
 
       /* =========================================
-         4. 手机端菜单 (完美对齐首页)
+         4. 手机端菜单
          ========================================= */
       @media (max-width: 780px) {
         .nav-toggle { display: grid; }
@@ -164,14 +163,13 @@
           flex-direction: column;
           align-items: stretch;
           padding: 10px;
-          gap: 2px; /* 💡 恢复菜单项间距 */
+          gap: 2px; 
           border-radius: 24px;
           
           background: var(--menu-bg);
           backdrop-filter: blur(20px) saturate(1.5);
           -webkit-backdrop-filter: blur(20px) saturate(1.5);
           
-          /* 💡 阴影降低到0.12，与首页完全一致 */
           box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--hairline); 
           opacity: 0; 
           visibility: hidden;
@@ -189,7 +187,7 @@
         .nav-links a { 
           padding: 12px 14px; 
           border-radius: 14px;
-          line-height: normal; /* 💡 防止文字间距被拉大 */
+          line-height: normal; 
         }
       }
 
@@ -243,6 +241,17 @@
         transition: transform 0.18s ease;
       }
       .btn:hover { transform: translateY(-2px); }
+
+      /* =========================================
+         6. 极简页脚
+         ========================================= */
+      .simple-footer {
+        text-align: center;
+        padding: 20px;
+        font-size: 0.8rem;
+        color: var(--ink-soft);
+        margin-top: auto;
+      }
     </style>
   </head>
   <body>
@@ -250,30 +259,35 @@
     <header class="site-nav-wrap">
       <nav class="site-nav" aria-label="主导航">
         <a class="brand" href="/PC-on-iPhone-Website/index.html">
+          <!-- 新图标 -->
           <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="6" y="2.5" width="12" height="19" rx="3" />
-              <path d="M10 5h4" />
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+              <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+              <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+              <circle cx="50" cy="50" r="5" fill="#ffffff" />
             </svg>
           </span>
           PC on iPhone
         </a>
 
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="切换菜单">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="切换菜单">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <path d="M4 7h16M4 12h16M4 17h16" />
           </svg>
         </button>
 
-        <div class="nav-links">
+        <div class="nav-links" id="nav-menu">
           <a href="/PC-on-iPhone-Website/index.html">首页</a>
           <a href="/PC-on-iPhone-Website/features.html">功能</a>
           <a href="/PC-on-iPhone-Website/download.html">下载安装</a>
+          <a href="/PC-on-iPhone-Website/install.html">详细安装教程</a>
+          <a href="/PC-on-iPhone-Website/guide.html">详细使用教程</a>
           <a href="/PC-on-iPhone-Website/faq.html">常见问题</a>
           <a href="/PC-on-iPhone-Website/about.html">关于</a>
         </div>
 
-        <a class="nav-cta" href="/PC-on-iPhone-Website/index.html#get-started">开始使用</a>
+        <a class="nav-cta" href="/PC-on-iPhone-Website/download.html">立即下载</a>
       </nav>
     </header>
 
@@ -287,7 +301,18 @@
       </div>
     </main>
 
+    <!-- 新增的版权信息页脚 -->
+    <footer class="simple-footer">
+      <p style="margin: 0 0 6px 0;">
+        Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">UTM</a>
+      </p>
+      <p style="margin: 0;">
+        © <span data-year>2026</span> PC on iPhone. All rights reserved.
+      </p>
+    </footer>
+
     <script>
+      // 汉堡菜单交互
       const nav = document.querySelector(".site-nav");
       const toggle = document.querySelector(".nav-toggle");
       if (nav && toggle) {
@@ -297,6 +322,11 @@
           toggle.setAttribute("aria-expanded", String(!isOpen));
         });
       }
+
+      // 动态年份更新
+      document.querySelectorAll("[data-year]").forEach((el) => {
+        el.textContent = String(new Date().getFullYear());
+      });
     </script>
   </body>
 </html>
