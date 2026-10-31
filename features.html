@@ -75,20 +75,41 @@
             <div class="grid grid-3">
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
-                  <h3>指针与拖拽</h3>
-                  <p style="font-size: 0.93rem">占位：描述指针定位精度、拖拽手势与选区行为。</p>
+                  <h3>触摸映射</h3>
+                  <p style="font-size: 0.93rem">屏幕上的触摸会被转换为鼠标点击，长按、双指轻点等手势对应不同的鼠标操作。</p>
                 </div>
               </article>
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
-                  <h3>外部键盘</h3>
-                  <p style="font-size: 0.93rem">占位：描述快捷键映射、组合键与输入法兼容性。</p>
+                  <h3>手势自定义</h3>
+                  <p style="font-size: 0.93rem">你可以在偏好设置中，为双指或三指滑动等手势指定具体功能（如光标移动、屏幕平移），捏合手势则用于缩放显示。</p>
                 </div>
               </article>
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
-                  <h3>触控板手势</h3>
-                  <p style="font-size: 0.93rem">占位：描述双指、三指手势与滚动惯性。</p>
+                  <h3>触摸模式</h3>
+                  <p style="font-size: 0.93rem">UTM 提供“拖拽光标”和“触摸模式”等不同选项，适应不同场景下的操作逻辑。</p>
+                </div>
+              </article>
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <h3>外接设备</h3>
+                  <p style="font-size: 0.93rem">支持外接键盘、鼠标、触控板、Apple Pencil 和游戏手柄等。</p>
+                </div>
+              </article>
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <h3>剪切板共享</h3>
+                  <p style="font-size: 0.93rem">当虚拟机已安装 UTM Guest Tools 后，便可启用用剪切板共享，在宿主机和虚拟机之间同步剪切板。</p>
+                </div>
+              </article>
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <h3>文件共享</h3>
+                  <p style="font-size:1.00rem">VirtFS (9Pfs)：</p>
+                  <p style="font-size: 0.93rem">在虚拟机设置中启用，并将 iOS “文件”App 中的某个文件夹（如“下载”）挂载给虚拟机。这种方式在 Linux 虚拟机中性能较好，但 Windows 支持不佳。注意，虚拟机运行期间无法更改共享目录。‌</p>
+                  <p style="fout-size:1.00rem">SPICE WebDAV：</p>
+                  <p style="fout-size:0.93rem">同样需要安装 SPICE Guest Tools。虚拟机将通过本地端口访问共享文件夹，对 Windows 虚拟机的支持相对更好，但性能可能不如 VirtFS。‌
                 </div>
               </article>
             </div>
