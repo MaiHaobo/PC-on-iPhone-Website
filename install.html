@@ -7,7 +7,7 @@
     <meta name="description" content="PC on iPhone 安装与签名配置指南。" />
     
     <meta property="og:title" content="安装教程 - PC on iPhone" />
-    <meta property="og:description" content="一步步教你如何安装 PC on iPhone 。" />
+    <meta property="og:description" content="一步步教你如何安装 PC on iPhone。" />
     <meta property="og:type" content="website" />
     
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
@@ -71,22 +71,25 @@
               <!-- Step 1 -->
               <div class="glass glass--md step" data-reveal>
                 <div>
-                  <h3>下载</h3>
+                  <h3>获取安装包</h3>
                   <p class="step-desc">前往我们的 GitHub Releases 页面，根据你的设备状况下载对应版本的 <code>.ipa</code> 安装包。</p>
-                  <a href="./download.html" style="display: inline-block; margin-top: 12px; color: var(--tint); font-size: 0.9rem;">去下载页面 &rarr;</a>
+                  <a href="./download.html" style="display: inline-flex; align-items: center; gap: 4px; margin-top: 12px; color: var(--tint); font-size: 0.9rem; font-weight: 500;">
+                    去下载页面 <span aria-hidden="true">&rarr;</span>
+                  </a>
                 </div>
               </div>
 
               <!-- Step 2 -->
               <div class="glass glass--md step" data-reveal>
                 <div>
-                  <h3>使用签名工具签名</h3>
-                  <p class="step-desc">
-                    你需要使用第三方工具来签名安装：<br>
-                    • <strong>TrollStore</strong>：如果您的 iOS 支持（如 iOS 14-16.6.1等），可直接安装，永久有效。<br>
-                    • <strong>AltStore / SideStore</strong>：需要配合电脑或 WireGuard 使用 Apple ID 签名（有效期 7 天）。
-                    • <strong> 其他签名工具<strong>：可能需要个人证书或企业证书签名安装。
-                  </p>
+                  <h3>使用工具签名</h3>
+                  <p class="step-desc">你需要使用第三方工具来签名安装：</p>
+                  <!-- 💡 优化：把原先的文本列表改成了更清晰的 ul 列表 -->
+                  <ul style="list-style: none; padding: 0; margin: 10px 0 0 0; color: var(--ink-soft); font-size: 0.95rem; display: grid; gap: 8px;">
+                    <li>• <strong>TrollStore</strong>：如果您的 iOS 支持（如 iOS 14-16.6.1 等），可直接安装，永久有效。</li>
+                    <li>• <strong>AltStore / SideStore</strong>：需要配合电脑或 WireGuard 使用 Apple ID 签名（有效期 7 天）。</li>
+                    <li>• <strong>其他签名工具</strong>：可能需要个人证书或企业证书签名安装。</li>
+                  </ul>
                 </div>
               </div>
 
@@ -124,7 +127,7 @@
                 <span class="eyebrow" style="color: var(--tint);">进阶提示</span>
                 <h2 class="cta-title" style="font-size: 1.5rem;">关于 JIT 加速与卡顿</h2>
                 <p class="cta-desc" style="margin-bottom: 8px;">
-                  由于 iOS 的内存和 CPU 限制，如果不开启 JIT，模拟器的性能会大打折扣，甚至无法启动 Windows 系统。建议在安装完成后，务必查阅相关工具文档开启 JIT 。
+                  由于 iOS 的内存和 CPU 限制，如果不开启 JIT，模拟器的性能会大打折扣，甚至无法启动 Windows 系统。建议在安装完成后，务必查阅相关工具文档开启 JIT。
                 </p>
                 <a class="btn btn--primary" href="./faq.html">查看常见问题解答</a>
               </div>
@@ -145,7 +148,7 @@
                   </span>
                   PC on iPhone
                 </a>
-                <p>PC on iPhone / 下载安装/查看详细安装教程/</p>
+                <p>PC on iPhone / 下载安装 / 查看详细安装教程</p>
               </div>
 
               <nav class="footer-links" aria-label="页脚导航">
