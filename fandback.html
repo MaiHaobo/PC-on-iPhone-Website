@@ -13,44 +13,25 @@
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
     
-    <!-- 💡 补充表单专属样式 -->
     <style>
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-bottom: 16px;
-      }
-      .form-group label {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--ink);
-      }
+      .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+      .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
       .form-control {
-        width: 100%;
-        padding: 12px 16px;
-        border-radius: 12px;
-        background: var(--page);
-        border: 1px solid var(--hairline);
-        color: var(--ink);
-        font-family: inherit;
-        font-size: 0.95rem;
+        width: 100%; padding: 12px 16px; border-radius: 12px;
+        background: var(--page); border: 1px solid var(--hairline);
+        color: var(--ink); font-family: inherit; font-size: 0.95rem;
         transition: border-color 0.18s ease, box-shadow 0.18s ease;
       }
-      .form-control:focus {
-        outline: none;
-        border-color: var(--tint);
-        box-shadow: 0 0 0 3px rgba(47, 122, 224, 0.15);
+      .form-control:focus { outline: none; border-color: var(--tint); box-shadow: 0 0 0 3px rgba(47, 122, 224, 0.15); }
+      textarea.form-control { resize: vertical; min-height: 120px; }
+      .form-hint { font-size: 0.8rem; color: var(--ink-faint); margin-top: 4px; }
+      
+      /* 提交状态提示 */
+      #form-status {
+        display: none; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 0.9rem;
       }
-      textarea.form-control {
-        resize: vertical;
-        min-height: 120px;
-      }
-      .form-hint {
-        font-size: 0.8rem;
-        color: var(--ink-faint);
-        margin-top: 4px;
-      }
+      #form-status.success { display: block; background: rgba(70, 214, 168, 0.15); color: #2e8b57; border: 1px solid rgba(70, 214, 168, 0.3); }
+      #form-status.error { display: block; background: rgba(255, 71, 87, 0.15); color: #ff4757; border: 1px solid rgba(255, 71, 87, 0.3); }
     </style>
   </head>
   <body>
@@ -81,7 +62,6 @@
             <a href="./guide.html">详细使用教程</a>
             <a href="./faq.html">常见问题</a>
             <a href="./about.html">关于</a>
-            <!-- 如果导航栏太长，可以在移动端菜单里加上这个，PC端为了保持整洁，暂不放入顶部导航 -->
           </div>
 
           <a class="nav-cta" href="./download.html">立即下载</a>
@@ -92,7 +72,6 @@
         <div class="page-bg" aria-hidden="true"></div>
 
         <main class="shell">
-          <!-- ================= HEADER ================= -->
           <section class="hero" style="padding-bottom: 20px;">
             <div class="stack-lg">
               <span class="eyebrow">
@@ -107,11 +86,10 @@
             </div>
           </section>
 
-          <!-- ================= FEEDBACK FORM ================= -->
           <section class="section" style="padding-top: 20px;">
             <div class="grid grid-2">
               
-              <!-- 左侧：邮件表单提交 -->
+              <!-- 左侧：直接发送表单 -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <div class="card-title" style="margin-bottom: 12px;">
@@ -121,20 +99,20 @@
                         <polyline points="22,6 12,13 2,6"></polyline>
                       </svg>
                     </span>
-                    <h3>邮件反馈</h3>
+                    <h3>在线提交反馈</h3>
                   </div>
                   
-                  <!-- 💡 注意：这里没有真实后端，提交时通过 mailto 唤起邮件客户端。
-                       如果需要真实接收，建议替换为 Formspree 的 action 地址。 -->
-                  <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+                  <div id="form-status"></div>
+
+                  <form id="feedback-form">
                     <div class="form-group">
                       <label for="device">设备型号与系统版本</label>
-                      <input type="text" id="device" name="Device" class="form-control" placeholder="例如：iPhone 13 Pro, iOS 16.5" required>
+                      <input type="text" id="device" name="设备型号" class="form-control" placeholder="例如：iPhone 13 Pro, iOS 16.5" required>
                     </div>
 
                     <div class="form-group">
                       <label for="version">使用的 PC on iPhone 版本</label>
-                      <select id="version" name="Version" class="form-control">
+                      <select id="version" name="应用版本" class="form-control">
                         <option value="SE版">SE版</option>
                         <option value="标准版">标准版</option>
                         <option value="HV版">HV版</option>
@@ -144,11 +122,14 @@
 
                     <div class="form-group">
                       <label for="issue">问题描述</label>
-                      <textarea id="issue" name="Issue" class="form-control" placeholder="请详细描述您遇到的问题，例如：在点击启动按钮后黑屏卡死..." required></textarea>
-                      <span class="form-hint">如果有报错截图或日志，可以在邮件中作为附件添加。</span>
+                      <textarea id="issue" name="问题描述" class="form-control" placeholder="请详细描述您遇到的问题..." required></textarea>
+                      <!-- 防机器人蜜罐字段 -->
+                      <input type="text" name="_honey" style="display:none">
+                      <!-- 关闭验证码，改善体验 -->
+                      <input type="hidden" name="_captcha" value="false">
                     </div>
 
-                    <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: 8px;">发送邮件</button>
+                    <button type="submit" id="submit-btn" class="btn btn--primary" style="width: 100%; margin-top: 8px;">直接提交</button>
                   </form>
                 </div>
               </article>
@@ -162,11 +143,11 @@
                         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                       </svg>
                     </span>
-                    <h3>GitHub 提交 (推荐)</h3>
+                    <h3>GitHub 提交 (最推荐)</h3>
                   </div>
                   
                   <p style="flex-grow: 1;">
-                    如果您有 GitHub 账号，强烈建议直接在仓库提交 Issue。这样所有的报错日志和讨论都能被完整保留，也方便其他遇到相同问题的用户查阅。
+                    如果左侧提交失败，您有 GitHub 账号的话，建议直接在仓库提交 Issue。这样所有的报错日志和讨论都能被完整保留，方便其他用户查阅。
                   </p>
                   
                   <div style="background: var(--lift); padding: 16px; border-radius: 12px; margin-bottom: 24px; border: 1px solid var(--hairline);">
@@ -174,11 +155,11 @@
                     <ul style="list-style: none; padding: 0; margin: 0; color: var(--ink-soft); font-size: 0.85rem; display: grid; gap: 6px;">
                       <li>• 搜索是否已有相同问题</li>
                       <li>• 附上机型和系统版本</li>
-                      <li>• 贴上 Xcode 或 StikDebug 的控制台报错</li>
+                      <li>• 贴上控制台报错日志</li>
                     </ul>
                   </div>
 
-                  <a class="btn btn--primary" href="https://github.com/MaiHaobo/PC-on-iPhone/issues" target="_blank" rel="noopener" style="width: 100%; display: flex; gap: 8px;">
+                  <a class="btn btn--primary" href="https://github.com/MaiHaobo/PC-on-iPhone/issues/new" target="_blank" rel="noopener" style="width: 100%; display: flex; gap: 8px;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                     前往 GitHub 提 Issue
                   </a>
@@ -189,7 +170,6 @@
           </section>
         </main>
 
-        <!-- ================= FOOTER ================= -->
         <footer class="site-footer shell">
           <div class="glass glass--md">
             <div class="footer-inner">
@@ -213,6 +193,7 @@
                 <a href="./guide.html">使用教程</a>
                 <a href="./faq.html">常见问题</a>
                 <a href="./about.html">关于</a>
+                <a href="./feedback.html">问题反馈</a>
                 <a href="https://github.com/MaiHaobo/PC-on-iPhone" target="_blank" rel="noopener">GitHub</a>
               </nav>
             </div>
@@ -228,5 +209,58 @@
     </div>
 
     <script type="module" src="./src/main.js"></script>
+
+    <script>
+      const form = document.getElementById('feedback-form');
+      const btn = document.getElementById('submit-btn');
+      const status = document.getElementById('form-status');
+      
+      // 💡 将你的邮箱加密并拆分，防止爬虫直接抓取源码获取邮箱
+      const u = "3602246802";
+      const d = "qq.com";
+      // FormSubmit 提供的 AJAX 无刷新接口
+      const apiUrl = `https://formsubmit.co/ajax/${u}@${d}`;
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // 更改按钮状态
+        const originalText = btn.textContent;
+        btn.textContent = "正在发送...";
+        btn.style.opacity = "0.7";
+        btn.disabled = true;
+        status.className = "";
+        
+        const formData = new FormData(form);
+
+        try {
+          // 使用 fetch 进行无刷新提交
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+
+          if (response.ok) {
+            status.className = "success";
+            status.textContent = "提交成功！作者已收到您的反馈，感谢！";
+            form.reset(); // 清空表单
+          } else {
+            status.className = "error";
+            status.textContent = "发送失败，请检查网络，或使用右侧的 GitHub 渠道。";
+          }
+        } catch (error) {
+          status.className = "error";
+          status.textContent = "网络异常，无法连接到服务器。";
+        } finally {
+          // 恢复按钮状态
+          btn.textContent = originalText;
+          btn.style.opacity = "1";
+          btn.disabled = false;
+        }
+      });
+    </script>
   </body>
 </html>
