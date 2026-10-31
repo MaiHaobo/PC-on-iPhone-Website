@@ -1,8 +1,7 @@
-/* Shared entry: boots the glass scene, mobile nav, and reveal animations. */
+/* Shared entry: boots the mobile nav, year, reveal animations, and UTM copyright. */
 
 import "./styles.css";
-// 👇 注意这里：把 bootGlass 和 initGlassResync 去掉了，只留 initReveal (入场动画)
-import { initReveal } from "./glass.js"; 
+import { initReveal } from "./glass.js";
 
 function initMobileNav() {
   const nav = document.querySelector(".site-nav");
@@ -38,16 +37,29 @@ function stampCurrentYear() {
   });
 }
 
+/* 💡 新增：全自动注入 UTM 版权信息 */
+function injectUTMCopyright() {
+  const footerLegal = document.querySelector(".footer-legal");
+  if (!footerLegal) return;
+
+  // 防止重复添加
+  if (document.body.innerHTML.includes("Powered by UTM")) return;
+
+  const p = document.createElement("p");
+  p.className = "footer-legal";
+  p.style.margin = "0 0 4px 0";
+  p.innerHTML = 'Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>';
+  
+  // 插入到现有的版权年份信息上方
+  footerLegal.parentNode.insertBefore(p, footerLegal);
+}
+
+// 初始化函数
 initMobileNav();
 stampCurrentYear();
+injectUTMCopyright(); // 执行注入
 initReveal();
 
-// 👇 下面这整块启动 GPU 渲染的代码全部注释/删掉
+// 注释掉了之前启动 GPU 渲染的代码
 // initGlassResync();
-//
-// // Let the first paint happen before allocating GPU resources.
-// if ("requestIdleCallback" in window) {
-//   requestIdleCallback(() => bootGlass(), { timeout: 1200 });
-// } else {
-//   window.addEventListener("load", () => bootGlass(), { once: true });
-// }
+// if ("requestIdleCallback" in window) { ... }
