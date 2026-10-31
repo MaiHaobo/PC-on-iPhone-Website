@@ -13,6 +13,7 @@ export default defineConfig({
         main: resolve(__dirname, "index.html"),
         features: resolve(__dirname, "features.html"),
         download: resolve(__dirname,"download.html"),
+        install:resolve(__dirname,"install.html"),
         faq: resolve(__dirname, "faq.html"),
         about: resolve(__dirname, "about.html"),
       },
