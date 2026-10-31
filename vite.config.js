@@ -12,6 +12,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         features: resolve(__dirname, "features.html"),
+        download: resolve(__dirname,"download.html"),
         faq: resolve(__dirname, "faq.html"),
         about: resolve(__dirname, "about.html"),
       },
