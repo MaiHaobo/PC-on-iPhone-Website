@@ -4,9 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/PC-on-iPhone-Website/favicon.svg" type="image/svg+xml" />
     <style>
-      /* 💡 直接在这里写样式，不依赖外部 CSS 文件 */
+      /* =========================================
+         1. 全局变量与基础设置
+         ========================================= */
       :root {
         --page: #ffffff;
         --ink: #14161d;
@@ -14,6 +16,8 @@
         --hairline: rgba(20, 30, 60, 0.12);
         --tint: #2f6ae0;
         --tint-2: #7a3ff2;
+        --lift: rgba(20, 30, 60, 0.05);
+        --menu-bg: rgba(255, 255, 255, 0.92);
       }
       @media (prefers-color-scheme: dark) {
         :root {
@@ -23,24 +27,147 @@
           --hairline: rgba(255, 255, 255, 0.14);
           --tint: #4c8dff;
           --tint-2: #9a6bff;
+          --lift: rgba(255, 255, 255, 0.09);
+          --menu-bg: rgba(16, 17, 22, 0.92);
         }
       }
+
+      * { box-sizing: border-box; }
+      
       body {
         margin: 0;
         min-height: 100dvh;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
         background: var(--page);
         color: var(--ink);
         display: flex;
         flex-direction: column;
+      }
+
+      a { text-decoration: none; color: inherit; }
+
+      /* =========================================
+         2. 导航栏样式 (完全复刻首页)
+         ========================================= */
+      .site-nav-wrap {
+        position: absolute;
+        top: calc(14px + env(safe-area-inset-top)); 
+        left: 0;
+        right: 0;
+        z-index: 50;
+        padding-inline: 20px; /* 移动端基础边距 */
+        pointer-events: none;
+      }
+      @media (min-width: 768px) {
+        .site-nav-wrap { padding-inline: 56px; }
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px 8px 18px;
+        border-radius: 14px; /* glass--sm */
+        background: rgba(255, 255, 255, 0.75);
+        box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 0 0 1px var(--hairline);
+        pointer-events: auto;
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+      @media (prefers-color-scheme: dark) {
+        .site-nav { background: rgba(30, 32, 38, 0.75); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px var(--hairline); }
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 0.98rem;
+        white-space: nowrap;
+        margin-right: auto;
+      }
+      .brand-mark {
+        width: 26px; height: 26px;
+        border-radius: 8px;
+        display: grid; place-items: center;
+        background: linear-gradient(145deg, var(--tint), var(--tint-2));
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+      }
+      .brand-mark svg { width: 15px; height: 15px; }
+
+      .nav-links { display: flex; align-items: center; gap: 2px; }
+      .nav-links a {
+        display: block;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+        transition: background 0.18s, color 0.18s;
+      }
+      .nav-links a:hover { color: var(--ink); background: var(--lift); }
+
+      .nav-cta {
+        padding: 9px 18px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        background: #16181f;
+        color: #fff;
+        white-space: nowrap;
+      }
+
+      .nav-toggle {
+        display: none;
+        width: 40px; height: 40px;
+        border: 0; border-radius: 50%;
+        background: var(--lift);
+        color: var(--ink);
+        cursor: pointer;
+        place-items: center;
+      }
+
+      /* 移动端菜单逻辑 */
+      @media (max-width: 780px) {
+        .nav-toggle { display: grid; }
+        .site-nav { position: relative; overflow: visible !important; }
+        .nav-links {
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 0; right: 0;
+          flex-direction: column;
+          align-items: stretch;
+          padding: 10px;
+          border-radius: 22px;
+          background: var(--menu-bg);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--hairline);
+          opacity: 0; visibility: hidden;
+          transform: translateY(-6px);
+          transition: all 0.18s ease;
+          z-index: 100;
+        }
+        .site-nav[data-open="true"] .nav-links {
+          opacity: 1; visibility: visible; transform: none;
+        }
+        .nav-links a { padding: 12px 14px; }
+        .nav-cta { display: none; }
+      }
+
+      /* =========================================
+         3. 404 卡片居中布局
+         ========================================= */
+      .error-wrapper {
+        flex: 1;
+        display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: calc(100px + env(safe-area-inset-top)) 20px 40px; /* 顶部留出导航栏空间 */
       }
+
       .box {
         text-align: center;
         background: rgba(255, 255, 255, 0.75);
-        padding: 40px 20px;
+        padding: 50px 30px;
         border-radius: 34px;
         box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 0 0 1px var(--hairline);
         max-width: 500px;
@@ -49,6 +176,7 @@
       @media (prefers-color-scheme: dark) {
         .box { background: rgba(30, 32, 38, 0.75); }
       }
+
       .code {
         font-size: 6rem;
         font-weight: 800;
@@ -59,15 +187,15 @@
         background-clip: text;
         color: transparent;
       }
-      h1 { font-size: 1.5rem; margin-bottom: 12px; }
-      p { color: var(--ink-soft); margin-bottom: 30px; font-size: 0.95rem; }
+      .box h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
+      .box p { color: var(--ink-soft); margin-bottom: 30px; font-size: 0.95rem; }
+      
       .btn {
         display: inline-block;
         padding: 14px 28px;
         border-radius: 999px;
         background: linear-gradient(180deg, #2f7dff, #1450e0);
         color: #fff;
-        text-decoration: none;
         font-weight: 600;
         font-size: 0.95rem;
         box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
@@ -77,13 +205,60 @@
     </style>
   </head>
   <body>
-    <div class="box">
-      <h1 class="code">404</h1>
-      <h1>页面走丢了</h1>
-      <p>非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。</p>
-      
-      <!-- 返回首页的链接，使用相对路径 -->
-      <a class="btn" href="https://maihaobo.github.io/PC-on-iPhone-Website/index.html">返回首页</a>
-    </div>
+    
+    <!-- 导航栏 HTML -->
+    <header class="site-nav-wrap">
+      <nav class="site-nav" aria-label="主导航">
+        <a class="brand" href="/PC-on-iPhone-Website/index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="2.5" width="12" height="19" rx="3" />
+              <path d="M10 5h4" />
+            </svg>
+          </span>
+          PC on iPhone
+        </a>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="切换菜单">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+
+        <div class="nav-links">
+          <a href="/PC-on-iPhone-Website/index.html">首页</a>
+          <a href="/PC-on-iPhone-Website/features.html">功能</a>
+          <a href="/PC-on-iPhone-Website/faq.html">常见问题</a>
+          <a href="/PC-on-iPhone-Website/about.html">关于</a>
+        </div>
+
+        <a class="nav-cta" href="/PC-on-iPhone-Website/index.html#get-started">开始使用</a>
+      </nav>
+    </header>
+
+    <!-- 404 内容 -->
+    <main class="error-wrapper">
+      <div class="box">
+        <h1 class="code">404</h1>
+        <h1>页面走丢了</h1>
+        <p>非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。</p>
+        
+        <!-- 使用绝对路径确保能返回首页 -->
+        <a class="btn" href="/PC-on-iPhone-Website/index.html">返回首页</a>
+      </div>
+    </main>
+
+    <!-- 汉堡菜单交互 JS -->
+    <script>
+      const nav = document.querySelector(".site-nav");
+      const toggle = document.querySelector(".nav-toggle");
+      if (nav && toggle) {
+        toggle.addEventListener("click", () => {
+          const isOpen = nav.dataset.open === "true";
+          nav.dataset.open = String(!isOpen);
+          toggle.setAttribute("aria-expanded", String(!isOpen));
+        });
+      }
+    </script>
   </body>
 </html>
