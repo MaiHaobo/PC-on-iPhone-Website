@@ -80,10 +80,14 @@
                   <a class="btn btn--ghost" href="./features.html">了解功能</a>
                 </div>
 
+                <!-- 💡 修改点 1：在 Meta 信息中新增 UTM 官网入口 -->
                 <div class="hero-meta">
                   <span><span class="dot" aria-hidden="true"></span>状态：内测中</span>
                   <span>要求：iOS 11 及以上</span>
                   <span>安装包：标准版 148 MB / SE版 236 MB</span>
+                  <span>
+                    基于 <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--tint); text-decoration: underline; font-weight: 500;">UTM</a> 优化驱动
+                  </span>
                 </div>
               </div>
 
@@ -310,10 +314,10 @@
         <!-- ================= FOOTER ================= -->
         <footer class="site-footer shell">
           <div class="glass glass--md">
+            <!-- 统一居中极简页脚 -->
             <div class="footer-inner" style="justify-content: center; text-align: center; flex-direction: column; gap: 12px;">
               <div class="footer-brand" style="margin: 0 auto; justify-items: center; display: grid;">
                 <a class="brand" href="./index.html">
-                  <!-- 页脚的新图标 -->
                   <span class="brand-mark" aria-hidden="true">
                     <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
@@ -326,7 +330,11 @@
                 </a>
               </div>
               
-              <!-- 彻底删除了那堆链接，版权信息放到这里 -->
+              <!-- 💡 修改点 2：在版权上方加入 Powered by UTM 链接 -->
+              <p class="footer-legal" style="margin: 0 0 4px 0;">
+                Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>
+              </p>
+              
               <p class="footer-legal" style="margin: 0;">
                 © <span data-year>2026</span> PC on iPhone. All rights reserved.
               </p>
