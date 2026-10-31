@@ -106,9 +106,9 @@
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
                   <h3>文件共享</h3>
-                  <p style="font-size:1.00rem">VirtFS (9Pfs)：</p>
+                  <p style="font-size:1.50rem">VirtFS (9Pfs)：</p>
                   <p style="font-size: 0.93rem">在虚拟机设置中启用，并将 iOS “文件”App 中的某个文件夹（如“下载”）挂载给虚拟机。这种方式在 Linux 虚拟机中性能较好，但 Windows 支持不佳。注意，虚拟机运行期间无法更改共享目录。‌</p>
-                  <p style="fout-size:1.00rem">SPICE WebDAV：</p>
+                  <p style="fout-size:1.50rem">SPICE WebDAV：</p>
                   <p style="fout-size:0.93rem">同样需要安装 SPICE Guest Tools。虚拟机将通过本地端口访问共享文件夹，对 Windows 虚拟机的支持相对更好，但性能可能不如 VirtFS。‌
                 </div>
               </article>
@@ -124,20 +124,30 @@
             <div class="grid grid-3">
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
-                  <h3>多窗口</h3>
-                  <p style="font-size: 0.93rem">占位：描述窗口数量上限、布局与切换方式。</p>
+                  <h3>多窗口与外部显示</h3>
+                  <p style="font-size: 1.50rem">创建新窗口</p>
+                  <p style="font-size: 0.93rem">在虚拟机运行界面，点击工具栏的显示图标，iPadOS 上可以选择创建新窗口，每个新窗口都能指定输出不同的虚拟显示器，或镜像同一个显示画面。‌</p>
+                  <p style="fout-size:1.50rem">外接屏幕 / AirPlay </p>
+                  <p style="fout-size:0.93rem">通过 iPhone 或 iPad 连接外部显示器或使用 AirPlay 时，同样可以在工具栏的显示菜单里，将虚拟机的不同显示输出分配给外接屏幕或 AirPlay 设备。‌</p>
                 </div>
               </article>
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
-                  <h3>分屏与浮窗</h3>
-                  <p style="font-size: 0.93rem">占位：描述分屏比例、浮窗吸附与记忆规则。</p>
+                  <h3> iPhone 的限制</h3>
+                  <p style="font-size: 0.93rem">在 iPhone 上，主要支持单显示器，但可以通过旋转锁定和分屏手势来临时切换横竖布局，多窗口能力远不如 iPad。‌</p>
                 </div>
               </article>
               <article class="glass" data-reveal>
                 <div class="glass-body stack">
-                  <h3>后台保持</h3>
-                  <p style="font-size: 0.93rem">占位：描述后台驻留时长与 iOS 回收策略。</p>
+                  <h3> iPad 的亮点</h3>
+                  <p style="font-size: 0.93rem">在 iPad 上，你还可以利用系统级的 Split View（分屏浏览） 或 Slide Over（侧拉） 功能。这样就能一边运行 UTM 虚拟机，一边使用 Safari、备忘录等其他 App，实现视觉上的“双任务”操作。这是 iPadOS 自身的能力，PC on iPhone 在其中只是作为一个应用参与分屏。‌</p>
+                </div>
+              </article>
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <h3>后台运行与状态保持</h3>
+                  <p style="font-size: 0.93rem"> iOS 不允许应用无限期在后台运行，因此 PC on iPhone提供了以下开关来尽量维持虚拟机状态。</p>
+                  <p style="font-size: 0.93rem">在后台继续运行虚拟机、在后台运行时自动保存、在内存不足时自动保存。
                 </div>
               </article>
             </div>
