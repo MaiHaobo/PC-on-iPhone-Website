@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
+    <!-- 确保图标路径绝对正确 -->
     <link rel="icon" href="/PC-on-iPhone-Website/favicon.svg" type="image/svg+xml" />
     <style>
       /* =========================================
@@ -17,7 +18,7 @@
         --tint: #2f6ae0;
         --tint-2: #7a3ff2;
         --lift: rgba(20, 30, 60, 0.05);
-        --menu-bg: rgba(255, 255, 255, 0.92);
+        --menu-bg: rgba(255, 255, 255, 0.85);
       }
       @media (prefers-color-scheme: dark) {
         :root {
@@ -28,7 +29,7 @@
           --tint: #4c8dff;
           --tint-2: #9a6bff;
           --lift: rgba(255, 255, 255, 0.09);
-          --menu-bg: rgba(16, 17, 22, 0.92);
+          --menu-bg: rgba(30, 32, 38, 0.85);
         }
       }
 
@@ -47,7 +48,7 @@
       a { text-decoration: none; color: inherit; }
 
       /* =========================================
-         2. 导航栏样式 (完全复刻首页)
+         2. 导航栏样式 (含毛玻璃下拉菜单)
          ========================================= */
       .site-nav-wrap {
         position: absolute;
@@ -55,7 +56,7 @@
         left: 0;
         right: 0;
         z-index: 50;
-        padding-inline: 20px; /* 移动端基础边距 */
+        padding-inline: 20px;
         pointer-events: none;
       }
       @media (min-width: 768px) {
@@ -67,7 +68,7 @@
         align-items: center;
         gap: 8px;
         padding: 8px 10px 8px 18px;
-        border-radius: 14px; /* glass--sm */
+        border-radius: 14px;
         background: rgba(255, 255, 255, 0.75);
         box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 0 0 1px var(--hairline);
         pointer-events: auto;
@@ -75,7 +76,10 @@
         margin: 0 auto;
       }
       @media (prefers-color-scheme: dark) {
-        .site-nav { background: rgba(30, 32, 38, 0.75); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px var(--hairline); }
+        .site-nav { 
+          background: rgba(30, 32, 38, 0.75); 
+          box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px var(--hairline); 
+        }
       }
 
       .brand {
@@ -127,29 +131,33 @@
         place-items: center;
       }
 
-      /* 移动端菜单逻辑 */
+      /* 移动端菜单逻辑 (与首页完全同步的圆角和毛玻璃) */
       @media (max-width: 780px) {
         .nav-toggle { display: grid; }
         .site-nav { position: relative; overflow: visible !important; }
+        
         .nav-links {
           position: absolute;
-          top: calc(100% + 8px);
-          left: 0; right: 0;
+          top: calc(100% + 10px);
+          left: 10px; right: 10px;
           flex-direction: column;
           align-items: stretch;
           padding: 10px;
-          border-radius: 22px;
+          border-radius: 24px; 
           background: var(--menu-bg);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--hairline);
+          backdrop-filter: blur(20px) saturate(1.5);
+          -webkit-backdrop-filter: blur(20px) saturate(1.5);
+          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--hairline);
           opacity: 0; visibility: hidden;
           transform: translateY(-6px);
           transition: all 0.18s ease;
           z-index: 100;
         }
+
         .site-nav[data-open="true"] .nav-links {
           opacity: 1; visibility: visible; transform: none;
         }
-        .nav-links a { padding: 12px 14px; }
+        .nav-links a { padding: 12px 14px; border-radius: 14px; }
         .nav-cta { display: none; }
       }
 
@@ -161,7 +169,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: calc(100px + env(safe-area-inset-top)) 20px 40px; /* 顶部留出导航栏空间 */
+        padding: calc(100px + env(safe-area-inset-top)) 20px 40px; 
       }
 
       .box {
@@ -206,7 +214,6 @@
   </head>
   <body>
     
-    <!-- 导航栏 HTML -->
     <header class="site-nav-wrap">
       <nav class="site-nav" aria-label="主导航">
         <a class="brand" href="/PC-on-iPhone-Website/index.html">
@@ -236,19 +243,16 @@
       </nav>
     </header>
 
-    <!-- 404 内容 -->
     <main class="error-wrapper">
       <div class="box">
         <h1 class="code">404</h1>
         <h1>页面走丢了</h1>
         <p>非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。</p>
         
-        <!-- 使用绝对路径确保能返回首页 -->
         <a class="btn" href="/PC-on-iPhone-Website/index.html">返回首页</a>
       </div>
     </main>
 
-    <!-- 汉堡菜单交互 JS -->
     <script>
       const nav = document.querySelector(".site-nav");
       const toggle = document.querySelector(".nav-toggle");
