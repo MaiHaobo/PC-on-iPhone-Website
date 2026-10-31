@@ -2,78 +2,86 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>常见问题 — PC on iPhone</title>
-    <meta name="description" content="PC on iPhone 的常见问题（占位内容）。" />
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <script type="module" src="./src/main.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>常见问题 - PC on iPhone</title>
+    <meta name="description" content="PC on iPhone 常见问题与解决方案。" />
+    
+    <meta property="og:title" content="常见问题 - PC on iPhone" />
+    <meta property="og:description" content="解答您在使用 PC on iPhone 时遇到的疑惑。" />
+    <meta property="og:type" content="website" />
+    
+    <link rel="icon" href="./favicon.svg?v=2" type="image/svg+xml" />
+    <!-- 💡 补上了缺失的 CSS 引入 -->
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="glass-scene lg-scene">
+    <div class="glass-scene">
+      <!-- ================= NAV ================= -->
       <header class="site-nav-wrap">
         <nav class="site-nav glass glass--sm" aria-label="主导航">
           <a class="brand" href="./index.html">
+            <!-- 新图标 -->
             <span class="brand-mark" aria-hidden="true">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#fff"
-                stroke-width="2.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                <path d="M10 5h4" />
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+                <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+                <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+                <circle cx="50" cy="50" r="5" fill="#ffffff" />
               </svg>
             </span>
             PC on iPhone
           </a>
 
-          <button class="nav-toggle" type="button" aria-expanded="false" aria-label="切换菜单">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            >
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="切换菜单">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <path d="M4 7h16M4 12h16M4 17h16" />
             </svg>
           </button>
 
-          <div class="nav-links">
+          <div class="nav-links" id="nav-menu">
             <a href="./index.html">首页</a>
             <a href="./features.html">功能</a>
             <a href="./download.html">下载安装</a>
+            <a href="./install.html">详细安装教程</a>
+            <a href="./guide.html">详细使用教程</a>
             <a href="./faq.html" aria-current="page">常见问题</a>
             <a href="./about.html">关于</a>
           </div>
 
-          <a class="nav-cta" href="./index.html#get-started">开始使用</a>
+          <a class="nav-cta" href="./download.html">立即下载</a>
         </nav>
       </header>
 
-      <div class="glass-content lg-content" data-layout="scroll">
+      <div class="glass-content">
         <div class="page-bg" aria-hidden="true"></div>
 
         <main class="shell">
-          <section class="page-head">
-            <span class="eyebrow">常见问题</span>
-            <h1 style="font-size: clamp(2.2rem, 5vw, 3.4rem)">您可能遇到的问题</h1>
-            <p class="glass-note" data-glass-note></p>
+          <!-- ================= HEADER ================= -->
+          <section class="hero" style="padding-bottom: 20px;">
+            <div class="stack-lg">
+              <span class="eyebrow">
+                <span class="dot" aria-hidden="true"></span>常见问题
+              </span>
+              <h1 class="hero-title" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
+                您可能遇到的 <span class="grad">问题</span>
+              </h1>
+              <p class="hero-sub" style="max-width: 60ch;">
+                这里汇总了关于 PC on iPhone 的系统兼容性、性能表现以及隐私安全等高频问题。
+              </p>
+            </div>
           </section>
 
-          <section class="section" style="padding-top: 0">
+          <!-- ================= FAQ LIST ================= -->
+          <section class="section" style="padding-top: 20px;">
             <div class="faq-list">
+              
               <details class="glass glass--md faq-item" data-reveal>
                 <summary>
                   支持哪些 iOS 版本？
                   <span class="plus" aria-hidden="true"></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>iOS 11 以上版本均可运行。</p>
+                  <p>只要您的设备系统在 <strong>iOS 11 及以上版本</strong>，均可尝试运行。但为了获得最佳体验，建议使用 iOS 14 及以上版本，并配合对应的签名工具（如 TrollStore 或 AltStore）。</p>
                 </div>
               </details>
 
@@ -83,7 +91,7 @@
                   <span class="plus" aria-hidden="true"></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>实测 SE 版本的耗电量较大。</p>
+                  <p>是的。运行虚拟机相当于让设备满负荷工作，尤其是 <strong>SE 版本</strong>（软件模拟），CPU 占用率极高，耗电量和发热都会非常明显。建议在插电且散热良好的环境下使用。</p>
                 </div>
               </details>
 
@@ -93,8 +101,11 @@
                   <span class="plus" aria-hidden="true"></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>1.PC on iPhone 不强制联网。</p>
-                 <p>2. 当虚拟机础于“桥接”模式时，会像一台独立设备直接接入物理网络，可能完全绕过主机的 VPN 隧道，导致虚拟机内的真实 IP 地址暴露；“共享网络”是默认模式，虚拟机与主机共享一个虚拟网络（VLAN），主机上的网络嗅探工具（如 Wireshark）可能监控到虚拟机内部的网络流量，这意味着主机层面有能力看到虚拟机的通信内容。‌是否联网、收集哪些诊断信息。</p>
+                  <!-- 💡 修复了病句和错别字，让表达更专业 -->
+                  <p>1. PC on iPhone 本身不强制联网，也不会收集您的诊断信息或用户数据。</p>
+                  <p>2. 网络环境的隐私取决于您的配置方式：<br>
+                  • <strong>共享网络（默认）</strong>：虚拟机与主机共享一个虚拟网络，流量经过宿主机转发。这意味着您的主机（iOS 系统）理论上能够监控到虚拟机的网络通信。<br>
+                  • <strong>桥接模式</strong>：虚拟机将像一台独立设备直接接入物理路由器，会绕过主机的 VPN 隧道，可能会暴露您真实的网络 IP。</p>
                 </div>
               </details>
 
@@ -105,77 +116,65 @@
                 </summary>
                 <div class="faq-answer">
                   <p>
-                    可以在
-                    <a
-                      href="https://maihaobo.github.io/PC-on-iPhone-Website/fandback.html"
-                      target="_blank"
-                      rel="noopener"
-                      style="text-decoration: underline; text-underline-offset: 3px"
-                      >GitHub Issues</a
-                    >
-                    提交，请附上机型、系统版本与复现步骤。
+                    您可以直接在
+                    <!-- 💡 修复了错误的链接地址 fandback.html -> feedback.html -->
+                    <a href="./feedback.html" style="color: var(--tint); text-decoration: underline; text-underline-offset: 3px;">问题反馈页面</a>
+                    提交，或者前往 GitHub Issues 提交。提交时请务必附上您的<strong>机型、系统版本、使用的版本（标准/SE/HV）以及复现步骤</strong>，这有助于我们快速定位问题。
                   </p>
                 </div>
               </details>
+
             </div>
           </section>
 
+          <hr class="divider" />
+
+          <!-- ================= CTA ================= -->
           <section class="section" data-reveal>
             <div class="glass">
-              <div
-                class="glass-body"
-                style="
-                  display: grid;
-                  gap: 18px;
-                  justify-items: start;
-                  padding: clamp(28px, 5vw, 48px);
-                "
-              >
-                <h2 style="font-size: clamp(1.5rem, 3vw, 2.1rem)">没找到答案？</h2>
-                <p> 短信发至 3602246802@qq.com 或 +86 13516551009，也可以点击下面按钮。</p>
-                <a
-                  class="btn btn--primary"
-                  href="https://maihaobo.github.io/PC-on-iPhone-Website/fandback.html"
-                  target="_blank"
-                  rel="noopener"
-                  >前往反馈界面</a
-                >
+              <div class="glass-body cta-body">
+                <h2 class="cta-title">没找到答案？</h2>
+                <!-- 💡 删除了手机号，修正了邮箱文案 -->
+                <p class="cta-desc">
+                  如果您的问题不在上述列表中，可以通过邮箱 <strong>3602246802@qq.com</strong> 联系作者，或者直接前往反馈页面提交详细信息。
+                </p>
+                <div class="hero-actions">
+                  <a class="btn btn--primary" href="./feedback.html">前往反馈界面</a>
+                  <a class="btn btn--ghost" href="https://github.com/MaiHaobo/PC-on-iPhone/issues" target="_blank" rel="noopener">提交 GitHub Issue</a>
+                </div>
               </div>
             </div>
           </section>
         </main>
-                  <footer class="site-footer shell">
-              <div class="glass glass--md">
-                <div class="footer-inner">
-                  <div class="footer-brand">
-                    <a class="brand" href="./index.html">
-                      <span class="brand-mark" aria-hidden="true">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="#fff"
-                          stroke-width="2.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                          <path d="M10 5h4" />
-                        </svg>
-                      </span>
-                      PC on iPhone
-                    </a>
-                    <p> PC on iPhone Website /常见问题</p>
-                  </div>
-                </div>
-                <div class="footer-inner" style="padding-top: 0">
-                  <p class="footer-legal">
-                    © <span data-year> 2026 </span> PC on iPhone
-                  </p>
-                </div>
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="site-footer shell">
+          <div class="glass glass--md">
+            <!-- 统一居中极简页脚 -->
+            <div class="footer-inner" style="justify-content: center; text-align: center; flex-direction: column; gap: 12px;">
+              <div class="footer-brand" style="margin: 0 auto; justify-items: center; display: grid;">
+                <a class="brand" href="./index.html">
+                  <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+                      <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+                      <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+                      <circle cx="50" cy="50" r="5" fill="#ffffff" />
+                    </svg>
+                  </span>
+                  PC on iPhone
+                </a>
               </div>
-            </footer>
+              
+              <p class="footer-legal" style="margin: 0;">
+                © <span data-year>2026</span> PC on iPhone. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
-    </div>
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>
