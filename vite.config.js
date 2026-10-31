@@ -16,6 +16,7 @@ export default defineConfig({
         install: resolve(__dirname, "install.html"),
         guide: resolve(__dirname, "guide.html"),
         faq: resolve(__dirname, "faq.html"),
+        fandback: resolve(__dirname, "fandback.html"),
         about: resolve(__dirname, "about.html"),
       },
     },
