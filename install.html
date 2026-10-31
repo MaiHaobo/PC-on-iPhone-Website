@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>安装教程 - PC on iPhone</title>
-    <meta name="description" content="PC on iPhone 安装与签名配置指南。" />
+    <title>详细安装教程 - PC on iPhone</title>
+    <meta name="description" content="PC on iPhone 详细安装、签名与 JIT 配置指南。" />
     
-    <meta property="og:title" content="安装教程 - PC on iPhone" />
-    <meta property="og:description" content="一步步教你如何安装 PC on iPhone。" />
+    <meta property="og:title" content="详细安装教程 - PC on iPhone" />
+    <meta property="og:description" content="一步步教你如何将电脑装进 iPhone。" />
     <meta property="og:type" content="website" />
     
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon.svg?v=2" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -18,10 +18,13 @@
       <header class="site-nav-wrap">
         <nav class="site-nav glass glass--sm" aria-label="主导航">
           <a class="brand" href="./index.html">
+            <!-- 新图标 -->
             <span class="brand-mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                <path d="M10 5h4" />
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+                <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+                <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+                <circle cx="50" cy="50" r="5" fill="#ffffff" />
               </svg>
             </span>
             PC on iPhone
@@ -37,7 +40,6 @@
             <a href="./index.html">首页</a>
             <a href="./features.html">功能</a>
             <a href="./download.html">下载安装</a>
-            <!-- 💡 增加 aria-current="page" 让当前所在页面的导航项有灰色高亮背景 -->
             <a href="./install.html" aria-current="page">详细安装教程</a>
             <a href="./guide.html">详细使用教程</a>
             <a href="./faq.html">常见问题</a>
@@ -56,13 +58,13 @@
           <section class="hero" style="padding-bottom: 20px;">
             <div class="stack-lg">
               <span class="eyebrow">
-                <span class="dot" aria-hidden="true"></span>安装指南
+                <span class="dot" aria-hidden="true"></span>详细安装指南
               </span>
               <h1 class="hero-title" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
-                四步开始你的 <span class="grad">PC 体验</span>
+                四步开始你的 <span class="grad">虚拟机体验</span>
               </h1>
               <p class="hero-sub" style="max-width: 60ch;">
-                因为 iOS 的限制，安装 PC on iPhone 需要一些额外的签名步骤。请按照下方指南选择适合你的工具进行安装。
+                因为 iOS 的安全限制，安装全功能模拟器需要经过签名与 JIT 配置。请按照下方详细指南逐步操作，遇到问题可随时查看常见问题。
               </p>
             </div>
           </section>
@@ -75,9 +77,9 @@
               <div class="glass glass--md step" data-reveal>
                 <div>
                   <h3>获取安装包</h3>
-                  <p class="step-desc">前往我们的 GitHub Releases 页面，根据你的设备状况下载对应版本的 <code>.ipa</code> 安装包。</p>
+                  <p class="step-desc">前往我们的 GitHub Releases 页面，根据你的设备状况（是否可以启用 JIT 权限、是否支持 HV 等）下载对应版本的 <code>.ipa</code> 安装包。</p>
                   <a href="./download.html" style="display: inline-flex; align-items: center; gap: 4px; margin-top: 12px; color: var(--tint); font-size: 0.9rem; font-weight: 500;">
-                    去下载页面 <span aria-hidden="true">&rarr;</span>
+                    前往下载页面 <span aria-hidden="true">&rarr;</span>
                   </a>
                 </div>
               </div>
@@ -86,11 +88,11 @@
               <div class="glass glass--md step" data-reveal>
                 <div>
                   <h3>使用工具签名</h3>
-                  <p class="step-desc">你需要使用第三方工具来签名安装：</p>
+                  <p class="step-desc"> iOS 不允许直接安装未经认证的 IPA。你需要下载第三方工具：</p>
                   <ul style="list-style: none; padding: 0; margin: 10px 0 0 0; color: var(--ink-soft); font-size: 0.95rem; display: grid; gap: 8px;">
-                    <li>• <strong>TrollStore</strong>：如果您的 iOS 支持（如 iOS 14-16.6.1 等），可直接安装，永久有效。</li>
-                    <li>• <strong>AltStore / SideStore</strong>：需要配合电脑或 WireGuard 使用 Apple ID 签名（有效期 7 天）。</li>
-                    <li>• <strong>其他签名工具</strong>：可能需要个人证书或企业证书签名安装。</li>
+                    <li>• <strong>TrollStore</strong>：如果您的 iOS 支持（如 iOS 14-16.6.1 等），可直接点击 IPA 文件安装，永久有效，免签神器。</li>
+                    <li>• <strong>AltStore / SideStore</strong>：需要配合电脑或 WireGuard 使用 Apple ID 签名，安装后需每 7 天续签一次。</li>
+                    <li>• <strong>证书签名</strong>：如果你购买了企业证书，可使用轻松签、全能签等工具直接导入安装。</li>
                   </ul>
                 </div>
               </div>
@@ -100,8 +102,10 @@
                 <div>
                   <h3>信任开发者证书</h3>
                   <p class="step-desc">
-                    安装完成后，首次打开应用会提示“不受信任的开发者”。<br>
-                    请前往手机的 <strong>设置 &gt; 通用 &gt; VPN与设备管理</strong>，找到对应的开发者证书并点击“信任”。
+                    安装完成后，首次点击应用图标通常会弹窗提示“不受信任的开发者”。<br><br>
+                    请前往手机的：<br>
+                    <strong>设置 &gt; 通用 &gt; VPN与设备管理</strong><br>
+                    在“企业级 App”或“开发者 App”列表中，找到对应的证书并点击<strong>“信任”</strong>，即可返回桌面打开。
                   </p>
                 </div>
               </div>
@@ -112,7 +116,7 @@
                   <h3>配置 JIT 与运行</h3>
                   <p class="step-desc">
                     <strong>SE 版</strong>：直接打开即可使用。<br>
-                    <strong>标准版 / HV 版</strong>：需要使用配置工具（如 StikDebug / SideStore）或特定快捷指令来启用 JIT 加速，否则可能无法启动。
+                    <strong>标准版 / HV 版</strong>：为了模拟器性能，必须开启 JIT 加速。你需要使用电脑端的 StikDebug、SideStore，或者在手机上使用特定的快捷指令来引导开启。如果启动时一直黑屏，通常是 JIT 没有成功开启。
                   </p>
                 </div>
               </div>
@@ -129,40 +133,41 @@
                 <span class="eyebrow" style="color: var(--tint);">进阶提示</span>
                 <h2 class="cta-title" style="font-size: 1.5rem;">关于 JIT 加速与卡顿</h2>
                 <p class="cta-desc" style="margin-bottom: 8px;">
-                  由于 iOS 的内存和 CPU 限制，如果不开启 JIT，模拟器的性能会大打折扣，甚至无法启动 Windows 系统。建议在安装完成后，务必查阅相关工具文档开启 JIT。
+                  由于 iOS 的内存和 CPU 限制，如果不开启 JIT，QEMU 模拟器的性能会大打折扣，甚至无法引导 Windows 系统。建议在安装完成后，务必仔细阅读签名工具提供的 JIT 开启教程。
                 </p>
                 
-                <!-- 💡 增加下一步引导按钮 -->
                 <div class="hero-actions" style="margin-top: 10px;">
-                  <a class="btn btn--primary" href="./guide.html">下一步：如何使用</a>
-                  <a class="btn btn--ghost" href="./faq.html">查看常见问题解答</a>
+                  <a class="btn btn--primary" href="./guide.html">下一步：详细使用教程</a>
+                  <a class="btn btn--ghost" href="./faq.html">遇到问题？查看 FAQ</a>
                 </div>
-                
               </div>
             </div>
           </section>
         </main>
 
+        <!-- ================= FOOTER ================= -->
         <footer class="site-footer shell">
           <div class="glass glass--md">
-            <div class="footer-inner">
-              <div class="footer-brand">
+            <!-- 统一居中，修复了闭合标签 -->
+            <div class="footer-inner" style="justify-content: center; text-align: center; flex-direction: column; gap: 12px;">
+              <div class="footer-brand" style="margin: 0 auto; justify-items: center; display: grid;">
                 <a class="brand" href="./index.html">
+                  <!-- 新图标 -->
                   <span class="brand-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                      <path d="M10 5h4" />
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+                      <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+                      <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+                      <circle cx="50" cy="50" r="5" fill="#ffffff" />
                     </svg>
                   </span>
                   PC on iPhone
                 </a>
-                <p> PC on iPhone Website / 下载安装 / 查看详细安装教程</p>
               </div>
-            </div>
-
-            <div class="footer-inner pt-0">
-              <p class="footer-legal">
-                © <span data-year> 2026 </span> PC on iPhone
+              
+              <p class="footer-legal" style="margin: 0;">
+                © <span data-year>2026</span> PC on iPhone. All rights reserved.
+              </p>
             </div>
           </div>
         </footer>
