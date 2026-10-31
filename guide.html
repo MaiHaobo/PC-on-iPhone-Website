@@ -58,10 +58,10 @@
                 <span class="dot" aria-hidden="true"></span>使用指南
               </span>
               <h1 class="hero-title" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
-                开始你的第一台 <span class="grad">iPhone PC</span>
+                开始你的第一台 <span class="grad">虚拟机</span>
               </h1>
               <p class="hero-sub" style="max-width: 60ch;">
-                成功安装应用后，你需要创建虚拟机并加载系统镜像。由于操作环境是 iPhone，触控操作会有些不同，请参考以下指南。
+                成功安装应用后，你需要创建虚拟机并加载系统镜像。由于操作环境是 iPhone / iPad ，触控操作会有些不同，请参考以下指南。
               </p>
             </div>
           </section>
@@ -82,7 +82,9 @@
                     </span>
                     <h3>1. 新建虚拟机</h3>
                   </div>
-                  <p>打开应用后，点击右上角的“+”号。你需要为虚拟机分配内存（RAM）和 CPU 核心数。建议内存至少分配 2GB，核心数分配 2-4 个以保证流畅。</p>
+                  <p>打开应用后，点击底部 Tab 栏的“新建”。你需要为虚拟机分配内存（RAM）和 CPU 核心数。</p>
+                  <p>对于标准版和 HV 版，建议内存至少 2GB ，CPU 核心数设置 2-4 个以保证流畅。</p>
+                  <p>对于S1版，建议内存不要超过 2GB ，CPU 核心数设置 1 个，以免占用内存过多。</p>
                 </div>
               </article>
 
@@ -99,7 +101,7 @@
                     </span>
                     <h3>2. 挂载系统镜像</h3>
                   </div>
-                  <p>在虚拟机设置中找到“驱动器”或“光驱”选项。点击“导入”，从“文件”App 中选择你提前下载好的系统镜像（如 Windows 的 .iso 或 Linux 的 .img 文件）。</p>
+                  <p>在新建虚拟机界面/虚拟机设置中找到“启动ISO镜像”或“ CD/DVD ”，点击“浏览”，选择你提前下载好的系统镜像（如 Windows 的 .iso 或 Linux 的 .img 文件）。</p>
                 </div>
               </article>
 
@@ -117,7 +119,6 @@
                     <h3>3. 键鼠模拟操作</h3>
                   </div>
                   <p><strong>屏幕触控</strong>：单指滑动是移动鼠标指针，轻点代表左键单击，双指轻点代表右键。<br>
-                  <strong>外接设备</strong>：强烈建议通过蓝牙连接真实的鼠标和键盘，体验会瞬间提升至原生级别。</p>
                 </div>
               </article>
 
@@ -132,7 +133,7 @@
                     </span>
                     <h3>4. 启动与 JIT 加速</h3>
                   </div>
-                  <p>点击屏幕上的“播放”按钮启动。如果你使用的是标准版，启动瞬间需要用 StikDebug 等工具注入 JIT。如果卡在启动界面黑屏，请检查 JIT 是否成功开启。</p>
+                  <p>点击屏幕上的“播放”按钮启动。如果你使用的是标准版/ HV 版，需要用 StikDebug 等工具注入 JIT。如果卡在启动界面黑屏，请检查 JIT 是否成功开启。</p>
                 </div>
               </article>
             </div>
