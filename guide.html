@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>使用教程 - PC on iPhone</title>
+    <meta name="description" content="PC on iPhone 虚拟机创建与使用指南。" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="使用教程 - PC on iPhone" />
+    <meta property="og:description" content="教你如何使用 PC on iPhone 运行系统。" />
+    <meta property="og:type" content="website" />
+    
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="glass-scene">
+      <header class="site-nav-wrap">
+        <nav class="site-nav glass glass--sm" aria-label="主导航">
+          <a class="brand" href="./index.html">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="2.5" width="12" height="19" rx="3" />
+                <path d="M10 5h4" />
+              </svg>
+            </span>
+            PC on iPhone
+          </a>
+
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="切换菜单">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+
+          <div class="nav-links" id="nav-menu">
+            <a href="./index.html">首页</a>
+            <a href="./features.html">功能</a>
+            <a href="./faq.html">常见问题</a>
+            <a href="./about.html">关于</a>
+            <a href="./download.html">下载</a>
+            <a href="./guide.html" aria-current="page">教程</a>
+          </div>
+
+          <a class="nav-cta" href="./download.html">立即下载</a>
+        </nav>
+      </header>
+
+      <div class="glass-content">
+        <div class="page-bg" aria-hidden="true"></div>
+
+        <main class="shell">
+          <!-- ================= HEADER ================= -->
+          <section class="hero" style="padding-bottom: 20px;">
+            <div class="stack-lg">
+              <span class="eyebrow">
+                <span class="dot" aria-hidden="true"></span>使用指南
+              </span>
+              <h1 class="hero-title" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
+                开始你的第一台 <span class="grad">iPhone PC</span>
+              </h1>
+              <p class="hero-sub" style="max-width: 60ch;">
+                成功安装应用后，你需要创建虚拟机并加载系统镜像。由于操作环境是 iPhone，触控操作会有些不同，请参考以下指南。
+              </p>
+            </div>
+          </section>
+
+          <!-- ================= GRID FEATURES ================= -->
+          <section class="section" style="padding-top: 20px;">
+            <div class="grid grid-2">
+              
+              <!-- 1. 创建虚拟机 -->
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                    </span>
+                    <h3>1. 新建虚拟机</h3>
+                  </div>
+                  <p>打开应用后，点击右上角的“+”号。你需要为虚拟机分配内存（RAM）和 CPU 核心数。建议内存至少分配 2GB，核心数分配 2-4 个以保证流畅。</p>
+                </div>
+              </article>
+
+              <!-- 2. 挂载镜像 -->
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                      </svg>
+                    </span>
+                    <h3>2. 挂载系统镜像</h3>
+                  </div>
+                  <p>在虚拟机设置中找到“驱动器”或“光驱”选项。点击“导入”，从“文件”App 中选择你提前下载好的系统镜像（如 Windows 的 .iso 或 Linux 的 .img 文件）。</p>
+                </div>
+              </article>
+
+              <!-- 3. 鼠标与键盘操作 -->
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                      </svg>
+                    </span>
+                    <h3>3. 键鼠模拟操作</h3>
+                  </div>
+                  <p><strong>屏幕触控</strong>：单指滑动是移动鼠标指针，轻点代表左键单击，双指轻点代表右键。<br>
+                  <strong>外接设备</strong>：强烈建议通过蓝牙连接真实的鼠标和键盘，体验会瞬间提升至原生级别。</p>
+                </div>
+              </article>
+
+              <!-- 4. 触发 JIT 与启动 -->
+              <article class="glass" data-reveal>
+                <div class="glass-body stack">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 3l14 9-14 9V3z"></path>
+                      </svg>
+                    </span>
+                    <h3>4. 启动与 JIT 加速</h3>
+                  </div>
+                  <p>点击屏幕上的“播放”按钮启动。如果你使用的是标准版，启动瞬间需要用 StikDebug 等工具注入 JIT。如果卡在启动界面黑屏，请检查 JIT 是否成功开启。</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <hr class="divider" />
+
+          <!-- ================= TIPS ================= -->
+          <section class="section" data-reveal>
+            <div class="glass">
+              <div class="glass-body cta-body" style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start; border-left: 4px solid #f5a623;">
+                <span class="eyebrow" style="color: #f5a623;">性能优化建议</span>
+                <h2 class="cta-title" style="font-size: 1.5rem;">如何让虚拟机跑得更快？</h2>
+                <ul style="list-style: none; padding: 0; margin: 0; color: var(--ink-soft); font-size: 0.95rem; display: grid; gap: 10px;">
+                  <li>• 关闭 iPhone 的“低电量模式”，它会严重限制 CPU 性能。</li>
+                  <li>• 在应用设置中尝试开启“多线程加速”（TCG Multi-threading）。</li>
+                  <li>• 尽量选择轻量级系统（如 TinyCore Linux 或 Windows XP 进行测试），运行 Windows 10/11 可能会非常卡顿。</li>
+                  <li>• 保持手机电量充足，边充边玩时注意手机散热。</li>
+                </ul>
+                <a class="btn btn--ghost" href="./faq.html" style="margin-top: 10px;">遇到问题？查看 FAQ</a>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <footer class="site-footer shell">
+          <div class="glass glass--md">
+            <div class="footer-inner">
+              <div class="footer-brand">
+                <a class="brand" href="./index.html">
+                  <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="6" y="2.5" width="12" height="19" rx="3" />
+                      <path d="M10 5h4" />
+                    </svg>
+                  </span>
+                  PC on iPhone
+                </a>
+                <p>PC on iPhone / 使用教程</p>
+              </div>
+
+              <nav class="footer-links" aria-label="页脚导航">
+                <a href="./features.html">功能</a>
+                <a href="./faq.html">常见问题</a>
+                <a href="./about.html">关于</a>
+                <a href="./download.html">下载</a>
+                <a href="./install.html">安装</a>
+                <a href="./guide.html">教程</a>
+                <a href="https://github.com/MaiHaobo/PC-on-iPhone" target="_blank" rel="noopener">GitHub</a>
+              </nav>
+            </div>
+
+            <div class="footer-inner pt-0">
+              <p class="footer-legal">
+                © <span data-year>2026</span> PC on iPhone · 本站为占位版本，所有文案待替换
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
