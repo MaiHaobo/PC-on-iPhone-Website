@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>使用教程 - PC on iPhone</title>
+    <title>详细使用教程 - PC on iPhone</title>
     <meta name="description" content="PC on iPhone 虚拟机创建与使用指南。" />
     
     <!-- Open Graph -->
@@ -11,7 +11,7 @@
     <meta property="og:description" content="教你如何使用 PC on iPhone 运行系统。" />
     <meta property="og:type" content="website" />
     
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon.svg?v=2" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -19,10 +19,13 @@
       <header class="site-nav-wrap">
         <nav class="site-nav glass glass--sm" aria-label="主导航">
           <a class="brand" href="./index.html">
+            <!-- 新图标 -->
             <span class="brand-mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                <path d="M10 5h4" />
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+                <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+                <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+                <circle cx="50" cy="50" r="5" fill="#ffffff" />
               </svg>
             </span>
             PC on iPhone
@@ -62,7 +65,7 @@
                 开始你的第一台 <span class="grad">虚拟机</span>
               </h1>
               <p class="hero-sub" style="max-width: 60ch;">
-                成功安装应用后，你需要创建虚拟机并加载系统镜像。由于操作环境是 iPhone / iPad ，触控操作会有些不同，请参考以下指南。
+                成功安装应用后，你需要创建虚拟机并加载系统镜像。由于操作环境是 iPhone / iPad，触控操作会有些不同，请参考以下指南。
               </p>
             </div>
           </section>
@@ -84,8 +87,9 @@
                     <h3>1. 新建虚拟机</h3>
                   </div>
                   <p>打开应用后，点击底部 Tab 栏的“新建”。你需要为虚拟机分配内存（RAM）和 CPU 核心数。</p>
-                  <p>对于标准版和 HV 版，建议内存至少 2GB ，CPU 核心数设置 2-4 个以保证流畅。</p>
-                  <p>对于S1版，建议内存不要超过 2GB ，CPU 核心数设置 1 个，以免占用内存过多。</p>
+                  <p>对于标准版和 HV 版，建议内存至少 2GB，CPU 核心数设置 2-4 个以保证流畅。</p>
+                  <!-- 💡 修正了错别字：把 S1 改成了 SE -->
+                  <p>对于 SE 版，建议内存不要超过 2GB，CPU 核心数设置 1 个，以免占用内存过多。</p>
                 </div>
               </article>
 
@@ -102,7 +106,7 @@
                     </span>
                     <h3>2. 挂载系统镜像</h3>
                   </div>
-                  <p>在新建虚拟机界面/虚拟机设置中找到“启动ISO镜像”或“ CD/DVD ”，点击“浏览”，选择你提前下载好的系统镜像（如 Windows 的 .iso 或 Linux 的 .img 文件）。</p>
+                  <p>在新建虚拟机界面/虚拟机设置中找到“启动ISO镜像”或“CD/DVD”，点击“浏览”，选择你提前下载好的系统镜像（如 Windows 的 .iso 或 Linux 的 .img 文件）。</p>
                 </div>
               </article>
 
@@ -119,7 +123,8 @@
                     </span>
                     <h3>3. 键鼠模拟操作</h3>
                   </div>
-                  <p><strong>屏幕触控</strong>：单指滑动是移动鼠标指针，轻点代表左键单击，双指轻点代表右键。<br>
+                  <!-- 💡 修复了原先缺失 </p> 闭合标签的问题 -->
+                  <p><strong>屏幕触控</strong>：单指滑动是移动鼠标指针，轻点代表左键单击，双指轻点代表右键。在偏好设置中还可以调整触控板行为或连接实体鼠标。</p>
                 </div>
               </article>
 
@@ -134,7 +139,7 @@
                     </span>
                     <h3>4. 启动与 JIT 加速</h3>
                   </div>
-                  <p>点击屏幕上的“播放”按钮启动。如果你使用的是标准版/ HV 版，需要用 StikDebug 等工具注入 JIT。如果卡在启动界面黑屏，请检查 JIT 是否成功开启。</p>
+                  <p>点击屏幕上的“播放”按钮启动。如果你使用的是标准版/HV 版，需要用 StikDebug 等工具注入 JIT。如果卡在启动界面黑屏，请检查 JIT 是否成功开启。</p>
                 </div>
               </article>
             </div>
@@ -160,36 +165,28 @@
           </section>
         </main>
 
+        <!-- ================= FOOTER ================= -->
         <footer class="site-footer shell">
           <div class="glass glass--md">
-            <div class="footer-inner">
-              <div class="footer-brand">
+            <!-- 统一修改为极简居中页脚 -->
+            <div class="footer-inner" style="justify-content: center; text-align: center; flex-direction: column; gap: 12px;">
+              <div class="footer-brand" style="margin: 0 auto; justify-items: center; display: grid;">
                 <a class="brand" href="./index.html">
+                  <!-- 新图标 -->
                   <span class="brand-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                      <path d="M10 5h4" />
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+                      <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+                      <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+                      <circle cx="50" cy="50" r="5" fill="#ffffff" />
                     </svg>
                   </span>
                   PC on iPhone
                 </a>
-                <p>PC on iPhone / 使用教程</p>
               </div>
-
-              <nav class="footer-links" aria-label="页脚导航">
-                <a href="./features.html">功能</a>
-                <a href="./faq.html">常见问题</a>
-                <a href="./about.html">关于</a>
-                <a href="./download.html">下载</a>
-                <a href="./install.html">安装</a>
-                <a href="./guide.html">教程</a>
-                <a href="https://github.com/MaiHaobo/PC-on-iPhone" target="_blank" rel="noopener">GitHub</a>
-              </nav>
-            </div>
-
-            <div class="footer-inner pt-0">
-              <p class="footer-legal">
-                © <span data-year>2026</span> PC on iPhone · 本站为占位版本，所有文案待替换
+              
+              <p class="footer-legal" style="margin: 0;">
+                © <span data-year>2026</span> PC on iPhone. All rights reserved.
               </p>
             </div>
           </div>
