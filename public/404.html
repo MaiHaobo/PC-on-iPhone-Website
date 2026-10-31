@@ -4,11 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
-    <!-- 确保图标路径绝对正确 -->
     <link rel="icon" href="/PC-on-iPhone-Website/favicon.svg" type="image/svg+xml" />
     <style>
       /* =========================================
-         1. 全局变量与基础设置
+         1. 基础变量
          ========================================= */
       :root {
         --page: #ffffff;
@@ -18,8 +17,10 @@
         --tint: #2f6ae0;
         --tint-2: #7a3ff2;
         --lift: rgba(20, 30, 60, 0.05);
-        --menu-bg: rgba(255, 255, 255, 0.85);
+        --menu-bg: rgba(255, 255, 255, 0.9);
       }
+
+      /* 暗黑模式 (独立写在最外层) */
       @media (prefers-color-scheme: dark) {
         :root {
           --page: #000000;
@@ -29,7 +30,7 @@
           --tint: #4c8dff;
           --tint-2: #9a6bff;
           --lift: rgba(255, 255, 255, 0.09);
-          --menu-bg: rgba(30, 32, 38, 0.85);
+          --menu-bg: rgba(30, 32, 38, 0.9);
         }
       }
 
@@ -48,7 +49,7 @@
       a { text-decoration: none; color: inherit; }
 
       /* =========================================
-         2. 导航栏样式 (含毛玻璃下拉菜单)
+         2. 导航栏样式
          ========================================= */
       .site-nav-wrap {
         position: absolute;
@@ -59,27 +60,24 @@
         padding-inline: 20px;
         pointer-events: none;
       }
-      @media (min-width: 768px) {
-        .site-nav-wrap { padding-inline: 56px; }
-      }
 
       .site-nav {
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 8px 10px 8px 18px;
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.75);
-        box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 0 0 1px var(--hairline);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), inset 0 0 0 1px var(--hairline);
         pointer-events: auto;
         max-width: 1120px;
         margin: 0 auto;
       }
+      
       @media (prefers-color-scheme: dark) {
-        .site-nav { 
-          background: rgba(30, 32, 38, 0.75); 
-          box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px var(--hairline); 
-        }
+        .site-nav { background: rgba(30, 32, 38, 0.85); }
       }
 
       .brand {
@@ -91,6 +89,7 @@
         white-space: nowrap;
         margin-right: auto;
       }
+      
       .brand-mark {
         width: 26px; height: 26px;
         border-radius: 8px;
@@ -100,6 +99,19 @@
       }
       .brand-mark svg { width: 15px; height: 15px; }
 
+      .nav-toggle {
+        display: none;
+        width: 40px; height: 40px;
+        border: 0; border-radius: 50%;
+        background: var(--lift);
+        color: var(--ink);
+        cursor: pointer;
+        place-items: center;
+      }
+
+      /* =========================================
+         3. 电脑端导航
+         ========================================= */
       .nav-links { display: flex; align-items: center; gap: 2px; }
       .nav-links a {
         display: block;
@@ -107,7 +119,6 @@
         border-radius: 999px;
         font-size: 0.9rem;
         color: var(--ink-soft);
-        transition: background 0.18s, color 0.18s;
       }
       .nav-links a:hover { color: var(--ink); background: var(--lift); }
 
@@ -121,48 +132,48 @@
         white-space: nowrap;
       }
 
-      .nav-toggle {
-        display: none;
-        width: 40px; height: 40px;
-        border: 0; border-radius: 50%;
-        background: var(--lift);
-        color: var(--ink);
-        cursor: pointer;
-        place-items: center;
-      }
-
-      /* 移动端菜单逻辑 (与首页完全同步的圆角和毛玻璃) */
+      /* =========================================
+         4. 手机端菜单 (拍平写法，确保圆角和背景生效)
+         ========================================= */
       @media (max-width: 780px) {
         .nav-toggle { display: grid; }
         .site-nav { position: relative; overflow: visible !important; }
+        .nav-cta { display: none; }
         
         .nav-links {
           position: absolute;
-          top: calc(100% + 10px);
-          left: 10px; right: 10px;
+          top: calc(100% + 8px);
+          left: 0; 
+          right: 0;
           flex-direction: column;
           align-items: stretch;
           padding: 10px;
-          border-radius: 24px; 
+          border-radius: 20px; /* 核心：大圆角 */
           background: var(--menu-bg);
           backdrop-filter: blur(20px) saturate(1.5);
           -webkit-backdrop-filter: blur(20px) saturate(1.5);
-          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--hairline);
-          opacity: 0; visibility: hidden;
+          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--hairline); /* 核心：大阴影 */
+          opacity: 0; 
+          visibility: hidden;
           transform: translateY(-6px);
-          transition: all 0.18s ease;
+          transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
           z-index: 100;
         }
 
         .site-nav[data-open="true"] .nav-links {
-          opacity: 1; visibility: visible; transform: none;
+          opacity: 1; 
+          visibility: visible; 
+          transform: none;
         }
-        .nav-links a { padding: 12px 14px; border-radius: 14px; }
-        .nav-cta { display: none; }
+
+        .nav-links a { 
+          padding: 12px 14px; 
+          border-radius: 12px; 
+        }
       }
 
       /* =========================================
-         3. 404 卡片居中布局
+         5. 404 卡片居中布局
          ========================================= */
       .error-wrapper {
         flex: 1;
@@ -181,6 +192,7 @@
         max-width: 500px;
         width: 100%;
       }
+      
       @media (prefers-color-scheme: dark) {
         .box { background: rgba(30, 32, 38, 0.75); }
       }
@@ -207,9 +219,7 @@
         font-weight: 600;
         font-size: 0.95rem;
         box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
-        transition: transform 0.18s ease;
       }
-      .btn:hover { transform: translateY(-2px); }
     </style>
   </head>
   <body>
