@@ -11,7 +11,7 @@
     <meta property="og:description" content="选择适合你的版本，立即开始体验。" />
     <meta property="og:type" content="website" />
     
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon.svg?v=2" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -19,10 +19,13 @@
       <header class="site-nav-wrap">
         <nav class="site-nav glass glass--sm" aria-label="主导航">
           <a class="brand" href="./index.html">
+            <!-- 新图标 -->
             <span class="brand-mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                <path d="M10 5h4" />
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+                <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+                <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+                <circle cx="50" cy="50" r="5" fill="#ffffff" />
               </svg>
             </span>
             PC on iPhone
@@ -38,6 +41,8 @@
             <a href="./index.html">首页</a>
             <a href="./features.html">功能</a>
             <a href="./download.html" aria-current="page">下载安装</a>
+            <a href="./install.html">详细安装教程</a>
+            <a href="./guide.html">详细使用教程</a>
             <a href="./faq.html">常见问题</a>
             <a href="./about.html">关于</a>
           </div>
@@ -67,7 +72,6 @@
 
           <!-- ================= DOWNLOAD CARDS ================= -->
           <section class="section" style="padding-top: 20px;">
-            <!-- 💡 改成 grid-3，电脑端三列，手机端一列 -->
             <div class="grid grid-3">
               
               <!-- 标准版 -->
@@ -141,12 +145,11 @@
                 </div>
               </article>
 
-              <!-- HV 版 (新增) -->
+              <!-- HV 版 -->
               <article class="glass" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true" style="background: rgba(122, 63, 242, 0.1); color: var(--tint-2);">
-                      <!-- 硬件芯片/闪电极速图标 -->
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="4" y="4" width="16" height="16" rx="2"></rect>
                         <rect x="9" y="9" width="6" height="6"></rect>
@@ -202,34 +205,25 @@
           </section>
         </main>
 
+        <!-- ================= FOOTER ================= -->
         <footer class="site-footer shell">
           <div class="glass glass--md">
-            <div class="footer-inner">
-              <div class="footer-brand">
+            <div class="footer-inner" style="justify-content: center; text-align: center; flex-direction: column; gap: 12px;">
+              <div class="footer-brand" style="margin: 0 auto; justify-items: center; display: grid;">
                 <a class="brand" href="./index.html">
                   <span class="brand-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="6" y="2.5" width="12" height="19" rx="3" />
-                      <path d="M10 5h4" />
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
+                      <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
+                      <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
+                      <circle cx="50" cy="50" r="5" fill="#ffffff" />
                     </svg>
                   </span>
                   PC on iPhone
                 </a>
-                <p>PC on iPhone Website /下载安装</p>
               </div>
-
-              <nav class="footer-links" aria-label="页脚导航">
-                <a href="./features.html">功能</a>
-                <a href="./faq.html">常见问题</a>
-                <a href="./about.html">关于</a>
-                <a href="./download.html">下载</a>
-                <a href="https://github.com/MaiHaobo/PC-on-iPhone" target="_blank" rel="noopener">GitHub</a>
-              </nav>
-            </div>
-
-            <div class="footer-inner pt-0">
-              <p class="footer-legal">
-                © <span data-year>2026</span> PC on iPhone · 本站为占位版本，所有文案待替换
+              <p class="footer-legal" style="margin: 0;">
+                © <span data-year>2026</span> PC on iPhone. All rights reserved.
               </p>
             </div>
           </div>
