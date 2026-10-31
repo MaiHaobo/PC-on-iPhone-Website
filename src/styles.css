@@ -14,7 +14,7 @@
   --lift: rgba(20, 30, 60, 0.05);
   --lift-strong: rgba(20, 30, 60, 0.09);
   --hairline: rgba(20, 30, 60, 0.12);
-  --menu-bg: rgba(255, 255, 255, 0.92);
+  --menu-bg: rgba(255, 255, 255, 0.85); /* 稍微调透明了一点 */
 
   /* Layout --------------------------------------------------- */
   --page-max: 1120px;
@@ -45,7 +45,7 @@
     --lift: rgba(255, 255, 255, 0.09);
     --lift-strong: rgba(255, 255, 255, 0.15);
     --hairline: rgba(255, 255, 255, 0.14);
-    --menu-bg: rgba(16, 17, 22, 0.92);
+    --menu-bg: rgba(30, 32, 38, 0.85);
 
     color-scheme: dark;
   }
@@ -242,7 +242,6 @@ main {
 
 .site-nav-wrap {
   position: absolute;
-  /* 💡 修复：加上 safe-area-inset-top，防止在 iPhone 上被灵动岛/状态栏遮挡 */
   top: calc(14px + env(safe-area-inset-top)); 
   left: 0;
   right: 0;
@@ -337,7 +336,9 @@ main {
   place-items: center;
 }
 
-/* 移动端导航修复 */
+/* ============================================================
+   移动端导航修复与毛玻璃美化
+   ============================================================ */
 @media (max-width: 780px) {
   .nav-toggle { display: grid; }
   
@@ -349,15 +350,17 @@ main {
 
   .nav-links {
     position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
+    top: calc(100% + 10px); /* 拉开一点距离 */
+    left: 10px; /* 左右留出呼吸感 */
+    right: 10px;
     flex-direction: column;
     align-items: stretch;
     padding: 10px;
-    border-radius: var(--radius-md);
-    background: var(--menu-bg);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--hairline);
+    border-radius: 24px; /* 更大的圆角 */
+    background: var(--menu-bg); /* 半透明背景 */
+    backdrop-filter: blur(20px) saturate(1.5); /* 恢复毛玻璃 */
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--hairline);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-6px);
@@ -371,7 +374,10 @@ main {
     transform: none;
   }
 
-  .nav-links a { padding: 12px 14px; }
+  .nav-links a { 
+    padding: 12px 14px; 
+    border-radius: 14px; /* 让菜单项也变成小圆角 */
+  }
   .nav-cta { display: none; }
 }
 
@@ -415,7 +421,6 @@ main {
    ============================================================ */
 
 .hero {
-  /* 💡 修复：将顶部间距加大，让出悬浮导航栏的位置，并适配安全区 */
   padding-top: calc(100px + env(safe-area-inset-top)); 
   padding-bottom: clamp(40px, 6vw, 72px);
 }
@@ -594,7 +599,6 @@ main {
    ============================================================ */
 
 .page-head {
-  /* 💡 修复：内部页面（如 FAQ、关于）的顶部同样留出导航栏的高度 */
   padding-top: calc(100px + env(safe-area-inset-top)); 
   padding-bottom: clamp(20px, 3vw, 36px);
   display: grid;
