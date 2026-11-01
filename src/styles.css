@@ -14,7 +14,7 @@
   --lift: rgba(20, 30, 60, 0.05);
   --lift-strong: rgba(20, 30, 60, 0.09);
   --hairline: rgba(20, 30, 60, 0.12);
-  --menu-bg: rgba(255, 255, 255, 0.85); /* 稍微调透明了一点 */
+  --menu-bg: rgba(255, 255, 255, 0.92);
 
   /* Layout --------------------------------------------------- */
   --page-max: 1120px;
@@ -45,7 +45,7 @@
     --lift: rgba(255, 255, 255, 0.09);
     --lift-strong: rgba(255, 255, 255, 0.15);
     --hairline: rgba(255, 255, 255, 0.14);
-    --menu-bg: rgba(30, 32, 38, 0.85);
+    --menu-bg: rgba(16, 17, 22, 0.92);
 
     color-scheme: dark;
   }
@@ -272,19 +272,39 @@ main {
   margin-right: auto;
 }
 
+/* ============================================================
+   💡 全站新 Logo 魔法替换区
+   ============================================================ */
 .brand-mark {
   width: 26px;
   height: 26px;
-  border-radius: 8px;
+  border-radius: 8px; 
   display: grid;
   place-items: center;
-  /*background: linear-gradient(145deg, var(--tint), var(--tint-2));*/
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  background: none !important; 
+  box-shadow: none !important; 
   flex: none;
   overflow: hidden;
+  position: relative;
 }
 
-.brand-mark svg { width: 15px; height: 15px; }
+/* 隐藏所有 HTML 里残留的旧 SVG 或 IMG */
+.brand-mark svg,
+.brand-mark img {
+  display: none !important;
+}
+
+/* 用伪元素强制挂载全新图片（确保图片路径为 /logo.PNG） */
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('/logo.PNG'); 
+  background-size: cover;
+  background-position: center;
+  border-radius: inherit;
+}
+/* ============================================================ */
 
 .nav-links {
   display: flex;
@@ -337,9 +357,7 @@ main {
   place-items: center;
 }
 
-/* ============================================================
-   移动端导航修复与毛玻璃美化
-   ============================================================ */
+/* 移动端导航下拉菜单修复 */
 @media (max-width: 780px) {
   .nav-toggle { display: grid; }
   
@@ -351,15 +369,15 @@ main {
 
   .nav-links {
     position: absolute;
-    top: calc(100% + 10px); /* 拉开一点距离 */
-    left: 10px; /* 左右留出呼吸感 */
+    top: calc(100% + 10px);
+    left: 10px; 
     right: 10px;
     flex-direction: column;
     align-items: stretch;
     padding: 10px;
-    border-radius: 24px; /* 更大的圆角 */
-    background: var(--menu-bg); /* 半透明背景 */
-    backdrop-filter: blur(20px) saturate(1.5); /* 恢复毛玻璃 */
+    border-radius: 24px; 
+    background: var(--menu-bg);
+    backdrop-filter: blur(20px) saturate(1.5);
     -webkit-backdrop-filter: blur(20px) saturate(1.5);
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--hairline);
     opacity: 0;
@@ -377,7 +395,7 @@ main {
 
   .nav-links a { 
     padding: 12px 14px; 
-    border-radius: 14px; /* 让菜单项也变成小圆角 */
+    border-radius: 14px; 
   }
   .nav-cta { display: none; }
 }
