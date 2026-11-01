@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
-    <link rel="icon" href="/PC-on-iPhone-Website/logo.PNG" type="image/png" />
+    
+    <!-- 💡 提前预加载 404 大图，防止加载时闪烁 -->
+    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG">
+    
+    <!-- 浏览器标签页图标换成极速 CDN -->
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
+    
     <style>
       :root {
         --page: #ffffff;
@@ -120,6 +126,7 @@
         .site-nav { position: relative; overflow: visible !important; }
         .nav-cta { display: none; }
         
+        /* 强制纯白背景，解决大图导致的菜单透明穿透问题 */
         .nav-links {
           position: absolute; top: calc(100% + 10px); left: 10px; right: 10px;
           flex-direction: column; align-items: stretch; padding: 10px; gap: 2px; border-radius: 24px;
@@ -157,9 +164,8 @@
         height: auto;
         display: block;
         margin: 0 auto 24px auto; 
-        border-radius: 22%; /* 匹配图片原生的圆角 */
-        /* 如果你的图片背景不是透明的，加上这个 mix-blend-mode 能让白底更好地融入卡片 */
-        mix-blend-mode: multiply; 
+        border-radius: 22%; 
+        mix-blend-mode: multiply; /* 让白底透明融合 */
       }
       @media (prefers-color-scheme: dark) {
         .error-image { mix-blend-mode: normal; }
@@ -188,7 +194,8 @@
       <nav class="site-nav" aria-label="主导航">
         <a class="brand" href="/PC-on-iPhone-Website/index.html">
           <span class="brand-mark" aria-hidden="true">
-            <img src="/PC-on-iPhone-Website/logo.PNG" alt="Logo" />
+            <!-- 导航栏小图标 CDN 加速 -->
+            <img src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" alt="Logo" />
           </span>
           PC on iPhone
         </a>
@@ -215,8 +222,15 @@
 
     <main class="error-wrapper">
       <div class="box">
-        <!-- 💡 这里的后缀改成了大写 .PNG -->
-        <img src="/PC-on-iPhone-Website/404-logo.PNG" alt="404 页面走丢了" class="error-image" />
+        <!-- 💡 大图标 CDN 加速 + 尺寸声明，让浏览器瞬间排版 -->
+        <img 
+          src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG" 
+          alt="404 页面走丢了" 
+          class="error-image" 
+          width="200" 
+          height="200" 
+          decoding="async" 
+        />
         
         <h1>页面走丢了</h1>
         <p>非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。</p>
