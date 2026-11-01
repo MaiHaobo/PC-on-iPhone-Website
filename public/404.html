@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
     
-    <!-- 💡 增加 ?v=9 强制刷新图片缓存 -->
-    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=9">
+    <!-- 💡 增加 ?v=10 强制刷新图片缓存 -->
+    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=10">
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
     
     <style>
@@ -155,14 +155,13 @@
       
       @media (prefers-color-scheme: dark) { .box { background: rgba(30, 32, 38, 0.75); } }
 
-      /* 💡 彻底去掉代码白底，只用纯粹的物理裁切 */
+      /* 💡 纯物理裁剪：去掉白底，只保留圆角 */
       .error-icon-box {
         width: 140px;
         height: 140px;
         margin: 0 auto 24px auto;
         border-radius: 32px; 
         overflow: hidden;    
-        /* 完全去掉了 background-color */
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
       }
       @media (prefers-color-scheme: dark) {
@@ -173,8 +172,8 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        /* 💡 放大 1.45 倍，把四周的白边全部挤出外框 */
-        transform: scale(1.45); 
+        /* 💡 改回 1.25 倍 */
+        transform: scale(1.25); 
       }
       
       .box h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
@@ -229,7 +228,7 @@
       <div class="box">
         <div class="error-icon-box">
           <img 
-            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=9" 
+            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=10" 
             alt="404" 
             class="error-image" 
           />
