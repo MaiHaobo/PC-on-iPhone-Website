@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
     
-    <!-- 💡 增加 ?v=10 强制刷新图片缓存 -->
-    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=10">
+    <!-- 💡 增加 ?v=11 确保强刷 -->
+    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=11">
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
     
     <style>
@@ -155,7 +155,7 @@
       
       @media (prefers-color-scheme: dark) { .box { background: rgba(30, 32, 38, 0.75); } }
 
-      /* 💡 纯物理裁剪：去掉白底，只保留圆角 */
+      /* 💡 纯物理裁剪框 */
       .error-icon-box {
         width: 140px;
         height: 140px;
@@ -172,8 +172,8 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        /* 💡 改回 1.25 倍 */
-        transform: scale(1.25); 
+        /* 💡 缩放改为 1.24 */
+        transform: scale(1.24); 
       }
       
       .box h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
@@ -228,7 +228,7 @@
       <div class="box">
         <div class="error-icon-box">
           <img 
-            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=10" 
+            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=11" 
             alt="404" 
             class="error-image" 
           />
