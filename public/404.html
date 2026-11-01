@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
     
-    <!-- 💡 修正了这里的文件名，并加上 ?v=5 强制刷新缓存 -->
-    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=5">
+    <!-- 修正了路径，加上 ?v=6 再次强制刷新缓存 -->
+    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=6">
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
     
     <style>
@@ -155,7 +155,7 @@
       
       @media (prefers-color-scheme: dark) { .box { background: rgba(30, 32, 38, 0.75); } }
 
-      /* 💡 核心裁剪方案：用框把白边切掉 */
+      /* 💡 裁剪容器 */
       .error-icon-box {
         width: 140px;
         height: 140px;
@@ -172,8 +172,8 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        /* 💡 放大 1.4 倍，切掉边缘的白边 */
-        transform: scale(1.4); 
+        /* 💡 这里改成了 1.3 倍 */
+        transform: scale(1.3); 
       }
       
       .box h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
@@ -227,9 +227,8 @@
     <main class="error-wrapper">
       <div class="box">
         <div class="error-icon-box">
-          <!-- 💡 这里的路径改成了 404-logo.PNG，并加上了 ?v=5 -->
           <img 
-            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=5" 
+            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=6" 
             alt="404" 
             class="error-image" 
           />
