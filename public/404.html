@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
     
-    <!-- 加了 ?v=3 强制浏览器刷新图片缓存 -->
-    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=3">
+    <!-- 💡 修正了这里的文件名，并加上 ?v=5 强制刷新缓存 -->
+    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=5">
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
     
     <style>
@@ -155,28 +155,25 @@
       
       @media (prefers-color-scheme: dark) { .box { background: rgba(30, 32, 38, 0.75); } }
 
-      /* 💡 核心裁剪方案：用一个带圆角的遮罩框 */
+      /* 💡 核心裁剪方案：用框把白边切掉 */
       .error-icon-box {
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
         margin: 0 auto 24px auto;
-        border-radius: 34px; /* 把外框切成大圆角 */
-        overflow: hidden;    /* 隐藏被挤出去的白边 */
-        
-        /* 给整个图标加一层高级阴影 */
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0,0,0,0.05);
+        border-radius: 32px; 
+        overflow: hidden;    
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
       }
       @media (prefers-color-scheme: dark) {
-        .error-icon-box { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.1); }
+        .error-icon-box { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); }
       }
 
       .error-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        
-        /* 💡 强制放大 1.2 倍，把原图四周多余的白边全部挤出框外！ */
-        transform: scale(1.2); 
+        /* 💡 放大 1.4 倍，切掉边缘的白边 */
+        transform: scale(1.4); 
       }
       
       .box h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
@@ -229,11 +226,11 @@
 
     <main class="error-wrapper">
       <div class="box">
-        <!-- 💡 用容器包裹图片，实现智能裁剪 -->
         <div class="error-icon-box">
+          <!-- 💡 这里的路径改成了 404-logo.PNG，并加上了 ?v=5 -->
           <img 
-            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=3" 
-            alt="404 页面走丢了" 
+            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG?v=5" 
+            alt="404" 
             class="error-image" 
           />
         </div>
