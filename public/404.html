@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
     
-    <!-- 如果你重新上传了原图，记得改回之前的路径 -->
-    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG">
+    <!-- 加了 ?v=3 强制浏览器刷新图片缓存 -->
+    <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-icon.png?v=3">
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
     
     <style>
@@ -155,30 +155,28 @@
       
       @media (prefers-color-scheme: dark) { .box { background: rgba(30, 32, 38, 0.75); } }
 
-      /* 💡 核心：把它包装成一个 Apple 风格的 App 图标 */
+      /* 💡 核心裁剪方案：用一个带圆角的遮罩框 */
+      .error-icon-box {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 24px auto;
+        border-radius: 34px; /* 把外框切成大圆角 */
+        overflow: hidden;    /* 隐藏被挤出去的白边 */
+        
+        /* 给整个图标加一层高级阴影 */
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0,0,0,0.05);
+      }
+      @media (prefers-color-scheme: dark) {
+        .error-icon-box { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.1); }
+      }
+
       .error-image {
-        width: 160px; 
-        height: 160px;
-        display: block;
-        margin: 0 auto 24px auto; 
-        
-        /* 白底兜底，防止内部漏风 */
-        background-color: #ffffff; 
-        
-        /* 因为原图可能有边缘留白，用 object-fit 裁切一下 */
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         
-        /* 原生 App 的大圆角 */
-        border-radius: 36px; 
-        
-        /* 给一个非常微妙的阴影，让它浮起来 */
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0,0,0,0.05);
-      }
-      
-      @media (prefers-color-scheme: dark) {
-        .error-image { 
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.1); 
-        }
+        /* 💡 强制放大 1.2 倍，把原图四周多余的白边全部挤出框外！ */
+        transform: scale(1.2); 
       }
       
       .box h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
@@ -231,15 +229,14 @@
 
     <main class="error-wrapper">
       <div class="box">
-        <!-- 💡 引用你的图（无论透明还是不透明） -->
-        <img 
-          src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.PNG" 
-          alt="404 页面走丢了" 
-          class="error-image" 
-          width="160" 
-          height="160" 
-          decoding="async" 
-        />
+        <!-- 💡 用容器包裹图片，实现智能裁剪 -->
+        <div class="error-icon-box">
+          <img 
+            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-icon.png?v=3" 
+            alt="404 页面走丢了" 
+            class="error-image" 
+          />
+        </div>
         
         <h1>页面走丢了</h1>
         <p>非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。</p>
