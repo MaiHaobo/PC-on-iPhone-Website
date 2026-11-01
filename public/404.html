@@ -4,11 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
-    <link rel="icon" href="/logo.PNG" type="image/png" />
+    <!-- 修正了图标路径 -->
+    <link rel="icon" href="/PC-on-iPhone-Website/logo.PNG" type="image/png" />
     <style>
-      /* =========================================
-         1. 基础变量
-         ========================================= */
       :root {
         --page: #ffffff;
         --ink: #14161d;
@@ -47,9 +45,6 @@
 
       a { text-decoration: none; color: inherit; }
 
-      /* =========================================
-         2. 导航栏样式
-         ========================================= */
       .site-nav-wrap {
         position: absolute;
         top: calc(14px + env(safe-area-inset-top)); 
@@ -66,15 +61,10 @@
         gap: 8px;
         padding: 8px 10px 8px 18px;
         border-radius: 999px; 
-        
         background: rgba(255, 255, 255, 0.75);
         backdrop-filter: blur(14px) saturate(1.5);
         -webkit-backdrop-filter: blur(14px) saturate(1.5);
-        box-shadow:
-          0 20px 40px -15px rgba(30, 45, 90, 0.15),
-          inset 0 1px 1px rgba(255, 255, 255, 1),
-          inset 0 0 0 1px var(--hairline);
-          
+        box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 0 0 1px var(--hairline);
         pointer-events: auto;
         max-width: 1120px;
         margin: 0 auto;
@@ -83,10 +73,7 @@
       @media (prefers-color-scheme: dark) {
         .site-nav { 
           background: rgba(30, 32, 38, 0.75);
-          box-shadow:
-            0 20px 40px -15px rgba(0, 0, 0, 0.6),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 0 0 1px var(--hairline);
+          box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px var(--hairline);
         }
       }
 
@@ -101,131 +88,73 @@
       }
       
       .brand-mark {
-        width: 26px; 
-        height: 26px;
+        width: 26px; height: 26px;
         border-radius: 8px; 
-        display: grid; 
-        place-items: center;
+        display: grid; place-items: center;
         background: none;
         box-shadow: none;
         overflow: hidden;
       }
       
       .brand-mark img {
-        width: 100%; 
-        height: 100%; 
-        object-fit: cover; 
-        border-radius: inherit;
+        width: 100%; height: 100%; object-fit: cover; border-radius: inherit;
       }
 
       .nav-toggle {
-        display: none;
-        width: 40px; height: 40px;
-        border: 0; border-radius: 50%;
-        background: var(--lift);
-        color: var(--ink);
-        cursor: pointer;
-        place-items: center;
-        transition: background 0.18s;
+        display: none; width: 40px; height: 40px;
+        border: 0; border-radius: 50%; background: var(--lift);
+        color: var(--ink); cursor: pointer; place-items: center; transition: background 0.18s;
       }
 
-      /* =========================================
-         3. 电脑端导航
-         ========================================= */
       .nav-links { display: flex; align-items: center; gap: 2px; }
       .nav-links a {
-        display: block;
-        padding: 8px 14px;
-        border-radius: 999px;
-        font-size: 0.9rem;
-        color: var(--ink-soft);
-        transition: background-color 0.18s ease, color 0.18s ease;
+        display: block; padding: 8px 14px; border-radius: 999px;
+        font-size: 0.9rem; color: var(--ink-soft); transition: background-color 0.18s ease, color 0.18s ease;
       }
       .nav-links a:hover { color: var(--ink); background: var(--lift); }
 
       .nav-cta {
-        padding: 9px 18px;
-        border-radius: 999px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        background: #16181f;
-        color: #fff;
-        white-space: nowrap;
+        padding: 9px 18px; border-radius: 999px; font-size: 0.9rem;
+        font-weight: 600; background: #16181f; color: #fff; white-space: nowrap;
       }
 
-      /* =========================================
-         4. 手机端菜单
-         ========================================= */
       @media (max-width: 780px) {
         .nav-toggle { display: grid; }
         .site-nav { position: relative; overflow: visible !important; }
         .nav-cta { display: none; }
         
         .nav-links {
-          position: absolute;
-          top: calc(100% + 10px);
-          left: 10px; 
-          right: 10px;
-          flex-direction: column;
-          align-items: stretch;
-          padding: 10px;
-          gap: 2px; 
-          border-radius: 24px;
-          background: var(--menu-bg);
-          backdrop-filter: blur(20px) saturate(1.5);
-          -webkit-backdrop-filter: blur(20px) saturate(1.5);
+          position: absolute; top: calc(100% + 10px); left: 10px; right: 10px;
+          flex-direction: column; align-items: stretch; padding: 10px; gap: 2px; border-radius: 24px;
+          background: var(--menu-bg); backdrop-filter: blur(20px) saturate(1.5); -webkit-backdrop-filter: blur(20px) saturate(1.5);
           box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--hairline); 
-          opacity: 0; 
-          visibility: hidden;
-          transform: translateY(-6px);
-          transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
-          z-index: 100;
+          opacity: 0; visibility: hidden; transform: translateY(-6px);
+          transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; z-index: 100;
         }
 
-        .site-nav[data-open="true"] .nav-links {
-          opacity: 1; 
-          visibility: visible; 
-          transform: none;
-        }
-
-        .nav-links a { 
-          padding: 12px 14px; 
-          border-radius: 14px;
-          line-height: normal; 
-        }
+        .site-nav[data-open="true"] .nav-links { opacity: 1; visibility: visible; transform: none; }
+        .nav-links a { padding: 12px 14px; border-radius: 14px; line-height: normal; }
       }
 
-      /* =========================================
-         5. 404 卡片居中布局
-         ========================================= */
       .error-wrapper {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        flex: 1; display: flex; align-items: center; justify-content: center;
         padding: calc(100px + env(safe-area-inset-top)) 20px 40px; 
       }
 
       .box {
-        text-align: center;
-        background: rgba(255, 255, 255, 0.75);
-        padding: 40px 30px;
-        border-radius: 34px;
-        box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 0 0 1px var(--hairline);
-        max-width: 500px;
-        width: 100%;
+        text-align: center; background: rgba(255, 255, 255, 0.75); padding: 40px 30px;
+        border-radius: 34px; box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 0 0 1px var(--hairline);
+        max-width: 500px; width: 100%;
       }
       
-      @media (prefers-color-scheme: dark) {
-        .box { background: rgba(30, 32, 38, 0.75); }
-      }
+      @media (prefers-color-scheme: dark) { .box { background: rgba(30, 32, 38, 0.75); } }
 
-      /* 💡 核心修改：把字号改大，并用 clamp 自适应 */
+      /* 💡 极大化 404 字号 */
       .code {
-        font-size: clamp(8rem, 25vw, 12rem); /* 调大到了 12rem 级别 */
+        font-size: clamp(8rem, 30vw, 13rem); 
         font-weight: 800;
-        line-height: 0.9; /* 稍微紧凑一点，防止上下溢出 */
-        margin: 0 0 10px 0;
+        line-height: 0.9; 
+        margin: 0 0 15px 0;
         background: linear-gradient(135deg, var(--tint), var(--tint-2));
         -webkit-background-clip: text;
         background-clip: text;
@@ -236,27 +165,16 @@
       .box p { color: var(--ink-soft); margin-bottom: 30px; font-size: 0.95rem; }
       
       .btn {
-        display: inline-block;
-        padding: 14px 28px;
-        border-radius: 999px;
-        background: linear-gradient(180deg, #2f7dff, #1450e0);
-        color: #fff;
-        font-weight: 600;
-        font-size: 0.95rem;
-        box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
+        display: inline-block; padding: 14px 28px; border-radius: 999px;
+        background: linear-gradient(180deg, #2f7dff, #1450e0); color: #fff;
+        font-weight: 600; font-size: 0.95rem; box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
         transition: transform 0.18s ease;
       }
       .btn:hover { transform: translateY(-2px); }
 
-      /* =========================================
-         6. 极简页脚
-         ========================================= */
       .simple-footer {
-        text-align: center;
-        padding: 20px;
-        font-size: 0.8rem;
-        color: var(--ink-soft);
-        margin-top: auto;
+        text-align: center; padding: 20px; font-size: 0.8rem;
+        color: var(--ink-soft); margin-top: auto;
       }
     </style>
   </head>
@@ -266,7 +184,8 @@
       <nav class="site-nav" aria-label="主导航">
         <a class="brand" href="/PC-on-iPhone-Website/index.html">
           <span class="brand-mark" aria-hidden="true">
-            <img src="/logo.PNG" alt="Logo" />
+            <!-- 💡 图片路径修正为带项目名的绝对路径 -->
+            <img src="/PC-on-iPhone-Website/logo.PNG" alt="Logo" />
           </span>
           PC on iPhone
         </a>
