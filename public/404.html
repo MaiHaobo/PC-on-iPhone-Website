@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
-    <link rel="icon" href="/PC-on-iPhone-Website/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="icon" href="/logo.PNG" type="image/png" />
     <style>
       /* =========================================
          1. 基础变量
@@ -17,7 +17,6 @@
         --tint: #2f6ae0;
         --tint-2: #7a3ff2;
         --lift: rgba(20, 30, 60, 0.05);
-        --lift-strong: rgba(20, 30, 60, 0.09);
         --menu-bg: rgba(255, 255, 255, 0.85); 
       }
 
@@ -30,7 +29,6 @@
           --tint: #4c8dff;
           --tint-2: #9a6bff;
           --lift: rgba(255, 255, 255, 0.09);
-          --lift-strong: rgba(255, 255, 255, 0.15);
           --menu-bg: rgba(30, 32, 38, 0.85); 
         }
       }
@@ -50,7 +48,7 @@
       a { text-decoration: none; color: inherit; }
 
       /* =========================================
-         2. 导航栏样式 (胶囊高光材质)
+         2. 导航栏样式
          ========================================= */
       .site-nav-wrap {
         position: absolute;
@@ -102,15 +100,24 @@
         margin-right: auto;
       }
       
+      /* 💡 404 独立页面的新 Logo 样式 */
       .brand-mark {
-        width: 26px; height: 26px;
-        border-radius: 8px;
-        display: grid; place-items: center;
-        background: linear-gradient(145deg, var(--tint), var(--tint-2));
-        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        width: 26px; 
+        height: 26px;
+        border-radius: 8px; 
+        display: grid; 
+        place-items: center;
+        background: none;
+        box-shadow: none;
+        overflow: hidden;
       }
-      /* 适配新图标的尺寸 */
-      .brand-mark svg { width: 18px; height: 18px; }
+      
+      .brand-mark img {
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+        border-radius: inherit;
+      }
 
       .nav-toggle {
         display: none;
@@ -165,11 +172,9 @@
           padding: 10px;
           gap: 2px; 
           border-radius: 24px;
-          
           background: var(--menu-bg);
           backdrop-filter: blur(20px) saturate(1.5);
           -webkit-backdrop-filter: blur(20px) saturate(1.5);
-          
           box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--hairline); 
           opacity: 0; 
           visibility: hidden;
@@ -259,14 +264,9 @@
     <header class="site-nav-wrap">
       <nav class="site-nav" aria-label="主导航">
         <a class="brand" href="/PC-on-iPhone-Website/index.html">
-          <!-- 新图标 -->
+          <!-- 💡 换成新的 img 标签 -->
           <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="16" y="16" width="68" height="68" rx="18" stroke="#ffffff" stroke-width="6" />
-              <rect x="28" y="28" width="44" height="44" rx="12" stroke="#ffffff" stroke-width="6" />
-              <rect x="40" y="40" width="20" height="20" rx="6" stroke="#ffffff" stroke-width="6" />
-              <circle cx="50" cy="50" r="5" fill="#ffffff" />
-            </svg>
+            <img src="/logo.PNG" alt="Logo" />
           </span>
           PC on iPhone
         </a>
@@ -301,7 +301,6 @@
       </div>
     </main>
 
-    <!-- 新增的版权信息页脚 -->
     <footer class="simple-footer">
       <p style="margin: 0 0 6px 0;">
         Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">UTM</a>
@@ -312,7 +311,6 @@
     </footer>
 
     <script>
-      // 汉堡菜单交互
       const nav = document.querySelector(".site-nav");
       const toggle = document.querySelector(".nav-toggle");
       if (nav && toggle) {
@@ -323,7 +321,6 @@
         });
       }
 
-      // 动态年份更新
       document.querySelectorAll("[data-year]").forEach((el) => {
         el.textContent = String(new Date().getFullYear());
       });
