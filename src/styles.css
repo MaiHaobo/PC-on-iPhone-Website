@@ -310,15 +310,17 @@ main {
   display: flex;
   align-items: center;
   gap: 2px;
+  flex-wrap: nowrap; /* 💡 防止挤压换行 */
 }
 
 .nav-links a {
   display: block;
-  padding: 8px 14px;
+  padding: 8px 12px; /* 💡 稍微缩小两侧内边距，给文字留空间 */
   border-radius: 999px;
   font-size: 0.9rem;
   color: var(--ink-soft);
   transition: background-color 0.18s ease, color 0.18s ease;
+  white-space: nowrap; /* 💡 核心：强制文字不折行 */
 }
 
 .nav-links a:hover { color: var(--ink); background: var(--lift); }
@@ -358,7 +360,7 @@ main {
 }
 
 /* 移动端导航下拉菜单修复 */
-@media (max-width: 780px) {
+@media (max-width: 950px) { /* 💡 稍微放宽了触发汉堡菜单的阈值，防止电脑小窗挤压 */
   .nav-toggle { display: grid; }
   
   .site-nav {
