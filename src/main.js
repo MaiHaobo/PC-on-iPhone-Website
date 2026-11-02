@@ -1,7 +1,4 @@
-/* Shared entry: boots the mobile nav, year, reveal animations, and UTM copyright. */
-
-import "./styles.css";
-import { initReveal } from "./glass.js";
+import './style.css';
 
 function initMobileNav() {
   const nav = document.querySelector(".site-nav");
@@ -31,35 +28,40 @@ function initMobileNav() {
   });
 }
 
+/* 💡 全站自动注入“系统画廊”导航链接 */
+function injectGalleryLink() {
+  const navLinks = document.querySelector('.nav-links');
+  if (!navLinks) return;
+
+  // 如果已经存在了，就不重复添加
+  if (navLinks.querySelector('a[href*="gallery.html"]')) return;
+
+  // 创建新的链接元素
+  const galleryLink = document.createElement('a');
+  galleryLink.href = './gallery.html';
+  galleryLink.textContent = '系统画廊';
+
+  // 如果当前正在画廊页面，就加上 aria-current 属性让它高亮
+  if (window.location.pathname.includes('gallery.html')) {
+    galleryLink.setAttribute('aria-current', 'page');
+  }
+
+  // 💡 修改这里：寻找“下载安装”的链接，并插在它后面
+  const downloadLink = navLinks.querySelector('a[href*="download.html"]');
+  if (downloadLink) {
+    downloadLink.after(galleryLink);
+  } else {
+    navLinks.appendChild(galleryLink);
+  }
+}
+
 function stampCurrentYear() {
   document.querySelectorAll("[data-year]").forEach((el) => {
     el.textContent = String(new Date().getFullYear());
   });
 }
 
-/* 💡 新增：全自动注入 UTM 版权信息 */
-function injectUTMCopyright() {
-  const footerLegal = document.querySelector(".footer-legal");
-  if (!footerLegal) return;
-
-  // 防止重复添加
-  if (document.body.innerHTML.includes("Powered by UTM")) return;
-
-  const p = document.createElement("p");
-  p.className = "footer-legal";
-  p.style.margin = "0 0 4px 0";
-  p.innerHTML = 'Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>';
-  
-  // 插入到现有的版权年份信息上方
-  footerLegal.parentNode.insertBefore(p, footerLegal);
-}
-
-// 初始化函数
+// 执行所有初始化函数
 initMobileNav();
+injectGalleryLink(); 
 stampCurrentYear();
-injectUTMCopyright(); // 执行注入
-initReveal();
-
-// 注释掉了之前启动 GPU 渲染的代码
-// initGlassResync();
-// if ("requestIdleCallback" in window) { ... }
