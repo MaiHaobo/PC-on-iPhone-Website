@@ -1,4 +1,4 @@
-import './style.css';
+import './styles.css';
 
 function initMobileNav() {
   const nav = document.querySelector(".site-nav");
