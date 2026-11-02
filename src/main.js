@@ -32,27 +32,50 @@ function initMobileNav() {
 function injectGalleryLink() {
   const navLinks = document.querySelector('.nav-links');
   if (!navLinks) return;
-
-  // 如果已经存在了，就不重复添加
   if (navLinks.querySelector('a[href*="gallery.html"]')) return;
 
-  // 创建新的链接元素
   const galleryLink = document.createElement('a');
   galleryLink.href = './gallery.html';
   galleryLink.textContent = '系统画廊';
 
-  // 如果当前正在画廊页面，就加上 aria-current 属性让它高亮
   if (window.location.pathname.includes('gallery.html')) {
     galleryLink.setAttribute('aria-current', 'page');
   }
 
-  // 💡 修改这里：寻找“下载安装”的链接，并插在它后面
+  // 插在“下载安装”的后面
   const downloadLink = navLinks.querySelector('a[href*="download.html"]');
   if (downloadLink) {
     downloadLink.after(galleryLink);
   } else {
     navLinks.appendChild(galleryLink);
   }
+}
+
+/* 💡 全站自动注入版权信息 */
+function injectCopyright() {
+  const footerInner = document.querySelector('.footer-inner');
+  if (!footerInner) return;
+
+  // 防止重复添加
+  if (footerInner.innerHTML.includes("All rights reserved")) return;
+
+  const currentYear = new Date().getFullYear();
+
+  // 创建 UTM 版权行
+  const utmText = document.createElement('p');
+  utmText.className = "footer-legal";
+  utmText.style.margin = "0 0 4px 0";
+  utmText.innerHTML = 'Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>';
+
+  // 创建主版权行
+  const mainText = document.createElement('p');
+  mainText.className = "footer-legal";
+  mainText.style.margin = "0";
+  mainText.innerHTML = `© ${currentYear} PC on iPhone. All rights reserved.`;
+
+  // 如果当前页脚是居中的（我们之前的极简页脚），就追加在最后
+  footerInner.appendChild(utmText);
+  footerInner.appendChild(mainText);
 }
 
 function stampCurrentYear() {
@@ -64,4 +87,5 @@ function stampCurrentYear() {
 // 执行所有初始化函数
 initMobileNav();
 injectGalleryLink(); 
+injectCopyright(); // 💡 重新开启自动注入版权
 stampCurrentYear();
