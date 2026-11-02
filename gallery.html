@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>系统画廊 - PC on iPhone</title>
-    <meta name="description" content="PC on iPhone 精选虚拟机镜像画廊，直接下载<code> .utm </code>包。" />
+    <!-- 💡 修复了 description 里的 HTML 标签 -->
+    <meta name="description" content="PC on iPhone 精选虚拟机镜像画廊，直接下载 .utm 包。" />
     
     <meta property="og:title" content="系统画廊 - PC on iPhone" />
     <meta property="og:description" content="发现并下载适合你的虚拟机镜像。" />
@@ -59,7 +60,7 @@
                 精选 <span class="grad">系统画廊</span>
               </h1>
               <p class="hero-sub" style="max-width: 60ch;">
-                这里收集了经过测试、可以直接导入的 <code> .utm </code>虚拟机包。点击下载后解压，将文件导入应用即可开箱即用。
+                这里收集了经过测试、可以直接导入的 <code>.utm</code> 虚拟机包。点击下载后解压，将文件导入应用即可开箱即用。
                 <br><br>
                 <span style="color: #f5a623; font-weight: 600;">⚠️ 注意：大部分镜像为 ARM64 架构，请确认您的设备支持。</span>
               </p>
@@ -75,7 +76,6 @@
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
-                      <!-- Linux 终端图标 -->
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="4 17 10 11 4 5"></polyline>
                         <line x1="12" y1="19" x2="20" y2="19"></line>
@@ -92,7 +92,6 @@
                     <span class="tag">需 JIT</span>
                   </div>
 
-                  <!-- 指向 Kali 官方 UTM 镜像下载 -->
                   <a class="btn btn--primary" href="https://cdimage.kali.org/kali-2024.1/kali-linux-2024.1-utm-arm64.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
                     直接下载 .utm.zip
                   </a>
@@ -119,7 +118,8 @@
                     <span class="tag">极致轻量</span>
                   </div>
 
-                  <a class="btn btn--ghost" href="https://archive.org/download/omarchy-vm.utm/OMARCHY-VM.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
+                  <!-- 💡 已改为 btn--primary -->
+                  <a class="btn btn--primary" href="https://archive.org/download/omarchy-vm.utm/OMARCHY-VM.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
                     直接下载 .utm.zip
                   </a>
                 </div>
@@ -145,7 +145,8 @@
                     <span class="tag">免安装</span>
                   </div>
 
-                  <a class="btn btn--ghost" href="https://github.com/ducbao414/utm-windows-98/releases" target="_blank" rel="noopener" style="width: 100%;">
+                  <!-- 💡 已改为 btn--primary -->
+                  <a class="btn btn--primary" href="https://github.com/ducbao414/utm-windows-98/releases" target="_blank" rel="noopener" style="width: 100%;">
                     前往 GitHub 下载
                   </a>
                 </div>
@@ -198,7 +199,8 @@
                     <span class="tag">需 HV 版</span>
                   </div>
 
-                  <a class="btn btn--ghost" href="https://docs.getutm.app/guides/macos/" target="_blank" rel="noopener" style="width: 100%;">
+                  <!-- 💡 已改为 btn--primary -->
+                  <a class="btn btn--primary" href="https://docs.getutm.app/guides/macos/" target="_blank" rel="noopener" style="width: 100%;">
                     查看配置指南
                   </a>
                 </div>
@@ -223,7 +225,8 @@
                     <span class="tag">种类全</span>
                   </div>
 
-                  <a class="btn btn--ghost" href="https://archive.org/details/utm_gallery" target="_blank" rel="noopener" style="width: 100%;">
+                  <!-- 💡 已改为 btn--primary -->
+                  <a class="btn btn--primary" href="https://archive.org/details/utm_gallery" target="_blank" rel="noopener" style="width: 100%;">
                     浏览存档
                   </a>
                 </div>
@@ -246,6 +249,9 @@
                 </a>
               </div>
               
+              <p class="footer-legal" style="margin: 0 0 4px 0;">
+                Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>
+              </p>
               
               <p class="footer-legal" style="margin: 0;">
                 © <span data-year>2026</span> PC on iPhone. All rights reserved.
