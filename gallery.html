@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>系统画廊 - PC on iPhone</title>
+    <title>画廊 - PC on iPhone</title>
     <!-- 💡 修复了 description 里的 HTML 标签 -->
     <meta name="description" content="PC on iPhone 精选虚拟机镜像画廊，直接下载 .utm 包。" />
     
-    <meta property="og:title" content="系统画廊 - PC on iPhone" />
+    <meta property="og:title" content="画廊 - PC on iPhone" />
     <meta property="og:description" content="发现并下载适合你的虚拟机镜像。" />
     <meta property="og:type" content="website" />
     
@@ -37,6 +37,7 @@
             <a href="./features.html">功能</a>
             <a href="./gallery.html" aria-current="page">系统画廊</a>
             <a href="./download.html">下载安装</a>
+            <a href="./install.html">详细安装教程</a>
             <a href="./guide.html">详细使用教程</a>
             <a href="./faq.html">常见问题</a>
             <a href="./about.html">关于</a>
@@ -57,7 +58,7 @@
                 <span class="dot" aria-hidden="true"></span>系统资源库
               </span>
               <h1 class="hero-title" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
-                精选 <span class="grad">系统画廊</span>
+                精选 <span class="grad"><code> .utm </code>画廊</span>
               </h1>
               <p class="hero-sub" style="max-width: 60ch;">
                 这里收集了经过测试、可以直接导入的 <code>.utm</code> 虚拟机包。点击下载后解压，将文件导入应用即可开箱即用。
@@ -118,7 +119,7 @@
                     <span class="tag">极致轻量</span>
                   </div>
 
-                  <!-- 💡 已改为 btn--primary -->
+                  
                   <a class="btn btn--primary" href="https://archive.org/download/omarchy-vm.utm/OMARCHY-VM.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
                     直接下载 .utm.zip
                   </a>
@@ -137,7 +138,7 @@
                     <h3>Windows 98</h3>
                   </div>
                   
-                  <p style="flex-grow: 1;">充满回忆的千禧年系统。由社区制作成可直接运行的 UTM 包，极其流畅。</p>
+                  <p style="flex-grow: 1;">充满回忆的千禧年系统。由社区制作成可直接运行的<code> .utm </code> 包，极其流畅。</p>
                   
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">x86</span>
@@ -145,7 +146,7 @@
                     <span class="tag">免安装</span>
                   </div>
 
-                  <!-- 💡 已改为 btn--primary -->
+                  
                   <a class="btn btn--primary" href="https://github.com/ducbao414/utm-windows-98/releases" target="_blank" rel="noopener" style="width: 100%;">
                     前往 GitHub 下载
                   </a>
@@ -165,7 +166,7 @@
                     <h3>UTM 社区镜像站</h3>
                   </div>
                   
-                  <p style="flex-grow: 1;">由于直接链接容易变动，这里提供由社区骨干维护的极速镜像索引。包含 Debian、Ubuntu、Fedora 等大量系统的 .utm 包。</p>
+                  <p style="flex-grow: 1;">由于直接链接容易变动，这里提供由社区骨干维护的极速镜像索引。包含 Debian、Ubuntu、Fedora 等大量系统的<code>  .utm </code>包。</p>
                   
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">聚合站</span>
@@ -174,12 +175,12 @@
                   </div>
 
                   <a class="btn btn--primary" href="https://mirror.bouwhuis.network/utm/" target="_blank" rel="noopener" style="width: 100%;">
-                    浏览 .utm 镜像库
+                    立即浏览 .utm 镜像库
                   </a>
                 </div>
               </article>
 
-              <!-- 卡片 5: macOS (UTM) -->
+              <!-- 卡片 5: MacOS (UTM) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -188,10 +189,10 @@
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
                       </svg>
                     </span>
-                    <h3>macOS (UTM)</h3>
+                    <h3>MacOS (UTM)</h3>
                   </div>
                   
-                  <p style="flex-grow: 1;">在 iPhone 上运行 Apple 自家的系统。需要自行准备恢复镜像（IPSW），并完成复杂的引导配置。</p>
+                  <p style="flex-grow: 1;">在 iPhone 上运行 Apple 自家的 MacOS 系统。需要自行准备恢复镜像（IPSW），并完成复杂的引导配置。</p>
                   
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">IPSW</span>
@@ -199,9 +200,9 @@
                     <span class="tag">需 HV 版</span>
                   </div>
 
-                  <!-- 💡 已改为 btn--primary -->
-                  <a class="btn btn--primary" href="https://docs.getutm.app/guides/macos/" target="_blank" rel="noopener" style="width: 100%;">
-                    查看配置指南
+                  
+                  <a class="btn btn--primary" href="https://docs.getutm.app/guest-support/macos/" target="_blank" rel="noopener" style="width: 100%;">
+                    查看 UTM 官方配置指南
                   </a>
                 </div>
               </article>
@@ -225,9 +226,9 @@
                     <span class="tag">种类全</span>
                   </div>
 
-                  <!-- 💡 已改为 btn--primary -->
+                  
                   <a class="btn btn--primary" href="https://archive.org/details/utm_gallery" target="_blank" rel="noopener" style="width: 100%;">
-                    浏览存档
+                    立即浏览存档
                   </a>
                 </div>
               </article>
