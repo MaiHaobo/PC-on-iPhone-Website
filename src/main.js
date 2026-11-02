@@ -14,7 +14,6 @@ function initMobileNav() {
     setOpen(nav.dataset.open !== "true");
   });
 
-  // Close when a link is tapped or focus leaves the menu.
   nav.addEventListener("click", (event) => {
     if (event.target.closest(".nav-links a")) setOpen(false);
   });
@@ -51,29 +50,30 @@ function injectGalleryLink() {
   }
 }
 
-/* 💡 全站自动注入版权信息 */
+/* 💡 全站自动注入完美的页脚版权信息 */
 function injectCopyright() {
   const footerInner = document.querySelector('.footer-inner');
   if (!footerInner) return;
 
-  // 防止重复添加
-  if (footerInner.innerHTML.includes("All rights reserved")) return;
+  // 1. 先把 HTML 里原有的版权信息全部删掉（防止残留或格式不统一）
+  const oldLegals = footerInner.querySelectorAll('.footer-legal');
+  oldLegals.forEach(el => el.remove());
 
   const currentYear = new Date().getFullYear();
 
-  // 创建 UTM 版权行
+  // 2. 动态生成包含 UTM 的版权行
   const utmText = document.createElement('p');
   utmText.className = "footer-legal";
   utmText.style.margin = "0 0 4px 0";
   utmText.innerHTML = 'Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>';
 
-  // 创建主版权行
+  // 3. 动态生成年份主版权行
   const mainText = document.createElement('p');
   mainText.className = "footer-legal";
   mainText.style.margin = "0";
   mainText.innerHTML = `© ${currentYear} PC on iPhone. All rights reserved.`;
 
-  // 如果当前页脚是居中的（我们之前的极简页脚），就追加在最后
+  // 4. 追加到页脚
   footerInner.appendChild(utmText);
   footerInner.appendChild(mainText);
 }
@@ -87,5 +87,5 @@ function stampCurrentYear() {
 // 执行所有初始化函数
 initMobileNav();
 injectGalleryLink(); 
-injectCopyright(); // 💡 重新开启自动注入版权
+injectCopyright(); 
 stampCurrentYear();
