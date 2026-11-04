@@ -13,7 +13,6 @@
     <link rel="icon" href="/logo.PNG" type="image/png" />
     <link rel="stylesheet" href="./styles.css" />
     
-    <!-- 💡 为 <code> 标签加点好看的样式 -->
     <style>
       code {
         background: var(--lift-strong);
@@ -22,6 +21,50 @@
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         font-size: 0.85em;
         color: var(--tint);
+      }
+
+      /* 💡 分类标签栏样式 */
+      .filter-bar {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        margin-bottom: 24px;
+        scrollbar-width: none; /* 隐藏滚动条 */
+      }
+      .filter-bar::-webkit-scrollbar {
+        display: none;
+      }
+      .filter-btn {
+        background: var(--glass-bg);
+        border: 1px solid var(--hairline);
+        color: var(--ink-soft);
+        padding: 8px 20px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .filter-btn:hover {
+        background: var(--lift-strong);
+      }
+      .filter-btn.active {
+        background: linear-gradient(180deg, #2f7dff, #1450e0);
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 4px 15px rgba(47, 106, 224, 0.3);
+      }
+
+      /* 💡 卡片隐藏/显示动画 */
+      .glass-item {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      .glass-item.hidden {
+        display: none !important;
       }
     </style>
   </head>
@@ -47,7 +90,6 @@
             <a href="./index.html">首页</a>
             <a href="./features.html">功能</a>
             <a href="./download.html">下载安装</a>
-            <!-- 💡 这里保留“系统画廊”，JS 会检测到已经存在，自动跳过，不会重复 -->
             <a href="./gallery.html" aria-current="page">系统画廊</a>
             <a href="./install.html">详细安装教程</a>
             <a href="./guide.html">详细使用教程</a>
@@ -80,12 +122,22 @@
             </div>
           </section>
 
-          <!-- ================= GALLERY GRID ================= -->
-          <section class="section" style="padding-top: 20px;">
-            <div class="grid grid-3">
+          <!-- ================= GALLERY FILTER ================= -->
+          <section class="section" style="padding-top: 10px;">
+            
+            <!-- 💡 分类按钮栏 -->
+            <div class="filter-bar">
+              <button class="filter-btn active" data-filter="all">全部系统</button>
+              <button class="filter-btn" data-filter="windows">Windows</button>
+              <button class="filter-btn" data-filter="linux">Linux</button>
+              <button class="filter-btn" data-filter="macos">macOS</button>
+              <button class="filter-btn" data-filter="other">其他工具</button>
+            </div>
+
+            <div class="grid grid-3" id="gallery-grid">
               
-              <!-- 卡片 1: Kali Linux -->
-              <article class="glass" data-reveal>
+              <!-- 卡片 1: Kali Linux (Linux) -->
+              <article class="glass glass-item" data-category="linux" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
@@ -102,7 +154,6 @@
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">ARM64</span>
                     <span class="tag">解压即用</span>
-                    <span class="tag">需 JIT</span>
                   </div>
 
                   <a class="btn btn--primary" href="https://cdimage.kali.org/kali-2024.1/kali-linux-2024.1-utm-arm64.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
@@ -111,8 +162,8 @@
                 </div>
               </article>
 
-              <!-- 卡片 2: Windows 7 (已加回) -->
-              <article class="glass" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
+              <!-- 卡片 2: Windows 7 (Windows) -->
+              <article class="glass glass-item" data-category="windows" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
@@ -128,7 +179,6 @@
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">x86/x64</span>
                     <span class="tag">社区构建</span>
-                    <span class="tag">需 JIT</span>
                   </div>
 
                   <a class="btn btn--primary" href="https://archive.org/details/windows-7-utm" target="_blank" rel="noopener" style="width: 100%;">
@@ -137,8 +187,8 @@
                 </div>
               </article>
 
-              <!-- 卡片 3: OMARCHY (Arch Linux) -->
-              <article class="glass" data-reveal>
+              <!-- 卡片 3: OMARCHY (Linux) -->
+              <article class="glass glass-item" data-category="linux" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
@@ -153,7 +203,6 @@
                   
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">ARM64</span>
-                    <span class="tag">Arch Linux</span>
                     <span class="tag">极致轻量</span>
                   </div>
 
@@ -163,8 +212,8 @@
                 </div>
               </article>
 
-              <!-- 卡片 4: Windows 98 -->
-              <article class="glass" data-reveal>
+              <!-- 卡片 4: Windows 98 (Windows) -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
@@ -180,7 +229,6 @@
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">x86</span>
                     <span class="tag">复古体验</span>
-                    <span class="tag">免安装</span>
                   </div>
 
                   <a class="btn btn--primary" href="https://github.com/ducbao414/utm-windows-98/releases" target="_blank" rel="noopener" style="width: 100%;">
@@ -189,35 +237,8 @@
                 </div>
               </article>
 
-              <!-- 卡片 5: UTM 社区镜像站 (聚合) -->
-              <article class="glass" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
-                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
-                  <div class="card-title">
-                    <span class="card-icon" aria-hidden="true" style="background: rgba(122, 63, 242, 0.1); color: var(--tint-2);">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                      </svg>
-                    </span>
-                    <h3>UTM 社区镜像站</h3>
-                  </div>
-                  
-                  <p style="flex-grow: 1;">由于直接链接容易变动，这里提供由社区骨干维护的极速镜像索引。包含 Debian、Ubuntu、Fedora 等大量系统的<code> .utm </code>包。</p>
-                  
-                  <div class="project-tags" style="margin-bottom: 20px;">
-                    <span class="tag">聚合站</span>
-                    <span class="tag">全架构</span>
-                    <span class="tag">更新快</span>
-                  </div>
-
-                  <a class="btn btn--primary" href="https://mirror.bouwhuis.network/utm/" target="_blank" rel="noopener" style="width: 100%;">
-                    浏览 .utm 镜像库
-                  </a>
-                </div>
-              </article>
-
-              <!-- 卡片 6: MacOS (UTM) -->
-              <article class="glass" data-reveal>
+              <!-- 卡片 5: MacOS (macOS) -->
+              <article class="glass glass-item" data-category="macos" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
@@ -233,7 +254,6 @@
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">IPSW</span>
                     <span class="tag">ARM64</span>
-                    <span class="tag">需 HV 版</span>
                   </div>
 
                   <a class="btn btn--primary" href="https://docs.getutm.app/guest-support/macos/" target="_blank" rel="noopener" style="width: 100%;">
@@ -242,8 +262,34 @@
                 </div>
               </article>
 
-              <!-- 卡片 7: UTM 存档 -->
-              <article class="glass" data-reveal>
+              <!-- 卡片 6: UTM 社区镜像站 (其他) -->
+              <article class="glass glass-item" data-category="other" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true" style="background: rgba(122, 63, 242, 0.1); color: var(--tint-2);">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                      </svg>
+                    </span>
+                    <h3>UTM 社区镜像站</h3>
+                  </div>
+                  
+                  <p style="flex-grow: 1;">由社区骨干维护的极速镜像索引，包含大量不同架构的 <code>.utm</code> 资源。</p>
+                  
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">聚合站</span>
+                    <span class="tag">更新快</span>
+                  </div>
+
+                  <a class="btn btn--primary" href="https://mirror.bouwhuis.network/utm/" target="_blank" rel="noopener" style="width: 100%;">
+                    浏览 .utm 镜像库
+                  </a>
+                </div>
+              </article>
+
+              <!-- 卡片 7: UTM 官方存档 (其他) -->
+              <article class="glass glass-item" data-category="other" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%; opacity: 0.8;">
                   <div class="card-title">
                     <span class="card-icon" aria-hidden="true">
@@ -254,7 +300,7 @@
                     <h3>官方画廊存档</h3>
                   </div>
                   
-                  <p style="flex-grow: 1;">UTM 官方停更前留存的完整画廊备份。下载后可能需要自行修复引导，适合爱折腾的极客。</p>
+                  <p style="flex-grow: 1;">UTM 官方停更前留存的完整画廊备份，适合爱折腾的极客。</p>
                   
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">备份站</span>
@@ -290,5 +336,39 @@
     </div>
 
     <script type="module" src="./src/main.js"></script>
+    
+    <!-- 💡 纯前端过滤交互逻辑 -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.glass-item');
+
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            // 1. 切换按钮高亮状态
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 2. 获取选中的分类
+            const filterValue = btn.getAttribute('data-filter');
+
+            // 3. 遍历卡片，进行显示/隐藏
+            galleryItems.forEach(item => {
+              const category = item.getAttribute('data-category');
+              
+              if (filterValue === 'all' || filterValue === category) {
+                item.classList.remove('hidden');
+                // 为了动画平滑，先移除 hidden，再让透明度恢复
+                setTimeout(() => item.style.opacity = '1', 10);
+              } else {
+                item.style.opacity = '0';
+                // 等待淡出动画结束后，再彻底隐藏
+                setTimeout(() => item.classList.add('hidden'), 300); 
+              }
+            });
+          });
+        });
+      });
+    </script>
   </body>
 </html>
