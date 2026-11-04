@@ -23,51 +23,70 @@
         color: var(--tint);
       }
 
-      /* 💡 分类标签栏样式 */
+      /* 💡 分类标签栏容器 */
       .filter-bar {
+        position: relative; /* 为滑块提供定位基准 */
         display: flex;
-        gap: 12px;
+        gap: 8px;
         overflow-x: auto;
-        padding-block: 4px;
-        padding-bottom: 12px;
+        padding: 4px; /* 给滑块留出一点内边距 */
         margin-bottom: 24px;
         scrollbar-width: none;
-        align-items: center;
+        -webkit-overflow-scrolling: touch;
+        background: var(--glass-bg); /* 整体加一个淡淡的背景 */
+        border: 1px solid var(--hairline);
+        border-radius: 999px;
+        width: fit-content; /* 宽度自适应内容 */
+        max-width: 100%;
       }
       .filter-bar::-webkit-scrollbar {
         display: none;
       }
       
+      /* 💡 丝滑的蓝色滑块 */
+      .filter-slider {
+        position: absolute;
+        top: 4px; /* 与 padding 对应 */
+        bottom: 4px;
+        left: 0;
+        background-color: #2f6ae0;
+        border-radius: 999px;
+        transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 1;
+        box-shadow: 0 4px 12px rgba(47, 106, 224, 0.3); /* 只给滑块加阴影 */
+      }
+      
+      /* 💡 按钮样式（透明背景） */
       .filter-btn {
+        position: relative;
+        z-index: 2; /* 保证文字在滑块上方 */
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        height: 38px;
-        background: var(--glass-bg);
-        border: 1px solid var(--hairline);
+        height: 36px;
+        background: transparent;
+        border: none;
         color: var(--ink-soft);
         padding: 0 20px;
         border-radius: 999px;
         font-family: inherit;
         font-size: 0.9rem;
-        font-weight: 600;
+        font-weight: 500;
         cursor: pointer;
         white-space: nowrap;
-        transition: all 0.2s ease;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        box-sizing: border-box;
+        transition: color 0.3s ease;
+        -webkit-appearance: none;
+        outline: none;
       }
       
       .filter-btn:hover {
-        background: var(--lift-strong);
+        color: var(--ink);
       }
       
+      /* 💡 激活状态的文字变白 */
       .filter-btn.active {
-        background: linear-gradient(180deg, #2f7dff, #1450e0);
-        color: #fff;
-        border-color: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 12px rgba(47, 106, 224, 0.35);
+        color: #ffffff;
+        font-weight: 600;
       }
 
       .glass-item {
@@ -135,7 +154,11 @@
           <!-- ================= GALLERY FILTER ================= -->
           <section class="section" style="padding-top: 10px;">
             
-            <div class="filter-bar">
+            <!-- 💡 外层容器 -->
+            <div class="filter-bar" id="filter-bar">
+              <!-- 💡 滑动的蓝色背景 -->
+              <div class="filter-slider" id="filter-slider"></div>
+              
               <button class="filter-btn active" data-filter="all">全部系统</button>
               <button class="filter-btn" data-filter="windows">Windows</button>
               <button class="filter-btn" data-filter="linux">Linux</button>
@@ -147,7 +170,6 @@
               
               <!-- ================= Windows 系列 ================= -->
               
-              <!-- 1. Windows 1.0 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -168,7 +190,6 @@
                 </div>
               </article>
 
-              <!-- 2. Windows 3.1 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -189,7 +210,6 @@
                 </div>
               </article>
 
-              <!-- 3. Windows 95 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -210,7 +230,6 @@
                 </div>
               </article>
 
-              <!-- 4. Windows 98 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -231,7 +250,6 @@
                 </div>
               </article>
 
-              <!-- 5. Windows 2000 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -252,7 +270,6 @@
                 </div>
               </article>
 
-              <!-- 6. Windows XP -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -267,14 +284,12 @@
                     <span class="tag">需手动安装</span>
                     <span class="tag">2001</span>
                   </div>
-                  <!-- 这是一个实际的直达 ISO 下载链接 -->
                   <a class="btn btn--primary" href="https://archive.org/download/WinXPProSP3x86/WinXPProSP3x86.iso" target="_blank" rel="noopener" style="width: 100%;">
                     直接下载 ISO 镜像
                   </a>
                 </div>
               </article>
 
-              <!-- 7. Windows Vista -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -295,7 +310,6 @@
                 </div>
               </article>
 
-              <!-- 8. Windows 7 -->
               <article class="glass glass-item" data-category="windows" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -310,14 +324,12 @@
                     <span class="tag">需手动安装</span>
                     <span class="tag">2009</span>
                   </div>
-                  <!-- 直达 Win7 英文纯净版 ISO -->
                   <a class="btn btn--primary" href="https://archive.org/download/Windows7SP1x64/Windows7SP1x64.iso" target="_blank" rel="noopener" style="width: 100%;">
                     直接下载 ISO 镜像
                   </a>
                 </div>
               </article>
 
-              <!-- 9. Windows 8.1 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -338,7 +350,6 @@
                 </div>
               </article>
 
-              <!-- 10. Windows 10 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -359,7 +370,6 @@
                 </div>
               </article>
 
-              <!-- 11. Windows 11 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -380,9 +390,8 @@
                 </div>
               </article>
 
-              <!-- ================= Linux 系列（全部直链） ================= -->
+              <!-- ================= Linux 系列 ================= -->
               
-              <!-- 12. Kali Linux -->
               <article class="glass glass-item" data-category="linux" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -402,7 +411,6 @@
                 </div>
               </article>
 
-              <!-- 13. OMARCHY (Linux) -->
               <article class="glass glass-item" data-category="linux" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -424,7 +432,6 @@
 
               <!-- ================= macOS / 其他 ================= -->
               
-              <!-- 14. MacOS (macOS) -->
               <article class="glass glass-item" data-category="macos" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -444,7 +451,6 @@
                 </div>
               </article>
 
-              <!-- 15. UTM 社区镜像站 (其他) -->
               <article class="glass glass-item" data-category="other" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -464,7 +470,6 @@
                 </div>
               </article>
 
-              <!-- 16. UTM 官方存档 (其他) -->
               <article class="glass glass-item" data-category="other" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%; opacity: 0.8;">
                   <div class="card-title">
@@ -506,23 +511,55 @@
       </div>
     </div>
 
+    <!-- 引入 main.js 以保持其他功能的自动注入（如自动版权、画廊导航） -->
     <script type="module" src="./src/main.js"></script>
     
+    <!-- 💡 滑块 + 筛选交互逻辑 -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+        const filterBar = document.getElementById('filter-bar');
+        const slider = document.getElementById('filter-slider');
         const filterBtns = document.querySelectorAll('.filter-btn');
         const galleryItems = document.querySelectorAll('.glass-item');
 
+        // 移动滑块到指定按钮
+        function moveSliderToBtn(btn) {
+          // 计算按钮相对于滚动容器的位置
+          const btnLeft = btn.offsetLeft;
+          const btnWidth = btn.offsetWidth;
+          
+          // 防止首次加载时闪烁
+          if (slider.style.width === '') {
+            slider.style.transition = 'none';
+          } else {
+            slider.style.transition = 'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
+          }
+
+          slider.style.width = `${btnWidth}px`;
+          slider.style.transform = `translateX(${btnLeft}px)`;
+        }
+
+        // 初始化滑块位置
+        const activeBtn = document.querySelector('.filter-btn.active');
+        if (activeBtn) {
+          // 使用 setTimeout 确保 DOM 渲染完毕
+          setTimeout(() => moveSliderToBtn(activeBtn), 10);
+        }
+
+        // 点击事件
         filterBtns.forEach(btn => {
           btn.addEventListener('click', () => {
+            // 1. 切换激活状态
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            
+            // 2. 移动滑块
+            moveSliderToBtn(btn);
 
+            // 3. 过滤卡片
             const filterValue = btn.getAttribute('data-filter');
-
             galleryItems.forEach(item => {
               const category = item.getAttribute('data-category');
-              
               if (filterValue === 'all' || filterValue === category) {
                 item.classList.remove('hidden');
                 setTimeout(() => item.style.opacity = '1', 10);
@@ -532,6 +569,16 @@
               }
             });
           });
+        });
+
+        // 屏幕尺寸改变时重新校准滑块位置
+        window.addEventListener('resize', () => {
+          const currentActiveBtn = document.querySelector('.filter-btn.active');
+          if (currentActiveBtn) {
+            // 禁用动画直接瞬移，防止拖影
+            slider.style.transition = 'none';
+            moveSliderToBtn(currentActiveBtn);
+          }
         });
       });
     </script>
