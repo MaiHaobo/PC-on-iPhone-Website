@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Siri Wave - MaiHaobo</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0a0e17;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100dvh;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+    }
+
+    /* 左上角返回按钮 */
+    .back-btn {
+      position: absolute;
+      top: calc(20px + env(safe-area-inset-top));
+      left: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .back-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .back-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* 响应式包裹层 */
+    .wave-container {
+      width: 100%;
+      max-width: 640px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* 让 liquid-glass 组件在手机上高度稍微自适应 */
+    liquid-glass {
+      width: 100%;
+      height: 260px;
+      max-width: 640px;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="./index.html" class="back-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+    返回主页
+  </a>
+
+  <div class="wave-container">
+    <!-- 引入你提供的玻璃特效库 -->
+    <script src="https://glass.goose.cc.cd/liquid-glass.js"></script>
+    
+    <!-- 显示 Siri 波浪 -->
+    <liquid-glass mode="siri-wave"></liquid-glass>
+  </div>
+
+</body>
+</html>
