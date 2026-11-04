@@ -3,16 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>画廊 - PC on iPhone</title>
-    <!-- 💡 修复了 description 里的 HTML 标签 -->
-    <meta name="description" content="PC on iPhone 精选虚拟机镜像画廊，直接下载 .utm 包。" />
+    <title>系统画廊 - iOS 虚拟机 (VM) 镜像下载 - PC on iPhone</title>
+    <meta name="description" content="PC on iPhone 精选虚拟机镜像画廊，直接下载 .utm 包。包含 Windows 7、Kali Linux、Arch Linux 等经典系统。" />
     
-    <meta property="og:title" content="画廊 - PC on iPhone" />
+    <meta property="og:title" content="系统画廊 - PC on iPhone" />
     <meta property="og:description" content="发现并下载适合你的虚拟机镜像。" />
     <meta property="og:type" content="website" />
     
-    <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
+    <link rel="icon" href="/logo.PNG" type="image/png" />
     <link rel="stylesheet" href="./styles.css" />
+    
+    <!-- 💡 为 <code> 标签加点好看的样式 -->
+    <style>
+      code {
+        background: var(--lift-strong);
+        padding: 2px 6px;
+        border-radius: 6px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.85em;
+        color: var(--tint);
+      }
+    </style>
   </head>
   <body>
     <div class="glass-scene">
@@ -36,6 +47,7 @@
             <a href="./index.html">首页</a>
             <a href="./features.html">功能</a>
             <a href="./download.html">下载安装</a>
+            <!-- 💡 这里保留“系统画廊”，JS 会检测到已经存在，自动跳过，不会重复 -->
             <a href="./gallery.html" aria-current="page">系统画廊</a>
             <a href="./install.html">详细安装教程</a>
             <a href="./guide.html">详细使用教程</a>
@@ -58,7 +70,7 @@
                 <span class="dot" aria-hidden="true"></span>系统资源库
               </span>
               <h1 class="hero-title" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
-                精选 <span class="grad"><code> .utm </code>画廊</span>
+                精选 <span class="grad">.utm 画廊</span>
               </h1>
               <p class="hero-sub" style="max-width: 60ch;">
                 这里收集了经过测试、可以直接导入的 <code>.utm</code> 虚拟机包。点击下载后解压，将文件导入应用即可开箱即用。
@@ -99,7 +111,33 @@
                 </div>
               </article>
 
-              <!-- 卡片 2: OMARCHY (Arch Linux) -->
+              <!-- 卡片 2: Windows 7 (已加回) -->
+              <article class="glass" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/>
+                      </svg>
+                    </span>
+                    <h3>Windows 7 <span style="font-size: 0.7rem; background: linear-gradient(135deg, var(--tint), var(--tint-2)); color: #fff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; margin-left: 4px;">经典</span></h3>
+                  </div>
+                  
+                  <p style="flex-grow: 1;">微软极其经典的桌面系统，兼容性极佳。在手机上运行需分配较多内存（建议 4GB 以上）。</p>
+                  
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">x86/x64</span>
+                    <span class="tag">社区构建</span>
+                    <span class="tag">需 JIT</span>
+                  </div>
+
+                  <a class="btn btn--primary" href="https://archive.org/details/windows-7-utm" target="_blank" rel="noopener" style="width: 100%;">
+                    前往下载存档
+                  </a>
+                </div>
+              </article>
+
+              <!-- 卡片 3: OMARCHY (Arch Linux) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -119,14 +157,13 @@
                     <span class="tag">极致轻量</span>
                   </div>
 
-                  
                   <a class="btn btn--primary" href="https://archive.org/download/omarchy-vm.utm/OMARCHY-VM.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
                     直接下载 .utm.zip
                   </a>
                 </div>
               </article>
 
-              <!-- 卡片 3: Windows 98 -->
+              <!-- 卡片 4: Windows 98 -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -146,14 +183,13 @@
                     <span class="tag">免安装</span>
                   </div>
 
-                  
                   <a class="btn btn--primary" href="https://github.com/ducbao414/utm-windows-98/releases" target="_blank" rel="noopener" style="width: 100%;">
                     前往 GitHub 下载
                   </a>
                 </div>
               </article>
 
-              <!-- 卡片 4: UTM 社区镜像站 (聚合) -->
+              <!-- 卡片 5: UTM 社区镜像站 (聚合) -->
               <article class="glass" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -166,7 +202,7 @@
                     <h3>UTM 社区镜像站</h3>
                   </div>
                   
-                  <p style="flex-grow: 1;">由于直接链接容易变动，这里提供由社区骨干维护的极速镜像索引。包含 Debian、Ubuntu、Fedora 等大量系统的<code>  .utm </code>包。</p>
+                  <p style="flex-grow: 1;">由于直接链接容易变动，这里提供由社区骨干维护的极速镜像索引。包含 Debian、Ubuntu、Fedora 等大量系统的<code> .utm </code>包。</p>
                   
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">聚合站</span>
@@ -175,12 +211,12 @@
                   </div>
 
                   <a class="btn btn--primary" href="https://mirror.bouwhuis.network/utm/" target="_blank" rel="noopener" style="width: 100%;">
-                    立即浏览 .utm 镜像库
+                    浏览 .utm 镜像库
                   </a>
                 </div>
               </article>
 
-              <!-- 卡片 5: MacOS (UTM) -->
+              <!-- 卡片 6: MacOS (UTM) -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -200,14 +236,13 @@
                     <span class="tag">需 HV 版</span>
                   </div>
 
-                  
                   <a class="btn btn--primary" href="https://docs.getutm.app/guest-support/macos/" target="_blank" rel="noopener" style="width: 100%;">
-                    查看 UTM 官方配置指南
+                    查看官方配置指南
                   </a>
                 </div>
               </article>
 
-              <!-- 卡片 6: UTM 存档 -->
+              <!-- 卡片 7: UTM 存档 -->
               <article class="glass" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%; opacity: 0.8;">
                   <div class="card-title">
@@ -226,9 +261,8 @@
                     <span class="tag">种类全</span>
                   </div>
 
-                  
                   <a class="btn btn--primary" href="https://archive.org/details/utm_gallery" target="_blank" rel="noopener" style="width: 100%;">
-                    立即浏览存档
+                    浏览存档
                   </a>
                 </div>
               </article>
@@ -249,12 +283,6 @@
                   PC on iPhone
                 </a>
               </div>
-              
-
-              
-              <p class="footer-legal" style="margin: 0;">
-                © <span data-year>2026</span> PC on iPhone. All rights reserved.
-              </p>
             </div>
           </div>
         </footer>
