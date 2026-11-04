@@ -23,24 +23,32 @@
         color: var(--tint);
       }
 
-      /* 💡 分类标签栏样式 */
+      /* 💡 修复后的分类标签栏样式 */
       .filter-bar {
         display: flex;
-        gap: 10px;
+        gap: 12px;
         overflow-x: auto;
-        padding-bottom: 10px;
+        padding-block: 4px; /* 给阴影留出空间 */
+        padding-bottom: 12px;
         margin-bottom: 24px;
-        scrollbar-width: none; /* 隐藏滚动条 */
+        scrollbar-width: none;
+        align-items: center; /* 确保子元素垂直居中对齐 */
       }
       .filter-bar::-webkit-scrollbar {
         display: none;
       }
+      
       .filter-btn {
+        display: inline-flex; /* 强制弹性布局以居中文字 */
+        align-items: center;  /* 垂直居中 */
+        justify-content: center; /* 水平居中 */
+        height: 38px; /* 强制固定高度，防止高低不平 */
         background: var(--glass-bg);
         border: 1px solid var(--hairline);
         color: var(--ink-soft);
-        padding: 8px 20px;
+        padding: 0 20px; /* 去掉上下 padding，由 height 控制 */
         border-radius: 999px;
+        font-family: inherit; /* 统一字体 */
         font-size: 0.9rem;
         font-weight: 600;
         cursor: pointer;
@@ -48,15 +56,18 @@
         transition: all 0.2s ease;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+        box-sizing: border-box; /* 确保边框不会撑大按钮 */
       }
+      
       .filter-btn:hover {
         background: var(--lift-strong);
       }
+      
       .filter-btn.active {
         background: linear-gradient(180deg, #2f7dff, #1450e0);
         color: #fff;
-        border-color: transparent;
-        box-shadow: 0 4px 15px rgba(47, 106, 224, 0.3);
+        border-color: rgba(255, 255, 255, 0.1); /* 保留一点点浅色边框，让高光更自然 */
+        box-shadow: 0 4px 12px rgba(47, 106, 224, 0.35); /* 调整阴影，不再显得臃肿 */
       }
 
       /* 💡 卡片隐藏/显示动画 */
