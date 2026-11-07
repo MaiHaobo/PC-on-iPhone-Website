@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>系统画廊 - iOS 虚拟机 (VM) 镜像下载 - PC on iPhone</title>
-    <meta name="description" content="PC on iPhone 精选虚拟机镜像画廊，直接下载 .utm 包。包含 Windows 全系列、Kali Linux、Arch Linux 等经典系统。" />
+    <meta name="description" content="PC on iPhone 精选虚拟机镜像画廊，直接下载 .utm 包。包含 Windows 全系列（含简中）、Kali Linux 等。" />
     
     <meta property="og:title" content="系统画廊 - PC on iPhone" />
     <meta property="og:description" content="发现并下载适合你的虚拟机镜像。" />
@@ -25,76 +25,54 @@
 
       /* 💡 分类标签栏容器 */
       .filter-bar {
-        position: relative; /* 为滑块提供定位基准 */
+        position: relative;
         display: flex;
         gap: 8px;
         overflow-x: auto;
-        padding: 4px; /* 给滑块留出一点内边距 */
+        padding: 4px;
         margin-bottom: 24px;
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
-        background: var(--glass-bg); /* 整体加一个淡淡的背景 */
+        background: var(--glass-bg);
         border: 1px solid var(--hairline);
         border-radius: 999px;
-        width: fit-content; /* 宽度自适应内容 */
+        width: fit-content;
         max-width: 100%;
       }
-      .filter-bar::-webkit-scrollbar {
-        display: none;
-      }
+      .filter-bar::-webkit-scrollbar { display: none; }
       
       /* 💡 丝滑的蓝色滑块 */
       .filter-slider {
         position: absolute;
-        top: 4px; /* 与 padding 对应 */
-        bottom: 4px;
-        left: 0;
+        top: 4px; bottom: 4px; left: 0;
         background-color: #2f6ae0;
         border-radius: 999px;
         transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
         z-index: 1;
-        box-shadow: 0 4px 12px rgba(47, 106, 224, 0.3); /* 只给滑块加阴影 */
+        box-shadow: 0 4px 12px rgba(47, 106, 224, 0.3);
       }
       
-      /* 💡 按钮样式（透明背景） */
+      /* 💡 按钮样式 */
       .filter-btn {
         position: relative;
-        z-index: 2; /* 保证文字在滑块上方 */
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        z-index: 2;
+        display: inline-flex; align-items: center; justify-content: center;
         height: 36px;
         background: transparent;
         border: none;
         color: var(--ink-soft);
         padding: 0 20px;
         border-radius: 999px;
-        font-family: inherit;
-        font-size: 0.9rem;
-        font-weight: 500;
-        cursor: pointer;
-        white-space: nowrap;
+        font-family: inherit; font-size: 0.9rem; font-weight: 500;
+        cursor: pointer; white-space: nowrap;
         transition: color 0.3s ease;
-        -webkit-appearance: none;
-        outline: none;
+        -webkit-appearance: none; outline: none;
       }
-      
-      .filter-btn:hover {
-        color: var(--ink);
-      }
-      
-      /* 💡 激活状态的文字变白 */
-      .filter-btn.active {
-        color: #ffffff;
-        font-weight: 600;
-      }
+      .filter-btn:hover { color: var(--ink); }
+      .filter-btn.active { color: #ffffff; font-weight: 600; }
 
-      .glass-item {
-        transition: opacity 0.3s ease, transform 0.3s ease;
-      }
-      .glass-item.hidden {
-        display: none !important;
-      }
+      .glass-item { transition: opacity 0.3s ease, transform 0.3s ease; }
+      .glass-item.hidden { display: none !important; }
     </style>
   </head>
   <body>
@@ -144,9 +122,9 @@
                 精选 <span class="grad">.utm 画廊</span>
               </h1>
               <p class="hero-sub" style="max-width: 60ch;">
-                这里收集了经过测试、可以直接导入的 <code>.utm</code> 虚拟机包。如果标注为“原版镜像”，则下载后需要在应用内手动安装。
+                这里收集了经过测试、可以直接导入的 <code>.utm</code> 虚拟机包与原版系统镜像。请留意卡片上的语言与格式标签。
                 <br><br>
-                <span style="color: #f5a623; font-weight: 600;">⚠️ 注意：大部分镜像为 ARM64 架构，请确认您的设备支持。</span>
+                <span style="color: #f5a623; font-weight: 600;">⚠️ 注意：大部分 .utm 镜像为 ARM64 架构，请确认您的设备支持。</span>
               </p>
             </div>
           </section>
@@ -154,11 +132,8 @@
           <!-- ================= GALLERY FILTER ================= -->
           <section class="section" style="padding-top: 10px;">
             
-            <!-- 💡 外层容器 -->
             <div class="filter-bar" id="filter-bar">
-              <!-- 💡 滑动的蓝色背景 -->
               <div class="filter-slider" id="filter-slider"></div>
-              
               <button class="filter-btn active" data-filter="all">全部系统</button>
               <button class="filter-btn" data-filter="windows">Windows</button>
               <button class="filter-btn" data-filter="linux">Linux</button>
@@ -170,6 +145,7 @@
               
               <!-- ================= Windows 系列 ================= -->
               
+              <!-- 1. Windows 1.0 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -178,18 +154,19 @@
                     </span>
                     <h3>Windows 1.0</h3>
                   </div>
-                  <p style="flex-grow: 1;">微软图形操作系统的开山之作。需自行准备原版镜像（ISO/IMG）并在 UTM 中手动安装。</p>
+                  <p style="flex-grow: 1;">微软图形操作系统的开山之作。需自行准备原版镜像并在 UTM 中手动安装。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">英文原版</span>
                     <span class="tag">原版镜像</span>
-                    <span class="tag">需手动安装</span>
                     <span class="tag">1985</span>
                   </div>
                   <a class="btn btn--primary" href="https://winworldpc.com/product/windows-10" target="_blank" rel="noopener" style="width: 100%;">
-                    前往下载原版镜像
+                    前往 WinWorld 下载
                   </a>
                 </div>
               </article>
 
+              <!-- 2. Windows 3.1 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -200,16 +177,17 @@
                   </div>
                   <p style="flex-grow: 1;">首次引入 TrueType 字体。需自行准备原版镜像并在 UTM 中手动安装。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">英文原版</span>
                     <span class="tag">原版镜像</span>
-                    <span class="tag">需手动安装</span>
                     <span class="tag">1992</span>
                   </div>
                   <a class="btn btn--primary" href="https://winworldpc.com/product/windows-3x" target="_blank" rel="noopener" style="width: 100%;">
-                    前往下载原版镜像
+                    前往 WinWorld 下载
                   </a>
                 </div>
               </article>
 
+              <!-- 3. Windows 95 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -220,16 +198,17 @@
                   </div>
                   <p style="flex-grow: 1;">划时代的操作系统，引入了“开始”菜单。需自行准备原版镜像并在 UTM 中手动安装。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">英文原版</span>
                     <span class="tag">原版镜像</span>
-                    <span class="tag">需手动安装</span>
                     <span class="tag">1995</span>
                   </div>
                   <a class="btn btn--primary" href="https://winworldpc.com/product/windows-95" target="_blank" rel="noopener" style="width: 100%;">
-                    前往下载原版镜像
+                    前往 WinWorld 下载
                   </a>
                 </div>
               </article>
 
+              <!-- 4. Windows 98 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -238,10 +217,10 @@
                     </span>
                     <h3>Windows 98</h3>
                   </div>
-                  <p style="flex-grow: 1;">社区制作成可直接运行的 <code>.utm</code> 包，极其流畅，无需手动配置。</p>
+                  <p style="flex-grow: 1;">充满回忆的千禧年系统。由社区制作成可直接运行的 <code>.utm</code> 包，极其流畅。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">英文原版</span>
                     <span class="tag">.utm直链</span>
-                    <span class="tag">解压即用</span>
                     <span class="tag">1998</span>
                   </div>
                   <a class="btn btn--primary" href="https://github.com/ducbao414/utm-windows-98/releases" target="_blank" rel="noopener" style="width: 100%;">
@@ -250,6 +229,7 @@
                 </div>
               </article>
 
+              <!-- 5. Windows 2000 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -260,16 +240,17 @@
                   </div>
                   <p style="flex-grow: 1;">基于 NT 内核的经典稳定系统。需自行准备原版镜像并在 UTM 中手动安装。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">多语言</span>
                     <span class="tag">原版镜像</span>
-                    <span class="tag">需手动安装</span>
                     <span class="tag">2000</span>
                   </div>
                   <a class="btn btn--primary" href="https://winworldpc.com/product/windows-nt-2000" target="_blank" rel="noopener" style="width: 100%;">
-                    前往下载原版镜像
+                    前往 WinWorld 下载
                   </a>
                 </div>
               </article>
 
+              <!-- 6. Windows XP (替换为简中原版) -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -278,18 +259,20 @@
                     </span>
                     <h3>Windows XP <span style="font-size: 0.7rem; background: linear-gradient(135deg, var(--tint), var(--tint-2)); color: #fff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; margin-left: 4px;">经典</span></h3>
                   </div>
-                  <p style="flex-grow: 1;">一代人的回忆。互联网档案馆提供了直接下载的纯净原版 ISO 镜像，需在 UTM 中走安装流程。</p>
+                  <p style="flex-grow: 1;">一代人的回忆。已为你找到微软官方 MSDN 简体中文纯净原版，需在 UTM 中走安装流程。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
-                    <span class="tag">ISO直链</span>
-                    <span class="tag">需手动安装</span>
+                    <span class="tag">简体中文</span>
+                    <span class="tag">纯净原版</span>
                     <span class="tag">2001</span>
                   </div>
-                  <a class="btn btn--primary" href="https://archive.org/download/WinXPProSP3x86/WinXPProSP3x86.iso" target="_blank" rel="noopener" style="width: 100%;">
-                    直接下载 ISO 镜像
+                  <!-- 💡 替换为简体中文 XP SP3 微软官方原版 -->
+                  <a class="btn btn--primary" href="https://archive.org/download/zh-hans_windows_xp_professional_with_service_pack_3_x86_cd_vl_x14-74070/zh-hans_windows_xp_professional_with_service_pack_3_x86_cd_vl_x14-74070.iso" target="_blank" rel="noopener" style="width: 100%;">
+                    直接下载简中 ISO
                   </a>
                 </div>
               </article>
 
+              <!-- 7. Windows Vista -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -300,16 +283,17 @@
                   </div>
                   <p style="flex-grow: 1;">引入了 Aero 玻璃特效。需自行准备原版镜像并在 UTM 中手动安装。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">多语言</span>
                     <span class="tag">原版镜像</span>
-                    <span class="tag">需手动安装</span>
                     <span class="tag">2006</span>
                   </div>
                   <a class="btn btn--primary" href="https://winworldpc.com/product/windows-vista" target="_blank" rel="noopener" style="width: 100%;">
-                    前往下载原版镜像
+                    前往 WinWorld 下载
                   </a>
                 </div>
               </article>
 
+              <!-- 8. Windows 7 (替换为简中原版) -->
               <article class="glass glass-item" data-category="windows" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -318,18 +302,20 @@
                     </span>
                     <h3>Windows 7 <span style="font-size: 0.7rem; background: linear-gradient(135deg, var(--tint), var(--tint-2)); color: #fff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; margin-left: 4px;">经典</span></h3>
                   </div>
-                  <p style="flex-grow: 1;">兼容性极佳。网上暂无稳定的现成 .utm 包，推荐下载原版 ISO 镜像后自行安装。</p>
+                  <p style="flex-grow: 1;">兼容性极佳。已为你找到微软官方 MSDN 简体中文旗舰版原版镜像，需自行安装。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
-                    <span class="tag">ISO直链</span>
-                    <span class="tag">需手动安装</span>
+                    <span class="tag">简体中文</span>
+                    <span class="tag">纯净原版</span>
                     <span class="tag">2009</span>
                   </div>
-                  <a class="btn btn--primary" href="https://archive.org/download/Windows7SP1x64/Windows7SP1x64.iso" target="_blank" rel="noopener" style="width: 100%;">
-                    直接下载 ISO 镜像
+                  <!-- 💡 替换为简体中文 Win7 旗舰版原版 -->
+                  <a class="btn btn--primary" href="https://archive.org/download/cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408/cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso" target="_blank" rel="noopener" style="width: 100%;">
+                    直接下载简中 ISO
                   </a>
                 </div>
               </article>
 
+              <!-- 9. Windows 8.1 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -340,16 +326,17 @@
                   </div>
                   <p style="flex-grow: 1;">为触控优化的系统。需自行准备原版镜像并在 UTM 中手动安装。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">多语言</span>
                     <span class="tag">原版镜像</span>
-                    <span class="tag">需手动安装</span>
                     <span class="tag">2013</span>
                   </div>
                   <a class="btn btn--primary" href="https://winworldpc.com/product/windows-8" target="_blank" rel="noopener" style="width: 100%;">
-                    前往下载原版镜像
+                    前往 WinWorld 下载
                   </a>
                 </div>
               </article>
 
+              <!-- 10. Windows 10 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -358,10 +345,10 @@
                     </span>
                     <h3>Windows 10</h3>
                   </div>
-                  <p style="flex-grow: 1;">提供长期支持。需前往微软官网下载官方媒体创建工具生成 ISO，并在 UTM 中安装。</p>
+                  <p style="flex-grow: 1;">提供长期支持。微软官网下载工具原生支持选择简体中文语言包。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">官方工具</span>
-                    <span class="tag">需手动安装</span>
+                    <span class="tag">多语言</span>
                     <span class="tag">2015</span>
                   </div>
                   <a class="btn btn--primary" href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="noopener" style="width: 100%;">
@@ -370,6 +357,7 @@
                 </div>
               </article>
 
+              <!-- 11. Windows 11 -->
               <article class="glass glass-item" data-category="windows" data-reveal>
                 <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
                   <div class="card-title">
@@ -378,10 +366,10 @@
                     </span>
                     <h3>Windows 11</h3>
                   </div>
-                  <p style="flex-grow: 1;">最新的 Windows 系统。建议在 HV 版本下运行，需自行去官网下载 ISO。</p>
+                  <p style="flex-grow: 1;">最新的 Windows 系统。建议在 HV 版本下运行，官网支持直接下载中文版。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">官方工具</span>
-                    <span class="tag">需手动安装</span>
+                    <span class="tag">多语言</span>
                     <span class="tag">2021</span>
                   </div>
                   <a class="btn btn--primary" href="https://www.microsoft.com/zh-cn/software-download/windows11" target="_blank" rel="noopener" style="width: 100%;">
@@ -402,8 +390,8 @@
                   </div>
                   <p style="flex-grow: 1;">渗透测试系统。Kali 官方针对 UTM 提供了专门优化的预构建镜像，解压即用。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">多语言</span>
                     <span class="tag">.utm直链</span>
-                    <span class="tag">解压即用</span>
                   </div>
                   <a class="btn btn--primary" href="https://cdimage.kali.org/kali-2024.1/kali-linux-2024.1-utm-arm64.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
                     直接下载 .utm.zip
@@ -421,8 +409,8 @@
                   </div>
                   <p style="flex-grow: 1;">社区开发者制作的极简、预配置 Arch Linux，极速启动。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">多语言</span>
                     <span class="tag">.utm直链</span>
-                    <span class="tag">解压即用</span>
                   </div>
                   <a class="btn btn--primary" href="https://archive.org/download/omarchy-vm.utm/OMARCHY-VM.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
                     直接下载 .utm.zip
@@ -443,7 +431,7 @@
                   <p style="flex-grow: 1;">在 iPhone 上运行 Apple 自家的系统。需要自行准备恢复镜像（IPSW），并完成复杂的引导配置。</p>
                   <div class="project-tags" style="margin-bottom: 20px;">
                     <span class="tag">配置指南</span>
-                    <span class="tag">ARM64</span>
+                    <span class="tag">多语言</span>
                   </div>
                   <a class="btn btn--primary" href="https://docs.getutm.app/guest-support/macos/" target="_blank" rel="noopener" style="width: 100%;">
                     查看官方配置教程
@@ -511,10 +499,8 @@
       </div>
     </div>
 
-    <!-- 引入 main.js 以保持其他功能的自动注入（如自动版权、画廊导航） -->
     <script type="module" src="./src/main.js"></script>
     
-    <!-- 💡 滑块 + 筛选交互逻辑 -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const filterBar = document.getElementById('filter-bar');
@@ -522,41 +508,29 @@
         const filterBtns = document.querySelectorAll('.filter-btn');
         const galleryItems = document.querySelectorAll('.glass-item');
 
-        // 移动滑块到指定按钮
         function moveSliderToBtn(btn) {
-          // 计算按钮相对于滚动容器的位置
           const btnLeft = btn.offsetLeft;
           const btnWidth = btn.offsetWidth;
-          
-          // 防止首次加载时闪烁
           if (slider.style.width === '') {
             slider.style.transition = 'none';
           } else {
             slider.style.transition = 'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
           }
-
           slider.style.width = `${btnWidth}px`;
           slider.style.transform = `translateX(${btnLeft}px)`;
         }
 
-        // 初始化滑块位置
         const activeBtn = document.querySelector('.filter-btn.active');
         if (activeBtn) {
-          // 使用 setTimeout 确保 DOM 渲染完毕
           setTimeout(() => moveSliderToBtn(activeBtn), 10);
         }
 
-        // 点击事件
         filterBtns.forEach(btn => {
           btn.addEventListener('click', () => {
-            // 1. 切换激活状态
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            // 2. 移动滑块
             moveSliderToBtn(btn);
 
-            // 3. 过滤卡片
             const filterValue = btn.getAttribute('data-filter');
             galleryItems.forEach(item => {
               const category = item.getAttribute('data-category');
@@ -571,11 +545,9 @@
           });
         });
 
-        // 屏幕尺寸改变时重新校准滑块位置
         window.addEventListener('resize', () => {
           const currentActiveBtn = document.querySelector('.filter-btn.active');
           if (currentActiveBtn) {
-            // 禁用动画直接瞬移，防止拖影
             slider.style.transition = 'none';
             moveSliderToBtn(currentActiveBtn);
           }
