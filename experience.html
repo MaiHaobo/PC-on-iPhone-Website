@@ -14,7 +14,7 @@
       }
 
       /* =========================================
-         💡 完美复刻图一的开屏动画层
+         💡 开屏动画遮罩层
          ========================================= */
       #splash-screen {
         position: fixed; inset: 0; background-color: #ffffff; z-index: 9999;
@@ -23,35 +23,32 @@
       }
       #splash-screen.hidden { opacity: 0; visibility: hidden; }
       
-      /* 容器放大一点，留出夸张的错位空间 */
       .logo-container { 
         width: 140px; height: 140px; color: #000000; overflow: visible; 
       }
       
-      /* 
-        动画参数极大地夸张了位移和旋转，以匹配图一的狂野感 
-      */
+      /* 精准控制旋转中心为整个 SVG 画布的中心 (50, 50) */
       .box-middle { 
-        transform-origin: 50% 50%; 
+        transform-origin: 50px 50px; 
         animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; 
       }
       .box-inner { 
-        transform-origin: 50% 50%; 
+        transform-origin: 50px 50px; 
         animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; 
       }
       
       /* 
-        初始是完美嵌套的，0.3秒后开始大幅度错位 
+        向左下方错位 + 逆时针旋转
       */
       @keyframes explode-middle { 
         0% { transform: translate(0, 0) rotate(0); } 
-        /* 中框向右下方大幅度甩出 */
-        100% { transform: translate(18px, 10px) rotate(18deg); } 
+        /* 向左平移，略微向下，逆时针旋转 */
+        100% { transform: translate(-10px, 6px) rotate(-12deg); } 
       }
       @keyframes explode-inner { 
         0% { transform: translate(0, 0) rotate(0); } 
-        /* 内框向更右下方剧烈甩出，且旋转得更多 */
-        100% { transform: translate(32px, 22px) rotate(32deg); } 
+        /* 向左平移更多，向下更多，逆时针旋转角度更大 */
+        100% { transform: translate(-20px, 12px) rotate(-22deg); } 
       }
 
       /* =========================================
@@ -146,15 +143,15 @@
   </head>
   <body>
     
-    <!-- 💡 完美复刻图一的开屏动画层 -->
+    <!-- 💡 开屏动画层 -->
     <div id="splash-screen">
       <svg class="logo-container" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <!-- 外层 -->
-        <rect class="box-outer" x="12" y="12" width="76" height="76" rx="22" stroke="currentColor" stroke-width="7" />
+        <rect class="box-outer" x="12" y="12" width="76" height="76" rx="22" stroke="currentColor" stroke-width="5" />
         <!-- 中层 -->
-        <rect class="box-middle" x="24" y="24" width="52" height="52" rx="16" stroke="currentColor" stroke-width="7" />
+        <rect class="box-middle" x="24" y="24" width="52" height="52" rx="16" stroke="currentColor" stroke-width="5" />
         <!-- 内层 -->
-        <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="7" />
+        <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="5" />
       </svg>
     </div>
 
