@@ -105,6 +105,7 @@
       .progress-bar-fill { height: 100%; width: 20%; background: #007aff; border-radius: 2px; transition: width 0.3s ease; }
       .progress-text { font-size: 15px; color: #8e8e93; }
 
+      /* 💡 页面容器与滑动逻辑 */
       .page-container { flex: 1; position: relative; overflow: hidden; }
       
       .wizard-page { 
@@ -128,6 +129,11 @@
       .show-boot #page-hardware { transform: translateX(-30%); opacity: 0; visibility: hidden; }
       .show-boot #page-boot { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
 
+      /* 💡 新增命名页面状态 */
+      .show-name #page-boot { transform: translateX(-30%); opacity: 0; visibility: hidden; }
+      .show-name #page-name { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
+
+      /* 通用卡片与列表样式 */
       .section-title { font-size: 17px; color: #8e8e93; margin: 0 0 8px 16px; font-weight: 500; }
       .list-group { background: #ffffff; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
       .list-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; cursor: pointer; border-bottom: 1px solid #e5e5ea; font-size: 17px; font-weight: 500; }
@@ -139,7 +145,7 @@
       .check-icon { color: #007aff; opacity: 0; transition: opacity 0.2s; flex-shrink: 0; margin-left: 10px; }
       .selected .check-icon { opacity: 1; }
 
-      /* 硬件配置页特有样式 */
+      /* 硬件配置专属样式 */
       .switch-card { background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
       .switch-label { font-size: 18px; font-weight: 500; }
       .toggle-switch { position: relative; width: 50px; height: 30px; background: #e5e5ea; border-radius: 15px; cursor: pointer; transition: background 0.3s; }
@@ -169,7 +175,7 @@
       .cpu-value-box { width: 60px; height: 36px; border: 1px solid #e5e5ea; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 16px; color: #c7c7cc; }
       .cpu-value-box.active { color: #000; }
 
-      /* 启动映像配置页特有样式 */
+      /* 启动配置专属样式 */
       .path-card { background: #fff; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
       .path-header { padding: 16px; border-bottom: 1px solid #e5e5ea; font-size: 17px; color: #8e8e93; }
       .path-action { display: flex; align-items: center; padding: 16px; cursor: pointer; color: #007aff; font-size: 17px; font-weight: 500; border-bottom: 1px solid #e5e5ea; }
@@ -179,39 +185,14 @@
       .link-card { display: flex; align-items: center; background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; color: #007aff; font-size: 17px; font-weight: 500; cursor: pointer; }
       .link-card svg { width: 24px; height: 24px; margin-right: 12px; }
 
-      /* 输入名字弹窗 */
-      .input-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 3000; display: none; justify-content: center; align-items: center; }
-      .input-modal.active { display: flex; }
-      .input-box { background: #fff; width: 80%; max-width: 320px; border-radius: 16px; padding: 20px; text-align: center; }
-      .input-box h3 { margin: 0 0 16px 0; font-size: 18px; }
-      .input-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; margin-bottom: 20px; }
-      .input-box button { width: 100%; padding: 12px; background: #007aff; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+      /* 命名页样式 */
+      .name-card { background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; }
+      .name-input { width: 100%; padding: 16px; border: none; font-size: 17px; outline: none; box-sizing: border-box; background: transparent; }
 
-      /* =========================================
-         开屏动画
-         ========================================= */
-      #splash-screen {
-        position: fixed; inset: 0; background-color: #ffffff; z-index: 9999;
-        display: flex; justify-content: center; align-items: center; transition: opacity 0.6s ease, visibility 0.6s ease;
-      }
-      #splash-screen.hidden { opacity: 0; visibility: hidden; }
-      .logo-container { width: 140px; height: 140px; color: #000000; overflow: visible; }
-      .box-middle { transform-origin: 50px 50px; animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; }
-      .box-inner { transform-origin: 50px 50px; animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; }
-      @keyframes explode-middle { 0% { transform: translate(0, 0) rotate(0); } 100% { transform: translate(-10px, 6px) rotate(-12deg); } }
-      @keyframes explode-inner { 0% { transform: translate(0, 0) rotate(0); } 100% { transform: translate(-20px, 12px) rotate(-22deg); } }
     </style>
   </head>
   <body>
     
-    <div id="splash-screen">
-      <svg class="logo-container" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect class="box-outer" x="12" y="12" width="76" height="76" rx="22" stroke="currentColor" stroke-width="5" />
-        <rect class="box-middle" x="24" y="24" width="52" height="52" rx="16" stroke="currentColor" stroke-width="5" />
-        <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="5" />
-      </svg>
-    </div>
-
     <div id="main-app">
       <div class="header">
         <h1>PC on iPhone</h1>
@@ -238,7 +219,7 @@
       </div>
     </div>
 
-    <!-- 新建虚拟机半屏卡片 -->
+    <!-- 💡 新建虚拟机半屏卡片 -->
     <div id="new-vm-overlay" onclick="handleOverlayClick(event)">
       <div id="new-vm-modal" onclick="event.stopPropagation()">
         
@@ -331,29 +312,26 @@
             </div>
           </div>
 
-          <!-- 💡 页面 4：启动映像配置（动态渲染） -->
+          <!-- 💡 页面 4：启动映像配置 -->
           <div id="page-boot" class="wizard-page">
             <div id="boot-content"></div>
+          </div>
+
+          <!-- 💡 页面 5：命名完成 -->
+          <div id="page-name" class="wizard-page">
+            <div class="section-title">名称</div>
+            <div class="name-card">
+              <input type="text" id="vm-name-input" class="name-input" placeholder="输入虚拟机名称" />
+            </div>
           </div>
 
         </div>
       </div>
     </div>
 
-    <!-- 输入名字弹窗 -->
-    <div class="input-modal" id="input-modal">
-      <div class="input-box">
-        <h3 id="input-modal-title">新建虚拟机</h3>
-        <input type="text" id="vm-name-input" placeholder="输入虚拟机名称" />
-        <button onclick="confirmCreateVM()">创建</button>
-      </div>
-    </div>
-
     <script>
-      window.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => { document.getElementById('splash-screen').classList.add('hidden'); }, 1500); 
-        loadVMs(); 
-      });
+      // 直接加载列表，不需要开屏动画了（因为上面去掉了）
+      loadVMs(); 
 
       let vms = JSON.parse(localStorage.getItem('pc_vms')) || [];
       let isEditMode = false;
@@ -393,6 +371,7 @@
       function openNewVMModal() {
         document.getElementById('new-vm-overlay').classList.add('active');
         goToPage('start');
+        document.getElementById('vm-name-input').value = ''; // 清空输入框
       }
 
       function closeNewVMModal() {
@@ -403,7 +382,7 @@
         if (e.target.id === 'new-vm-overlay') closeNewVMModal();
       }
 
-      // 💡 统一页面跳转与状态管理
+      // 页面跳转控制逻辑
       function goToPage(pageId) {
         const container = document.getElementById('page-container');
         const navLeft = document.getElementById('nav-btn-left');
@@ -412,7 +391,7 @@
         const progressFill = document.getElementById('progress-fill');
         const progressText = document.getElementById('progress-text');
 
-        container.classList.remove('show-os', 'show-hardware', 'show-boot');
+        container.classList.remove('show-os', 'show-hardware', 'show-boot', 'show-name');
 
         if (pageId === 'start') {
           currentStep = 1;
@@ -446,6 +425,20 @@
           progressFill.style.width = '30%'; progressText.textContent = 'Step 1 of 5 · 系统'; // 原程序进度条退回 Step 1
           renderBootPage();
         }
+        else if (pageId === 'name') {
+          currentStep = 5;
+          container.classList.add('show-name');
+          title.textContent = '命名';
+          navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+          navRight.style.display = 'block'; navRight.innerHTML = '创建';
+          progressFill.style.width = '100%'; progressText.textContent = 'Step 5 of 5 · 完成';
+          
+          // 给个默认名字
+          if (document.getElementById('vm-name-input').value === '') {
+            document.getElementById('vm-name-input').value = `New ${selectedOS}`;
+          }
+          setTimeout(() => document.getElementById('vm-name-input').focus(), 300);
+        }
       }
 
       function handleNavLeft() {
@@ -453,11 +446,13 @@
         else if (currentStep === 2) goToPage('start');
         else if (currentStep === 3) goToPage('os');
         else if (currentStep === 4) goToPage('hardware');
+        else if (currentStep === 5) goToPage('boot');
       }
 
       function handleNavRight() {
         if (currentStep === 3) goToPage('boot');
-        if (currentStep === 4) promptCreateVM();
+        if (currentStep === 4) goToPage('name');
+        if (currentStep === 5) confirmCreateVM();
       }
 
       function selectOS(osType) {
@@ -493,7 +488,7 @@
         goToPage('hardware');
       }
 
-      // 💡 动态渲染启动配置页面
+      // 动态渲染启动配置页面
       function renderBootPage() {
         const bootContent = document.getElementById('boot-content');
         let html = '';
@@ -569,7 +564,6 @@
           `;
         }
         bootContent.innerHTML = html;
-        // 重置滚动条
         document.getElementById('page-boot').scrollTop = 0;
       }
 
@@ -589,12 +583,7 @@
       function updateMemoryValue(val) { document.getElementById('memory-input').value = val; }
       function updateSlider(val) { document.getElementById('memory-slider').value = val; }
 
-      function promptCreateVM() {
-        document.getElementById('input-modal-title').textContent = `新建 ${selectedOS} 虚拟机`;
-        document.getElementById('input-modal').classList.add('active');
-        document.getElementById('vm-name-input').focus();
-      }
-
+      // 最后的创建逻辑
       function confirmCreateVM() {
         const name = document.getElementById('vm-name-input').value.trim();
         if (!name) return alert('请输入名称');
@@ -608,7 +597,6 @@
         vms.push({ name, type: selectedOS, icon, color, desc });
         localStorage.setItem('pc_vms', JSON.stringify(vms)); 
         
-        document.getElementById('input-modal').classList.remove('active');
         document.getElementById('vm-name-input').value = '';
         closeNewVMModal();
         loadVMs();
