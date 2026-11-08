@@ -19,6 +19,7 @@ export default defineConfig({
         fandback: resolve(__dirname, "fandback.html"),
         gallery: resolve(__dirname, "gallery.html"),
         about: resolve(__dirname, "about.html"),
+        experience: resolve(__dirname, "experience.html"),
       },
     },
   },
