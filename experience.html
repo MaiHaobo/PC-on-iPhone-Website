@@ -107,7 +107,6 @@
 
       .page-container { flex: 1; position: relative; overflow: hidden; }
       
-      /* 💡 终极页面隔离 */
       .wizard-page { 
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         display: flex; flex-direction: column; overflow-y: auto; 
@@ -116,7 +115,6 @@
         transform: translateX(100%);
         transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
       }
-      /* 💡 防止列表被强行压缩 */
       .wizard-page > * { flex-shrink: 0; }
       .wizard-page::-webkit-scrollbar { display: none; }
 
@@ -442,18 +440,30 @@
         }
       }
 
+      // 💡 这里修复了连发误触！
       function handleNavLeft() {
-        if (currentStep === 1) closeNewVMModal();
-        else if (currentStep === 2) goToPage('start');
-        else if (currentStep === 3) goToPage('os');
-        else if (currentStep === 4) goToPage('hardware');
-        else if (currentStep === 5) goToPage('boot');
+        if (currentStep === 1) {
+          closeNewVMModal();
+        } else if (currentStep === 2) {
+          goToPage('start');
+        } else if (currentStep === 3) {
+          goToPage('os');
+        } else if (currentStep === 4) {
+          goToPage('hardware');
+        } else if (currentStep === 5) {
+          goToPage('boot');
+        }
       }
 
+      // 💡 这里修复了直接跳过的 Bug！
       function handleNavRight() {
-        if (currentStep === 3) goToPage('boot');
-        if (currentStep === 4) goToPage('name');
-        if (currentStep === 5) confirmCreateVM();
+        if (currentStep === 3) {
+          goToPage('boot');
+        } else if (currentStep === 4) {
+          goToPage('name');
+        } else if (currentStep === 5) {
+          confirmCreateVM();
+        }
       }
 
       function selectOS(osType) {
