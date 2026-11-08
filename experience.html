@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>网页版体验 - PC on iPhone</title>
+    <link rel="icon" href="/logo.PNG" type="image/png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      body, html {
+        margin: 0; padding: 0; width: 100vw; height: 100dvh; overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #0f172a;
+      }
+
+      /* =========================================
+         💡 开屏动画遮罩层
+         ========================================= */
+      #splash-screen {
+        position: fixed;
+        inset: 0;
+        background-color: #ffffff; 
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.6s ease, visibility 0.6s ease;
+      }
+      
+      #splash-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      /* =========================================
+         💡 核心 SVG 矢量动画（解构散开效果）
+         ========================================= */
+      .logo-container {
+        width: 120px;
+        height: 120px;
+        color: #1d1d1f; /* 黑灰色线条 */
+        margin-bottom: 24px;
+      }
+
+      /* 最外层大方框：保持静止，作为底座 */
+      .box-outer {
+        transform-origin: 50% 50%;
+      }
+
+      /* 中间方框：从中心向外散开，并顺时针旋转 */
+      .box-middle {
+        transform-origin: 50% 50%;
+        animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards;
+      }
+
+      /* 最内层小方框：从中心向外散开更远，并大幅度旋转 */
+      .box-inner {
+        transform-origin: 50% 50%;
+        animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards;
+      }
+
+      /* 中心圆点：一开始存在，散开时淡出消失 */
+      .dot-center {
+        animation: fade-out-dot 0.5s ease 0.3s forwards;
+      }
+
+      /* --- 动画关键帧 --- */
+      /* 中层：向右侧上方散开 */
+      @keyframes explode-middle {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(12px, -10px) rotate(12deg); }
+      }
+
+      /* 内层：向右侧下方散开 */
+      @keyframes explode-inner {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(18px, 14px) rotate(20deg); }
+      }
+
+      /* 中心点消散 */
+      @keyframes fade-out-dot {
+        0% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0; transform: scale(0.5); }
+      }
+
+      /* 文字动画 */
+      #splash-screen p {
+        color: #86868b;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        animation: fade-in 0.5s ease forwards;
+        opacity: 0;
+      }
+
+      @keyframes fade-in {
+        to { opacity: 1; }
+      }
+
+      /* === 下面是你原本的桌面样式 === */
+      .desktop {
+        width: 100%; height: 100%;
+        background-image:
+          radial-gradient(circle at 10% 10%, rgba(47, 106, 224, 0.4) 0%, transparent 40%),
+          radial-gradient(circle at 90% 90%, rgba(122, 63, 242, 0.4) 0%, transparent 40%);
+        background-color: #0f172a;
+        position: relative;
+      }
+
+      .status-bar {
+        position: absolute; top: 0; left: 0; right: 0; height: 44px;
+        background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+        color: #fff; display: flex; justify-content: space-between; align-items: center;
+        padding: 0 20px; font-size: 14px; font-weight: 600; z-index: 100;
+      }
+
+      .desktop-icons {
+        display: flex; flex-direction: column; gap: 20px; padding: 60px 20px 20px; width: 80px;
+      }
+      .icon {
+        display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .icon:active { transform: scale(0.9); }
+      .icon img {
+        width: 54px; height: 54px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        background: #fff;
+      }
+      .icon span { color: #fff; font-size: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+
+      .dock {
+        position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px);
+        border-radius: 24px; padding: 10px 20px; display: flex; gap: 16px;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.5);
+        z-index: 100;
+      }
+      .dock-icon {
+        width: 44px; height: 44px; border-radius: 12px; background: #fff;
+        display: flex; justify-content: center; align-items: center; font-size: 24px;
+        cursor: pointer; transition: transform 0.2s;
+      }
+      .dock-icon:hover { transform: translateY(-5px); }
+
+      .window {
+        position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+        width: 90%; max-width: 600px; height: 60vh; max-height: 500px;
+        background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px) saturate(1.5);
+        border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.8);
+        display: none; flex-direction: column; overflow: hidden; z-index: 101;
+        animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+
+      @keyframes popIn {
+        from { opacity: 0; transform: translateX(-50%) scale(0.9); }
+        to { opacity: 1; transform: translateX(-50%) scale(1); }
+      }
+
+      .window.active { display: flex; }
+
+      .window-header {
+        height: 40px; background: rgba(255, 255, 255, 0.5); border-bottom: 1px solid rgba(0,0,0,0.1);
+        display: flex; justify-content: space-between; align-items: center; padding: 0 16px;
+        cursor: grab; user-select: none;
+      }
+      .window-header:active { cursor: grabbing; }
+      .window-title { font-weight: 600; font-size: 14px; color: #333; }
+      .window-close {
+        width: 14px; height: 14px; border-radius: 50%; background: #ff5f56; cursor: pointer;
+        box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+      }
+
+      .window-content { padding: 20px; flex: 1; overflow-y: auto; color: #333; }
+      .window-content h2 { margin-top: 0; color: #1a1a1a; }
+    </style>
+  </head>
+  <body>
+    
+    <!-- 💡 开屏动画层 -->
+    <div id="splash-screen">
+      <!-- SVG 动画：初始状态是完美的图3，随后错位展开 -->
+      <svg class="logo-container" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 外层底座 -->
+        <rect class="box-outer" x="10" y="10" width="80" height="80" rx="20" stroke="currentColor" stroke-width="5" />
+        <!-- 中层 (带展开动画) -->
+        <rect class="box-middle" x="26" y="26" width="48" height="48" rx="14" stroke="currentColor" stroke-width="5" />
+        <!-- 内层 (带展开动画) -->
+        <rect class="box-inner" x="40" y="40" width="20" height="20" rx="6" stroke="currentColor" stroke-width="5" />
+        <!-- 中心点 (带淡出动画) -->
+        <circle class="dot-center" cx="50" cy="50" r="3" fill="currentColor" />
+      </svg>
+      <p>PC on iPhone</p>
+    </div>
+
+    <!-- 真正的桌面容器 -->
+    <div class="desktop" id="desktop">
+      
+      <div class="status-bar">
+        <span>PC on iPhone</span>
+        <span>100% 🔋</span>
+      </div>
+
+      <div class="desktop-icons">
+        <div class="icon" onclick="openWindow('about-app')">
+          <img src="/logo.PNG" alt="App" />
+          <span>PC on iPhone</span>
+        </div>
+        <div class="icon" onclick="openWindow('readme')">
+          <div class="dock-icon" style="width:54px;height:54px;font-size:28px;background:#4a5568;color:#fff;">📄</div>
+          <span>说明文档</span>
+        </div>
+      </div>
+
+      <div class="window" id="win-about-app">
+        <div class="window-header" id="drag-about-app">
+          <span class="window-title">PC on iPhone</span>
+          <div class="window-close" onclick="closeWindow('about-app')"></div>
+        </div>
+        <div class="window-content">
+          <h2>欢迎体验网页版</h2>
+          <p>这是一个基于 Web 技术模拟的桌面环境。</p>
+          <p>在真实的 App 中，你将体验到基于 QEMU 的完整系统模拟，支持安装 Windows、Linux 等真正的操作系统。</p>
+          <br>
+          <a href="./download.html" class="btn btn--primary">前往下载真实应用</a>
+        </div>
+      </div>
+
+      <div class="window" id="win-readme">
+        <div class="window-header" id="drag-readme">
+          <span class="window-title">README.md</span>
+          <div class="window-close" onclick="closeWindow('readme')"></div>
+        </div>
+        <div class="window-content">
+          <h2>网页版开发计划</h2>
+          <ul>
+            <li>✅ 实现毛玻璃桌面 UI</li>
+            <li>✅ 支持移动端触摸拖拽</li>
+            <li>✅ 加入“解构展开”矢量动画</li>
+            <li>⬜ 加入更多可运行的小游戏</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dock">
+        <div class="dock-icon" onclick="openWindow('about-app')">
+          <img src="/logo.PNG" style="width: 32px; height: 32px;" />
+        </div>
+        <div class="dock-icon" onclick="openWindow('readme')" style="background: #e2e8f0;">📄</div>
+      </div>
+
+    </div>
+
+    <script>
+      // 处理开屏动画的消失
+      window.addEventListener('DOMContentLoaded', () => {
+        // 0.3s静止 + 0.8s散开 + 0.4s停留 = 1.5s
+        setTimeout(() => {
+          const splash = document.getElementById('splash-screen');
+          if (splash) {
+            splash.classList.add('hidden');
+          }
+        }, 1500); 
+      });
+
+      // 桌面窗口逻辑
+      function openWindow(id) {
+        document.querySelectorAll('.window').forEach(win => win.classList.remove('active'));
+        const win = document.getElementById('win-' + id);
+        if (win) {
+          win.classList.add('active');
+          win.style.left = '50%';
+          win.style.top = '80px';
+        }
+      }
+
+      function closeWindow(id) {
+        document.getElementById('win-' + id).classList.remove('active');
+      }
+
+      function makeDraggable(windowId, headerId) {
+        const win = document.getElementById(windowId);
+        const header = document.getElementById(headerId);
+        let isDragging = false;
+        let startX, startY, initialLeft, initialTop;
+
+        const startDrag = (e) => {
+          if (win.classList.contains('active')) {
+            isDragging = true;
+            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            const rect = win.getBoundingClientRect();
+            initialLeft = rect.left;
+            initialTop = rect.top;
+            win.style.transform = 'none';
+            win.style.left = initialLeft + 'px';
+            win.style.top = initialTop + 'px';
+            startX = clientX;
+            startY = clientY;
+            e.preventDefault(); 
+          }
+        };
+
+        const onDrag = (e) => {
+          if (!isDragging) return;
+          const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+          const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+          const dx = clientX - startX;
+          const dy = clientY - startY;
+          win.style.left = `${initialLeft + dx}px`;
+          win.style.top = `${initialTop + dy}px`;
+        };
+
+        const stopDrag = () => { isDragging = false; };
+
+        header.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', stopDrag);
+
+        header.addEventListener('touchstart', startDrag, { passive: false });
+        document.addEventListener('touchmove', onDrag, { passive: false });
+        document.addEventListener('touchend', stopDrag);
+      }
+
+      makeDraggable('win-about-app', 'drag-about-app');
+      makeDraggable('win-readme', 'drag-readme');
+
+      window.onload = () => {
+        setTimeout(() => {
+          openWindow('about-app');
+        }, 1800); 
+      };
+    </script>
+  </body>
+</html>
