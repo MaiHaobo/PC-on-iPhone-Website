@@ -32,7 +32,6 @@
       
       .vm-item {
         display: flex; align-items: center; padding: 16px; border-bottom: 1px solid #e5e5ea;
-        transition: background 0.2s;
       }
       .vm-item:last-child { border-bottom: none; }
       .vm-item:active { background: #f9f9f9; }
@@ -42,15 +41,10 @@
       .vm-title { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
       .vm-desc { font-size: 14px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
       
-      .play-btn {
-        width: 32px; height: 32px; background: #000; border-radius: 50%;
-        display: flex; justify-content: center; align-items: center;
-      }
+      .play-btn { width: 32px; height: 32px; background: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
       .play-btn svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
-      .delete-btn {
-        display: none; background: #ff3b30; color: #fff; border: none; border-radius: 50%;
-        width: 24px; height: 24px; font-weight: bold; font-size: 14px; margin-right: 12px; cursor: pointer;
-      }
+      
+      .delete-btn { display: none; background: #ff3b30; color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; font-weight: bold; font-size: 14px; margin-right: 12px; cursor: pointer; }
       .edit-mode .delete-btn { display: block; }
       .edit-mode .play-btn { display: none; }
 
@@ -79,16 +73,21 @@
       #new-vm-overlay.active { display: flex; }
 
       #new-vm-modal {
-        width: 100%; height: 94dvh; background-color: #f2f2f7; 
-        border-radius: 20px 20px 0 0; display: flex; flex-direction: column;
+        width: 100%; 
+        height: 96dvh; /* 稍微拉高一点，避免底部被挤压 */
+        background-color: #f2f2f7; 
+        border-radius: 20px 20px 0 0; 
+        display: flex; flex-direction: column;
         padding: 10px 16px calc(20px + env(safe-area-inset-bottom));
         box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
         animation: slide-up-sheet 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        box-sizing: border-box; overflow: hidden; position: relative;
+        box-sizing: border-box; 
+        overflow: hidden; 
+        position: relative;
       }
       @keyframes slide-up-sheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-      .nav-bar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; height: 44px; }
+      .nav-bar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; height: 44px; flex-shrink: 0; }
       .nav-btn {
         background: #ffffff; border: none; cursor: pointer; color: #000;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center;
@@ -98,24 +97,26 @@
       .nav-btn.right-btn { padding: 8px 18px; border-radius: 20px; font-size: 16px; color: #007aff; font-weight: 500; display: none; }
       .nav-btn.back-mode { width: 40px; height: 40px; border-radius: 50%; padding: 0; }
 
-      .wizard-title { font-size: 34px; font-weight: 700; margin: 10px 0 20px 4px; transition: opacity 0.3s; }
+      .wizard-title { font-size: 34px; font-weight: 700; margin: 10px 0 20px 4px; flex-shrink: 0; }
 
-      .progress-card { background: #ffffff; border-radius: 16px; padding: 16px; margin-bottom: 24px; }
+      .progress-card { background: #ffffff; border-radius: 16px; padding: 16px; margin-bottom: 24px; flex-shrink: 0; }
       .progress-bar-bg { height: 4px; background: #e5e5ea; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
       .progress-bar-fill { height: 100%; width: 20%; background: #007aff; border-radius: 2px; transition: width 0.3s ease; }
       .progress-text { font-size: 15px; color: #8e8e93; }
 
+      /* 💡 核心修复：彻底干掉 flex 滑动，改用纯原生 block 滚动 */
       .page-container { flex: 1; position: relative; overflow: hidden; }
       
       .wizard-page { 
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        display: flex; flex-direction: column; overflow-y: auto; 
-        -webkit-overflow-scrolling: touch; padding-bottom: 20px;
+        overflow-y: auto; 
+        -webkit-overflow-scrolling: touch; 
+        padding-bottom: 40px; /* 底部留白，不拥挤 */
+        
         opacity: 0; visibility: hidden; pointer-events: none;
         transform: translateX(100%);
         transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
       }
-      .wizard-page > * { flex-shrink: 0; }
       .wizard-page::-webkit-scrollbar { display: none; }
 
       #page-start { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
@@ -132,11 +133,13 @@
       .show-name #page-boot { transform: translateX(-30%); opacity: 0; visibility: hidden; }
       .show-name #page-name { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
 
+      /* 通用卡片样式 */
       .section-title { font-size: 17px; color: #8e8e93; margin: 0 0 8px 16px; font-weight: 500; }
       .list-group { background: #ffffff; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
       .list-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; cursor: pointer; border-bottom: 1px solid #e5e5ea; font-size: 17px; font-weight: 500; }
       .list-row:last-child { border-bottom: none; }
       .list-row:active { background: #f9f9f9; }
+      
       .list-icon { width: 32px; height: 32px; margin-right: 16px; display: flex; justify-content: center; align-items: center; color: #000; }
       .list-text h3 { margin: 0; font-size: 18px; font-weight: 500; color: #000; }
       .list-text p { margin: 4px 0 0 0; font-size: 14px; color: #8e8e93; }
@@ -216,7 +219,7 @@
       </div>
     </div>
 
-    <!-- 💡 新建虚拟机半屏卡片 -->
+    <!-- 新建虚拟机半屏卡片 -->
     <div id="new-vm-overlay" onclick="handleOverlayClick(event)">
       <div id="new-vm-modal" onclick="event.stopPropagation()">
         
@@ -327,7 +330,6 @@
     </div>
 
     <script>
-      // 强制防止缓存
       window.addEventListener('DOMContentLoaded', () => {
         loadVMs(); 
         document.getElementById('vm-name-input').value = ''; 
@@ -382,7 +384,6 @@
         if (e.target.id === 'new-vm-overlay') closeNewVMModal();
       }
 
-      // 💡 极其严谨的页面跳转逻辑
       function goToPage(pageId) {
         const container = document.getElementById('page-container');
         const navLeft = document.getElementById('nav-btn-left');
@@ -440,7 +441,6 @@
         }
       }
 
-      // 💡 这里修复了连发误触！
       function handleNavLeft() {
         if (currentStep === 1) {
           closeNewVMModal();
@@ -455,7 +455,6 @@
         }
       }
 
-      // 💡 这里修复了直接跳过的 Bug！
       function handleNavRight() {
         if (currentStep === 3) {
           goToPage('boot');
@@ -499,7 +498,6 @@
         goToPage('hardware');
       }
 
-      // 动态渲染启动配置页面
       function renderBootPage() {
         const bootContent = document.getElementById('boot-content');
         let html = '';
@@ -594,7 +592,6 @@
       function updateMemoryValue(val) { document.getElementById('memory-input').value = val; }
       function updateSlider(val) { document.getElementById('memory-slider').value = val; }
 
-      // 最后的创建逻辑
       function confirmCreateVM() {
         const name = document.getElementById('vm-name-input').value.trim();
         if (!name) return alert('请输入名称');
