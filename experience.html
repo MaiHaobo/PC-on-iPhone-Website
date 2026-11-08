@@ -17,21 +17,46 @@
       }
 
       /* =========================================
-         💡 开屏动画遮罩层（完美解构）
+         💡 开屏动画遮罩层（无文字版）
          ========================================= */
       #splash-screen {
         position: fixed; inset: 0; background-color: #ffffff; z-index: 9999;
-        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        display: flex; justify-content: center; align-items: center;
         transition: opacity 0.6s ease, visibility 0.6s ease;
       }
       #splash-screen.hidden { opacity: 0; visibility: hidden; }
-      .logo-container { width: 120px; height: 120px; color: #111111; margin-bottom: 20px; overflow: visible; }
-      .box-middle { transform-origin: 50% 50%; animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; }
-      .box-inner { transform-origin: 50% 50%; animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; }
-      .dot-center { animation: fade-out-dot 0.3s ease 0.4s forwards; }
-      @keyframes explode-middle { 0% { transform: translate(0, 0) rotate(0); } 100% { transform: translate(6px, -6px) rotate(12deg); } }
-      @keyframes explode-inner { 0% { transform: translate(0, 0) rotate(0); } 100% { transform: translate(12px, 8px) rotate(20deg); } }
-      @keyframes fade-out-dot { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.2); } }
+      
+      /* 容器居中，移除了底部的 margin */
+      .logo-container { 
+        width: 130px; height: 130px; color: #111111; overflow: visible; 
+      }
+      
+      /* 动画 */
+      .box-middle { 
+        transform-origin: 50% 50%; 
+        animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; 
+      }
+      .box-inner { 
+        transform-origin: 50% 50%; 
+        animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; 
+      }
+      .dot-center { 
+        animation: fade-out-dot 0.3s ease 0.4s forwards; 
+      }
+      
+      /* 微微调大了散开的幅度，更像你截图里的错位感 */
+      @keyframes explode-middle { 
+        0% { transform: translate(0, 0) rotate(0); } 
+        100% { transform: translate(8px, -6px) rotate(15deg); } 
+      }
+      @keyframes explode-inner { 
+        0% { transform: translate(0, 0) rotate(0); } 
+        100% { transform: translate(14px, 8px) rotate(25deg); } 
+      }
+      @keyframes fade-out-dot { 
+        0% { opacity: 1; transform: scale(1); } 
+        100% { opacity: 0; transform: scale(0.2); } 
+      }
 
       /* =========================================
          主界面布局
@@ -125,7 +150,7 @@
   </head>
   <body>
     
-    <!-- 💡 开屏动画层 -->
+    <!-- 💡 开屏动画层 (已删除底部文字) -->
     <div id="splash-screen">
       <svg class="logo-container" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect class="box-outer" x="12" y="12" width="76" height="76" rx="20" stroke="currentColor" stroke-width="5" />
@@ -133,7 +158,6 @@
         <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="5" />
         <circle class="dot-center" cx="50" cy="50" r="3" fill="currentColor" />
       </svg>
-      <p>PC on iPhone</p>
     </div>
 
     <!-- 主界面 -->
@@ -199,7 +223,7 @@
         setTimeout(() => {
           document.getElementById('splash-screen').classList.add('hidden');
         }, 1600); 
-        loadVMs(); // 初始化时读取本地数据
+        loadVMs(); 
       });
 
       // 2. 数据持久化逻辑 (LocalStorage)
@@ -233,7 +257,6 @@
             listEl.appendChild(item);
           });
         }
-        // 保持编辑模式 UI 状态
         if (isEditMode) listEl.classList.add('edit-mode');
       }
 
@@ -267,7 +290,7 @@
         if (selectedType === 'macOS') { icon = '🍎'; color = '#fce4ec'; desc = 'Mac99 based PowerMac'; }
 
         vms.push({ name, type: selectedType, icon, color, desc });
-        localStorage.setItem('pc_vms', JSON.stringify(vms)); // 存入浏览器
+        localStorage.setItem('pc_vms', JSON.stringify(vms)); 
         
         closeActionSheet();
         document.getElementById('vm-name-input').value = '';
@@ -289,7 +312,6 @@
         }
       }
 
-      // 点击遮罩关闭弹窗
       document.getElementById('action-modal').addEventListener('click', function(e) {
         if (e.target === this) closeActionSheet();
       });
