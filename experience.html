@@ -6,18 +6,15 @@
     <title>PC on iPhone - 网页体验版</title>
     <link rel="icon" href="/logo.PNG" type="image/png" />
     <style>
-      /* =========================================
-         全局重置与 iOS 原生底色
-         ========================================= */
       body, html {
         margin: 0; padding: 0; width: 100vw; height: 100dvh; overflow: hidden;
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
-        background-color: #f2f2f7; /* iOS 浅灰底色 */
+        background-color: #f2f2f7; 
         color: #000;
       }
 
       /* =========================================
-         💡 开屏动画遮罩层（无文字版）
+         💡 完美复刻图一的开屏动画层
          ========================================= */
       #splash-screen {
         position: fixed; inset: 0; background-color: #ffffff; z-index: 9999;
@@ -26,36 +23,35 @@
       }
       #splash-screen.hidden { opacity: 0; visibility: hidden; }
       
-      /* 容器居中，移除了底部的 margin */
+      /* 容器放大一点，留出夸张的错位空间 */
       .logo-container { 
-        width: 130px; height: 130px; color: #111111; overflow: visible; 
+        width: 140px; height: 140px; color: #000000; overflow: visible; 
       }
       
-      /* 动画 */
+      /* 
+        动画参数极大地夸张了位移和旋转，以匹配图一的狂野感 
+      */
       .box-middle { 
         transform-origin: 50% 50%; 
-        animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; 
+        animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; 
       }
       .box-inner { 
         transform-origin: 50% 50%; 
-        animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; 
-      }
-      .dot-center { 
-        animation: fade-out-dot 0.3s ease 0.4s forwards; 
+        animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; 
       }
       
-      /* 微微调大了散开的幅度，更像你截图里的错位感 */
+      /* 
+        初始是完美嵌套的，0.3秒后开始大幅度错位 
+      */
       @keyframes explode-middle { 
         0% { transform: translate(0, 0) rotate(0); } 
-        100% { transform: translate(8px, -6px) rotate(15deg); } 
+        /* 中框向右下方大幅度甩出 */
+        100% { transform: translate(18px, 10px) rotate(18deg); } 
       }
       @keyframes explode-inner { 
         0% { transform: translate(0, 0) rotate(0); } 
-        100% { transform: translate(14px, 8px) rotate(25deg); } 
-      }
-      @keyframes fade-out-dot { 
-        0% { opacity: 1; transform: scale(1); } 
-        100% { opacity: 0; transform: scale(0.2); } 
+        /* 内框向更右下方剧烈甩出，且旋转得更多 */
+        100% { transform: translate(32px, 22px) rotate(32deg); } 
       }
 
       /* =========================================
@@ -150,13 +146,15 @@
   </head>
   <body>
     
-    <!-- 💡 开屏动画层 (已删除底部文字) -->
+    <!-- 💡 完美复刻图一的开屏动画层 -->
     <div id="splash-screen">
       <svg class="logo-container" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect class="box-outer" x="12" y="12" width="76" height="76" rx="20" stroke="currentColor" stroke-width="5" />
-        <rect class="box-middle" x="26" y="26" width="48" height="48" rx="14" stroke="currentColor" stroke-width="5" />
-        <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="5" />
-        <circle class="dot-center" cx="50" cy="50" r="3" fill="currentColor" />
+        <!-- 外层 -->
+        <rect class="box-outer" x="12" y="12" width="76" height="76" rx="22" stroke="currentColor" stroke-width="7" />
+        <!-- 中层 -->
+        <rect class="box-middle" x="24" y="24" width="52" height="52" rx="16" stroke="currentColor" stroke-width="7" />
+        <!-- 内层 -->
+        <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="7" />
       </svg>
     </div>
 
@@ -171,9 +169,7 @@
 
       <!-- 虚拟机列表 -->
       <div class="list-container">
-        <div class="vm-list" id="vm-list">
-          <!-- 这里通过 JS 动态渲染 -->
-        </div>
+        <div class="vm-list" id="vm-list"></div>
         
         <!-- 空状态提示 -->
         <div class="empty-state" id="empty-state" style="display: none;">
@@ -218,15 +214,13 @@
     </div>
 
     <script>
-      // 1. 处理开屏动画
       window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           document.getElementById('splash-screen').classList.add('hidden');
-        }, 1600); 
+        }, 1500); 
         loadVMs(); 
       });
 
-      // 2. 数据持久化逻辑 (LocalStorage)
       let vms = JSON.parse(localStorage.getItem('pc_vms')) || [];
       let isEditMode = false;
       let selectedType = '';
@@ -260,7 +254,6 @@
         if (isEditMode) listEl.classList.add('edit-mode');
       }
 
-      // 3. 新建逻辑
       function openActionSheet() {
         document.getElementById('action-modal').classList.add('active');
         document.getElementById('action-sheet').style.display = 'flex';
@@ -297,7 +290,6 @@
         loadVMs();
       }
 
-      // 4. 编辑/删除逻辑
       function toggleEditMode() {
         isEditMode = !isEditMode;
         document.querySelector('.edit-btn').textContent = isEditMode ? '完成' : '编辑';
