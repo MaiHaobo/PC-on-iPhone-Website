@@ -1,550 +1,675 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>PC on iPhone - 网页体验版</title>
-  <style>
-    :root {
-      --page: #f2f2f7;
-      --ink: #000;
-      --ink-soft: #8e8e93;
-      --hairline: #e5e5ea;
-      --tint: #007aff;
-      --glass-bg: rgba(255, 255, 255, 0.85);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
-      background: var(--page);
-      color: var(--ink);
-      height: 100dvh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    /* ========== 主界面 ========== */
-    #main-app { flex: 1; display: flex; flex-direction: column; position: relative; }
-    .header {
-      padding: calc(50px + env(safe-area-inset-top)) 20px 10px;
-      display: flex; justify-content: space-between; align-items: flex-end;
-    }
-    .header h1 { font-size: 34px; font-weight: 700; letter-spacing: 0.5px; }
-    .edit-btn {
-      background: rgba(0,0,0,0.05); border: none; padding: 6px 16px;
-      border-radius: 20px; font-size: 15px; font-weight: 500;
-      cursor: pointer; color: var(--ink);
-    }
-    .list-container { flex: 1; overflow-y: auto; padding: 10px 16px 100px; }
-    .vm-list { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-    .vm-item {
-      display: flex; align-items: center; padding: 16px;
-      border-bottom: 1px solid var(--hairline);
-      transition: background 0.2s;
-    }
-    .vm-item:last-child { border-bottom: none; }
-    .vm-item:active { background: #f9f9f9; }
-    .vm-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      margin-right: 16px; display: flex; justify-content: center;
-      align-items: center; font-size: 24px;
-    }
-    .vm-info { flex: 1; }
-    .vm-title { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
-    .vm-desc { font-size: 14px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
-    .play-btn {
-      width: 32px; height: 32px; background: #000; border-radius: 50%;
-      display: flex; justify-content: center; align-items: center; flex-shrink: 0;
-    }
-    .play-btn svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
-    .delete-btn {
-      display: none; background: #ff3b30; color: #fff; border: none;
-      border-radius: 50%; width: 24px; height: 24px; font-weight: bold;
-      font-size: 14px; margin-right: 12px; cursor: pointer; flex-shrink: 0;
-    }
-    .edit-mode .delete-btn { display: block; }
-    .edit-mode .play-btn { display: none; }
-    /* ========== 底部 Tab ========== */
-    .tab-bar {
-      position: fixed; bottom: calc(20px + env(safe-area-inset-bottom));
-      left: 20px; right: 20px; height: 64px;
-      background: var(--glass-bg); backdrop-filter: blur(20px);
-      border-radius: 32px; display: flex; justify-content: space-around;
-      align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.5);
-      z-index: 100;
-    }
-    .tab-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--ink-soft); cursor: pointer; }
-    .tab-item.active { color: var(--tint); }
-    .tab-item svg { width: 24px; height: 24px; }
-    .tab-item span { font-size: 11px; font-weight: 500; }
-    /* ========== 新建向导 ========== */
-    #new-vm-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-      z-index: 1000; display: none; align-items: flex-end; justify-content: center;
-    }
-    #new-vm-overlay.active { display: flex; }
-    #new-vm-modal {
-      width: 100%; height: 96dvh; background: var(--page);
-      border-radius: 20px 20px 0 0; display: flex; flex-direction: column;
-      padding: 10px 16px calc(20px + env(safe-area-inset-bottom));
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
-      animation: slide-up 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-      overflow: hidden; position: relative;
-    }
-    @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    .nav-bar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; height: 44px; flex-shrink: 0; }
-    .nav-btn {
-      background: #fff; border: none; cursor: pointer; color: var(--ink);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex;
-      justify-content: center; align-items: center; transition: all 0.2s;
-    }
-    .nav-btn.left-btn { padding: 8px 18px; border-radius: 20px; font-size: 16px; color: var(--tint); font-weight: 500; }
-    .nav-btn.right-btn { padding: 8px 18px; border-radius: 20px; font-size: 16px; color: var(--tint); font-weight: 500; display: none; }
-    .nav-btn.back-mode { width: 40px; height: 40px; border-radius: 50%; padding: 0; }
-    .wizard-title { font-size: 34px; font-weight: 700; margin: 10px 0 20px 4px; flex-shrink: 0; }
-    .progress-card { background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; flex-shrink: 0; }
-    .progress-bar-bg { height: 4px; background: var(--hairline); border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
-    .progress-bar-fill { height: 100%; width: 20%; background: var(--tint); border-radius: 2px; transition: width 0.3s ease; }
-    .progress-text { font-size: 15px; color: var(--ink-soft); }
-    /* ========== 页面切换 ========== */
-    .page-container { flex: 1; position: relative; overflow: hidden; }
-    .wizard-page {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      overflow-y: auto; -webkit-overflow-scrolling: touch;
-      padding-bottom: 40px; opacity: 0; visibility: hidden;
-      pointer-events: none; transform: translateX(100%);
-      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .wizard-page::-webkit-scrollbar { display: none; }
-    #page-start { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
-    .show-os #page-start { transform: translateX(-30%); opacity: 0; visibility: hidden; }
-    .show-os #page-os { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
-    .show-hardware #page-start, .show-hardware #page-os { transform: translateX(-30%); opacity: 0; visibility: hidden; }
-    .show-hardware #page-hardware { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
-    .show-boot #page-hardware { transform: translateX(-30%); opacity: 0; visibility: hidden; }
-    .show-boot #page-boot { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
-    .show-name #page-boot { transform: translateX(-30%); opacity: 0; visibility: hidden; }
-    .show-name #page-name { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
-    /* ========== 通用组件 ========== */
-    .section-title { font-size: 17px; color: var(--ink-soft); margin: 0 0 8px 16px; font-weight: 500; }
-    .list-group { background: #fff; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
-    .list-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 16px; cursor: pointer; border-bottom: 1px solid var(--hairline);
-      font-size: 17px; font-weight: 500;
-    }
-    .list-row:last-child { border-bottom: none; }
-    .list-row:active { background: #f9f9f9; }
-    .list-icon { width: 32px; height: 32px; margin-right: 16px; display: flex; justify-content: center; align-items: center; }
-    .list-text h3 { margin: 0; font-size: 18px; font-weight: 500; }
-    .list-text p { margin: 4px 0 0 0; font-size: 14px; color: var(--ink-soft); }
-    .check-icon { color: var(--tint); opacity: 0; transition: opacity 0.2s; flex-shrink: 0; margin-left: 10px; }
-    .selected .check-icon { opacity: 1; }
-    /* 硬件配置 */
-    .switch-card { background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
-    .switch-label { font-size: 18px; font-weight: 500; }
-    .toggle-switch { position: relative; width: 50px; height: 30px; background: var(--hairline); border-radius: 15px; cursor: pointer; transition: background 0.3s; }
-    .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 26px; height: 26px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.3s; }
-    .toggle-switch.active { background: #34c759; }
-    .toggle-switch.active::after { transform: translateX(20px); }
-    .vm-select-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--hairline); font-size: 17px; font-weight: 500; cursor: pointer; line-height: 1.4; }
-    .vm-select-row:last-child { border-bottom: none; }
-    .memory-card, .cpu-card { background: #fff; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-    .slider-container { flex: 1; display: flex; align-items: center; }
-    input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 0; }
-    input[type=range]:focus { outline: none; }
-    input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: var(--hairline); border-radius: 3px; }
-    input[type=range]::-webkit-slider-thumb { height: 24px; width: 24px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); cursor: pointer; -webkit-appearance: none; margin-top: -9px; }
-    .memory-value-box { display: flex; align-items: center; gap: 6px; }
-    .memory-input { width: 60px; padding: 8px; border: 1px solid var(--hairline); border-radius: 8px; text-align: right; font-size: 16px; outline: none; }
-    .memory-unit { font-size: 16px; font-weight: 500; }
-    .cpu-card { justify-content: space-between; }
-    .cpu-label { font-size: 17px; font-weight: 500; }
-    .stepper-group { display: flex; align-items: center; gap: 10px; }
-    .stepper { display: flex; align-items: center; background: var(--hairline); border-radius: 10px; overflow: hidden; }
-    .stepper-btn { background: none; border: none; width: 40px; height: 36px; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-    .stepper-btn:active { background: #d1d1d6; }
-    .stepper-divider { width: 1px; height: 20px; background: #c7c7cc; }
-    .cpu-value-box { width: 60px; height: 36px; border: 1px solid var(--hairline); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 16px; color: #c7c7cc; }
-    .cpu-value-box.active { color: var(--ink); }
-    /* 启动配置 */
-    .path-card { background: #fff; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
-    .path-header { padding: 16px; border-bottom: 1px solid var(--hairline); font-size: 17px; color: var(--ink-soft); }
-    .path-action { display: flex; align-items: center; padding: 16px; cursor: pointer; color: var(--tint); font-size: 17px; font-weight: 500; border-bottom: 1px solid var(--hairline); }
-    .path-action:last-child { border-bottom: none; }
-    .path-action svg { margin-right: 12px; width: 24px; height: 24px; }
-    .tip-text { font-size: 14px; color: var(--ink-soft); margin: -12px 16px 24px; line-height: 1.4; }
-    .link-card { display: flex; align-items: center; background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; color: var(--tint); font-size: 17px; font-weight: 500; cursor: pointer; }
-    .link-card svg { width: 24px; height: 24px; margin-right: 12px; }
-    /* 命名页 */
-    .name-card { background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; }
-    .name-input { width: 100%; padding: 16px; border: none; font-size: 17px; outline: none; background: transparent; }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>PC on iPhone - 网页体验版</title>
+    <link rel="icon" href="/logo.PNG" type="image/png" />
+    <style>
+      body, html {
+        margin: 0; padding: 0; width: 100vw; height: 100dvh; overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+        background-color: #f2f2f7; 
+        color: #000;
+      }
 
-  <!-- ========== 主界面 ========== -->
-  <div id="main-app">
-    <div class="header">
-      <h1>PC on iPhone</h1>
-      <button class="edit-btn" onclick="toggleEditMode()">编辑</button>
-    </div>
-    <div class="list-container">
-      <div class="vm-list" id="vm-list"></div>
-    </div>
-    <div class="tab-bar">
-      <div class="tab-item active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-        <span>虚拟机</span>
-      </div>
-      <div class="tab-item" onclick="openNewWizard()" style="color: #000;">
-        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8M8 12h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-        <span>新建</span>
-      </div>
-      <div class="tab-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        <span>设置</span>
-      </div>
-    </div>
-  </div>
+      /* =========================================
+         💡 开屏动画遮罩层
+         ========================================= */
+      #splash-screen {
+        position: fixed; inset: 0; background-color: #ffffff; z-index: 9999;
+        display: flex; justify-content: center; align-items: center;
+        transition: opacity 0.6s ease, visibility 0.6s ease;
+      }
+      #splash-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+      
+      .logo-container { 
+        width: 140px; height: 140px; color: #000000; overflow: visible; 
+      }
+      
+      /* 初始完美嵌套，0.3秒后开始向左下方错位解构 */
+      .box-middle { 
+        transform-origin: 50px 50px; 
+        animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; 
+      }
+      .box-inner { 
+        transform-origin: 50px 50px; 
+        animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; 
+      }
+      
+      @keyframes explode-middle { 
+        0% { transform: translate(0, 0) rotate(0); } 
+        100% { transform: translate(-10px, 6px) rotate(-12deg); } 
+      }
+      @keyframes explode-inner { 
+        0% { transform: translate(0, 0) rotate(0); } 
+        100% { transform: translate(-20px, 12px) rotate(-22deg); } 
+      }
 
-  <!-- ========== 新建向导 ========== -->
-  <div id="new-vm-overlay" onclick="handleOverlayClick(event)">
-    <div id="new-vm-modal" onclick="event.stopPropagation()">
-      <div class="nav-bar-top">
-        <button id="nav-btn-left" class="nav-btn left-btn" onclick="handleNavLeft()">取消</button>
-        <button id="nav-btn-right" class="nav-btn right-btn" onclick="handleNavRight()">继续</button>
+      /* =========================================
+         主界面
+         ========================================= */
+      #main-app { width: 100%; height: 100%; display: flex; flex-direction: column; }
+      
+      .header {
+        padding: calc(50px + env(safe-area-inset-top)) 20px 10px; display: flex; justify-content: space-between; align-items: flex-end;
+      }
+      .header h1 { font-size: 34px; font-weight: 700; margin: 0; letter-spacing: 0.5px; }
+      .edit-btn {
+        background: rgba(0,0,0,0.05); border: none; padding: 6px 16px; border-radius: 20px;
+        font-size: 15px; font-weight: 500; color: #000; cursor: pointer;
+      }
+
+      .list-container { flex: 1; overflow-y: auto; padding: 10px 16px 100px; }
+      .vm-list { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+      
+      .vm-item {
+        display: flex; align-items: center; padding: 16px; border-bottom: 1px solid #e5e5ea;
+      }
+      .vm-item:last-child { border-bottom: none; }
+      .vm-item:active { background: #f9f9f9; }
+      
+      .vm-icon { width: 44px; height: 44px; border-radius: 10px; margin-right: 16px; display: flex; justify-content: center; align-items: center; font-size: 24px; }
+      .vm-info { flex: 1; }
+      .vm-title { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+      .vm-desc { font-size: 14px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+      
+      .play-btn { width: 32px; height: 32px; background: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+      .play-btn svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
+      
+      .delete-btn { display: none; background: #ff3b30; color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; font-weight: bold; font-size: 14px; margin-right: 12px; cursor: pointer; }
+      .edit-mode .delete-btn { display: block; }
+      .edit-mode .play-btn { display: none; }
+
+      /* =========================================
+         底部 Tab 栏
+         ========================================= */
+      .tab-bar {
+        position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 20px; right: 20px; height: 64px;
+        background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px);
+        border-radius: 32px; display: flex; justify-content: space-around; align-items: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.5);
+        z-index: 100;
+      }
+      .tab-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #8e8e93; cursor: pointer; }
+      .tab-item.active { color: #007aff; }
+      .tab-item svg { width: 24px; height: 24px; }
+      .tab-item span { font-size: 11px; font-weight: 500; }
+
+      /* =========================================
+         新建界面（多步向导）
+         ========================================= */
+      #new-vm-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1000;
+        display: none; align-items: flex-end; justify-content: center;
+      }
+      #new-vm-overlay.active { display: flex; }
+
+      #new-vm-modal {
+        width: 100%; 
+        height: 96dvh;
+        background-color: #f2f2f7; 
+        border-radius: 20px 20px 0 0; 
+        display: flex; flex-direction: column;
+        padding: 10px 16px calc(20px + env(safe-area-inset-bottom));
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+        animation: slide-up-sheet 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        box-sizing: border-box; 
+        overflow: hidden; 
+        position: relative;
+      }
+      @keyframes slide-up-sheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+      .nav-bar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; height: 44px; flex-shrink: 0; }
+      .nav-btn {
+        background: #ffffff; border: none; cursor: pointer; color: #000;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center;
+        transition: all 0.2s;
+      }
+      .nav-btn.left-btn { padding: 8px 18px; border-radius: 20px; font-size: 16px; color: #007aff; font-weight: 500; }
+      .nav-btn.right-btn { padding: 8px 18px; border-radius: 20px; font-size: 16px; color: #007aff; font-weight: 500; display: none; }
+      .nav-btn.back-mode { width: 40px; height: 40px; border-radius: 50%; padding: 0; }
+
+      .wizard-title { font-size: 34px; font-weight: 700; margin: 10px 0 20px 4px; flex-shrink: 0; }
+
+      .progress-card { background: #ffffff; border-radius: 16px; padding: 16px; margin-bottom: 24px; flex-shrink: 0; }
+      .progress-bar-bg { height: 4px; background: #e5e5ea; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
+      .progress-bar-fill { height: 100%; width: 20%; background: #007aff; border-radius: 2px; transition: width 0.3s ease; }
+      .progress-text { font-size: 15px; color: #8e8e93; }
+
+      /* 💡 纯 block 滚动层 */
+      .page-container { flex: 1; position: relative; overflow: hidden; }
+      
+      .wizard-page { 
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        overflow-y: auto; 
+        -webkit-overflow-scrolling: touch; 
+        padding-bottom: 40px; 
+        
+        opacity: 0; visibility: hidden; pointer-events: none;
+        transform: translateX(100%);
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .wizard-page::-webkit-scrollbar { display: none; }
+
+      #page-start { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
+      
+      .show-os #page-start { transform: translateX(-30%); opacity: 0; visibility: hidden; }
+      .show-os #page-os { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
+      
+      .show-hardware #page-start, .show-hardware #page-os { transform: translateX(-30%); opacity: 0; visibility: hidden; }
+      .show-hardware #page-hardware { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
+
+      .show-boot #page-hardware { transform: translateX(-30%); opacity: 0; visibility: hidden; }
+      .show-boot #page-boot { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
+
+      .show-name #page-boot { transform: translateX(-30%); opacity: 0; visibility: hidden; }
+      .show-name #page-name { transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto; z-index: 2; }
+
+      /* 通用卡片样式 */
+      .section-title { font-size: 17px; color: #8e8e93; margin: 0 0 8px 16px; font-weight: 500; }
+      .list-group { background: #ffffff; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
+      .list-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; cursor: pointer; border-bottom: 1px solid #e5e5ea; font-size: 17px; font-weight: 500; }
+      .list-row:last-child { border-bottom: none; }
+      .list-row:active { background: #f9f9f9; }
+      
+      .list-icon { width: 32px; height: 32px; margin-right: 16px; display: flex; justify-content: center; align-items: center; color: #000; }
+      .list-text h3 { margin: 0; font-size: 18px; font-weight: 500; color: #000; }
+      .list-text p { margin: 4px 0 0 0; font-size: 14px; color: #8e8e93; }
+      .check-icon { color: #007aff; opacity: 0; transition: opacity 0.2s; flex-shrink: 0; margin-left: 10px; }
+      .selected .check-icon { opacity: 1; }
+
+      /* 硬件配置专属样式 */
+      .switch-card { background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+      .switch-label { font-size: 18px; font-weight: 500; }
+      .toggle-switch { position: relative; width: 50px; height: 30px; background: #e5e5ea; border-radius: 15px; cursor: pointer; transition: background 0.3s; }
+      .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 26px; height: 26px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.3s; }
+      .toggle-switch.active { background: #34c759; }
+      .toggle-switch.active::after { transform: translateX(20px); }
+
+      .vm-select-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e5e5ea; font-size: 17px; font-weight: 500; cursor: pointer; line-height: 1.4; }
+      .vm-select-row:last-child { border-bottom: none; }
+      
+      .memory-card, .cpu-card { background: #fff; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+      .slider-container { flex: 1; position: relative; display: flex; align-items: center; }
+      input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 0; }
+      input[type=range]:focus { outline: none; }
+      input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: #e5e5ea; border-radius: 3px; }
+      input[type=range]::-webkit-slider-thumb { height: 24px; width: 24px; border-radius: 50%; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); cursor: pointer; -webkit-appearance: none; margin-top: -9px; }
+      .memory-value-box { display: flex; align-items: center; gap: 6px; }
+      .memory-input { width: 60px; padding: 8px; border: 1px solid #e5e5ea; border-radius: 8px; text-align: right; font-size: 16px; outline: none; }
+      .memory-unit { font-size: 16px; font-weight: 500; }
+      .cpu-card { justify-content: space-between; }
+      .cpu-label { font-size: 17px; font-weight: 500; }
+      .stepper-group { display: flex; align-items: center; gap: 10px; }
+      .stepper { display: flex; align-items: center; background: #e5e5ea; border-radius: 10px; overflow: hidden; }
+      .stepper-btn { background: none; border: none; width: 40px; height: 36px; font-size: 20px; color: #000; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+      .stepper-btn:active { background: #d1d1d6; }
+      .stepper-divider { width: 1px; height: 20px; background: #c7c7cc; }
+      .cpu-value-box { width: 60px; height: 36px; border: 1px solid #e5e5ea; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 16px; color: #c7c7cc; }
+      .cpu-value-box.active { color: #000; }
+
+      /* 启动配置专属样式 */
+      .path-card { background: #fff; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
+      .path-header { padding: 16px; border-bottom: 1px solid #e5e5ea; font-size: 17px; color: #8e8e93; }
+      .path-action { display: flex; align-items: center; padding: 16px; cursor: pointer; color: #007aff; font-size: 17px; font-weight: 500; border-bottom: 1px solid #e5e5ea; }
+      .path-action:last-child { border-bottom: none; }
+      .path-action svg { margin-right: 12px; width: 24px; height: 24px; }
+      .tip-text { font-size: 14px; color: #8e8e93; margin: -12px 16px 24px; line-height: 1.4; }
+      .link-card { display: flex; align-items: center; background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; color: #007aff; font-size: 17px; font-weight: 500; cursor: pointer; }
+      .link-card svg { width: 24px; height: 24px; margin-right: 12px; }
+
+      /* 命名页专属样式 */
+      .name-card { background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 24px; }
+      .name-input { width: 100%; padding: 16px; border: none; font-size: 17px; outline: none; box-sizing: border-box; background: transparent; }
+    </style>
+  </head>
+  <body>
+    
+    <!-- 💡 开屏动画层 -->
+    <div id="splash-screen">
+      <svg class="logo-container" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="box-outer" x="12" y="12" width="76" height="76" rx="22" stroke="currentColor" stroke-width="5" />
+        <rect class="box-middle" x="24" y="24" width="52" height="52" rx="16" stroke="currentColor" stroke-width="5" />
+        <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="5" />
+      </svg>
+    </div>
+
+    <!-- 主界面 -->
+    <div id="main-app">
+      <div class="header">
+        <h1>PC on iPhone</h1>
+        <button class="edit-btn" onclick="toggleEditMode()">编辑</button>
       </div>
-      <h1 id="wizard-title" class="wizard-title">开始</h1>
-      <div class="progress-card">
-        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
-        <div class="progress-text" id="progress-text">Step 1 of 5 · 系统</div>
+
+      <div class="list-container">
+        <div class="vm-list" id="vm-list"></div>
       </div>
-      <div class="page-container" id="page-container">
-        <!-- 页面 1: 开始 -->
-        <div id="page-start" class="wizard-page">
-          <div class="section-title">自定义</div>
-          <div class="list-group">
-            <div class="list-row" onclick="goToPage('os')">
-              <div style="display:flex; align-items:center;">
-                <div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
-                <div class="list-text"><h3>新建虚拟机</h3><p>从头开始创建一个新的虚拟机。</p></div>
+
+      <div class="tab-bar">
+        <div class="tab-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>虚拟机</span>
+        </div>
+        <div class="tab-item" onclick="openNewVMModal()" style="color: #000;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8M8 12h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>新建</span>
+        </div>
+        <div class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>设置</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新建虚拟机半屏卡片 -->
+    <div id="new-vm-overlay" onclick="handleOverlayClick(event)">
+      <div id="new-vm-modal" onclick="event.stopPropagation()">
+        
+        <div class="nav-bar-top">
+          <button id="nav-btn-left" class="nav-btn left-btn" onclick="handleNavLeft()">取消</button>
+          <button id="nav-btn-right" class="nav-btn right-btn" onclick="handleNavRight()">继续</button>
+        </div>
+        
+        <h1 id="wizard-title" class="wizard-title">开始</h1>
+
+        <div class="progress-card">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+          <div class="progress-text" id="progress-text">Step 1 of 5 · 系统</div>
+        </div>
+
+        <div class="page-container" id="page-container">
+          
+          <!-- 页面 1：开始 -->
+          <div id="page-start" class="wizard-page">
+            <div class="section-title">自定义</div>
+            <div class="list-group">
+              <div class="list-row" onclick="goToPage('os')">
+                <div style="display:flex; align-items:center;">
+                  <div class="list-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line><polyline points="8 7 10 9 8 11"></polyline><line x1="12" y1="11" x2="16" y2="11"></line></svg>
+                  </div>
+                  <div class="list-text">
+                    <h3>新建虚拟机</h3>
+                    <p>从头开始创建一个新的虚拟机。</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- 页面 2: 操作系统 -->
-        <div id="page-os" class="wizard-page">
-          <div class="section-title">预配置</div>
-          <div class="list-group">
-            <div class="list-row" onclick="selectOS('Classic Mac OS')">
-              <div style="display:flex; align-items:center;"><div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div><div class="list-text"><h3>Classic Mac OS</h3></div></div>
+
+          <!-- 页面 2：操作系统 -->
+          <div id="page-os" class="wizard-page">
+            <div class="section-title">预配置</div>
+            <div class="list-group">
+              <div class="list-row" onclick="selectOS('Classic Mac OS')">
+                <div style="display:flex; align-items:center;">
+                  <div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
+                  <div class="list-text"><h3>Classic Mac OS</h3></div>
+                </div>
+              </div>
+              <div class="list-row" onclick="selectOS('Windows')">
+                <div style="display:flex; align-items:center;">
+                  <div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg></div>
+                  <div class="list-text"><h3>Windows</h3></div>
+                </div>
+              </div>
+              <div class="list-row" onclick="selectOS('Linux')">
+                <div style="display:flex; align-items:center;">
+                  <div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7v10a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V9a7 7 0 0 0-7-7z"></path><path d="M12 2a3 3 0 0 1 3 3v2a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"></path></svg></div>
+                  <div class="list-text"><h3>Linux</h3></div>
+                </div>
+              </div>
             </div>
-            <div class="list-row" onclick="selectOS('Windows')">
-              <div style="display:flex; align-items:center;"><div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg></div><div class="list-text"><h3>Windows</h3></div></div>
-            </div>
-            <div class="list-row" onclick="selectOS('Linux')">
-              <div style="display:flex; align-items:center;"><div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7v10a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V9a7 7 0 0 0-7-7z"></path><path d="M12 2a3 3 0 0 1 3 3v2a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"></path></svg></div><div class="list-text"><h3>Linux</h3></div></div>
-            </div>
-          </div>
-          <div class="section-title">自定义</div>
-          <div class="list-group">
-            <div class="list-row" onclick="selectOS('Other')">
-              <div style="display:flex; align-items:center;"><div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div><div class="list-text"><h3>其他</h3></div></div>
-            </div>
-          </div>
-        </div>
-        <!-- 页面 3: 硬件配置 -->
-        <div id="page-hardware" class="wizard-page">
-          <div class="switch-card"><div class="switch-label">专家模式</div><div class="toggle-switch" onclick="this.classList.toggle('active')"></div></div>
-          <div class="section-title">虚拟机</div>
-          <div class="list-group" id="hardware-list-container"></div>
-          <div class="section-title">内存</div>
-          <div class="memory-card">
-            <div class="slider-container"><input type="range" min="64" max="2048" step="64" value="512" id="memory-slider" oninput="updateMemoryValue(this.value)"></div>
-            <div class="memory-value-box"><input type="number" class="memory-input" id="memory-input" value="512" oninput="updateSlider(this.value)"><span class="memory-unit">MiB</span></div>
-          </div>
-          <div class="section-title">CPU</div>
-          <div class="cpu-card">
-            <div class="cpu-label">CPU 核心</div>
-            <div class="stepper-group">
-              <div class="stepper"><button class="stepper-btn" onclick="changeCPU(-1)">−</button><div class="stepper-divider"></div><button class="stepper-btn" onclick="changeCPU(1)">+</button></div>
-              <div class="cpu-value-box" id="cpu-value-box">默认</div>
+            <div class="section-title">自定义</div>
+            <div class="list-group">
+              <div class="list-row" onclick="selectOS('Other')">
+                <div style="display:flex; align-items:center;">
+                  <div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
+                  <div class="list-text"><h3>其他</h3></div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- 页面 4: 启动配置 -->
-        <div id="page-boot" class="wizard-page"><div id="boot-content"></div></div>
-        <!-- 页面 5: 命名 -->
-        <div id="page-name" class="wizard-page">
-          <div class="section-title">名称</div>
-          <div class="name-card"><input type="text" id="vm-name-input" class="name-input" placeholder="输入虚拟机名称" /></div>
+
+          <!-- 页面 3：硬件配置 -->
+          <div id="page-hardware" class="wizard-page">
+            <div class="switch-card">
+              <div class="switch-label">专家模式</div>
+              <div class="toggle-switch" id="expert-switch" onclick="this.classList.toggle('active')"></div>
+            </div>
+            <div class="section-title">虚拟机</div>
+            <div class="list-group" id="hardware-list-container"></div>
+            <div class="section-title">内存</div>
+            <div class="memory-card">
+              <div class="slider-container"><input type="range" min="64" max="2048" step="64" value="512" id="memory-slider" oninput="updateMemoryValue(this.value)"></div>
+              <div class="memory-value-box"><input type="number" class="memory-input" id="memory-input" value="512" oninput="updateSlider(this.value)"><span class="memory-unit">MiB</span></div>
+            </div>
+            <div class="section-title">CPU</div>
+            <div class="cpu-card">
+              <div class="cpu-label">CPU 核心</div>
+              <div class="stepper-group">
+                <div class="stepper"><button class="stepper-btn" onclick="changeCPU(-1)">−</button><div class="stepper-divider"></div><button class="stepper-btn" onclick="changeCPU(1)">+</button></div>
+                <div class="cpu-value-box" id="cpu-value-box">默认</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 页面 4：启动配置 -->
+          <div id="page-boot" class="wizard-page">
+            <div id="boot-content"></div>
+          </div>
+
+          <!-- 页面 5：命名 -->
+          <div id="page-name" class="wizard-page">
+            <div class="section-title">名称</div>
+            <div class="name-card">
+              <input type="text" id="vm-name-input" class="name-input" placeholder="输入虚拟机名称" />
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    // ========== 数据持久化 ==========
-    let vms = JSON.parse(localStorage.getItem('pc_vms')) || [];
-    let isEditMode = false;
-    let selectedOS = '';
-    let selectedHardwareName = '';
-    let currentStep = 1;
-    let cpuCores = 1;
+    <script>
+      // 💡 处理开屏动画
+      window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          document.getElementById('splash-screen').classList.add('hidden');
+        }, 1500); 
+        loadVMs(); 
+        document.getElementById('vm-name-input').value = ''; 
+      });
 
-    const hardwareOptions = {
-      'Classic Mac OS': ['Macintosh Quadra 800 (1993, M68K)', 'Power Macintosh G4 (1999, PPC)'],
-      'Windows': ['Intel i440FX based PC (1996, i386)', 'Intel ICH9 based PC (2009, x86_64)', 'ARM64 virtual machine (2014, ARM64)'],
-      'Linux': ['Macintosh Quadra 800 (1993, M68K)', 'Power Macintosh G4 (1999, PPC)', 'Intel i440FX based PC (1996, i386)', 'Intel ICH9 based PC (2009, x86_64)', 'ARM64 virtual machine (2014, ARM64)', 'RISC-V64 virtual machine (2018, RISC-V64)'],
-      'Other': ['Macintosh Quadra 800 (1993, M68K)', 'Power Macintosh G4 (1999, PPC)', 'Intel i440FX based PC (1996, i386)', 'Intel ICH9 based PC (2009, x86_64)', 'ARM64 virtual machine (2014, ARM64)', 'RISC-V64 virtual machine (2018, RISC-V64)']
-    };
+      let vms = JSON.parse(localStorage.getItem('pc_vms')) || [];
+      let isEditMode = false;
+      let selectedOS = '';
+      let selectedHardwareName = '';
+      let currentStep = 1;
+      
+      let cpuCores = 1;
+      let isCpuCustom = false;
 
-    // ========== 主界面渲染 ==========
-    function loadVMs() {
-      const listEl = document.getElementById('vm-list');
-      listEl.innerHTML = '';
-      if (vms.length > 0) {
-        vms.forEach((vm, index) => {
-          const item = document.createElement('div');
-          item.className = 'vm-item';
-          item.innerHTML = `
-            <button class="delete-btn" onclick="deleteVM(${index})">-</button>
-            <div class="vm-icon" style="background: ${vm.color};">${vm.icon}</div>
-            <div class="vm-info"><div class="vm-title">${vm.name}</div><div class="vm-desc">${vm.desc}</div></div>
-            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          `;
-          listEl.appendChild(item);
-        });
+      const hardwareOptions = {
+        'Classic Mac OS': ['Macintosh Quadra 800 (1993, M68K)', 'Power Macintosh G4 (1999, PPC)'],
+        'Windows': ['Intel i440FX based PC (1996, i386)', 'Intel ICH9 based PC (2009, x86_64)', 'ARM64 virtual machine (2014, ARM64)'],
+        'Linux': ['Macintosh Quadra 800 (1993, M68K)', 'Power Macintosh G4 (1999, PPC)', 'Intel i440FX based PC (1996, i386)', 'Intel ICH9 based PC (2009, x86_64)', 'ARM64 virtual machine (2014, ARM64)', 'RISC-V64 virtual machine (2018, RISC-V64)'],
+        'Other': ['Macintosh Quadra 800 (1993, M68K)', 'Power Macintosh G4 (1999, PPC)', 'Intel i440FX based PC (1996, i386)', 'Intel ICH9 based PC (2009, x86_64)', 'ARM64 virtual machine (2014, ARM64)', 'RISC-V64 virtual machine (2018, RISC-V64)']
+      };
+
+      function loadVMs() {
+        const listEl = document.getElementById('vm-list');
+        listEl.innerHTML = '';
+        if (vms.length > 0) {
+          vms.forEach((vm, index) => {
+            const item = document.createElement('div');
+            item.className = 'vm-item';
+            item.innerHTML = `
+              <button class="delete-btn" onclick="deleteVM(${index})">-</button>
+              <div class="vm-icon" style="background: ${vm.color};">${vm.icon}</div>
+              <div class="vm-info"><div class="vm-title">${vm.name}</div><div class="vm-desc">${vm.desc}</div></div>
+              <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            `;
+            listEl.appendChild(item);
+          });
+        }
+        if (isEditMode) listEl.classList.add('edit-mode');
       }
-      if (isEditMode) listEl.classList.add('edit-mode');
-    }
 
-    function toggleEditMode() {
-      isEditMode = !isEditMode;
-      document.querySelector('.edit-btn').textContent = isEditMode ? '完成' : '编辑';
-      document.getElementById('vm-list').classList.toggle('edit-mode', isEditMode);
-    }
+      function openNewVMModal() {
+        document.getElementById('new-vm-overlay').classList.add('active');
+        goToPage('start');
+        document.getElementById('vm-name-input').value = ''; 
+      }
 
-    function deleteVM(index) {
-      if(confirm('确定删除此虚拟机吗？')) {
-        vms.splice(index, 1);
-        localStorage.setItem('pc_vms', JSON.stringify(vms));
+      function closeNewVMModal() {
+        document.getElementById('new-vm-overlay').classList.remove('active');
+      }
+      
+      function handleOverlayClick(e) {
+        if (e.target.id === 'new-vm-overlay') closeNewVMModal();
+      }
+
+      function goToPage(pageId) {
+        const container = document.getElementById('page-container');
+        const navLeft = document.getElementById('nav-btn-left');
+        const navRight = document.getElementById('nav-btn-right');
+        const title = document.getElementById('wizard-title');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+
+        container.classList.remove('show-os', 'show-hardware', 'show-boot', 'show-name');
+
+        if (pageId === 'start') {
+          currentStep = 1;
+          title.textContent = '开始';
+          navLeft.className = 'nav-btn left-btn'; navLeft.innerHTML = '取消';
+          navRight.style.display = 'none';
+          progressFill.style.width = '20%'; progressText.textContent = 'Step 1 of 5 · 系统';
+        } 
+        else if (pageId === 'os') {
+          currentStep = 2;
+          container.classList.add('show-os');
+          title.textContent = '操作系统';
+          navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+          navRight.style.display = 'none';
+          progressFill.style.width = '40%'; progressText.textContent = 'Step 2 of 5 · 系统';
+        } 
+        else if (pageId === 'hardware') {
+          currentStep = 3;
+          container.classList.add('show-hardware');
+          title.textContent = '硬件';
+          navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+          navRight.style.display = 'block'; navRight.innerHTML = '继续';
+          progressFill.style.width = '60%'; progressText.textContent = 'Step 2 of 5 · 硬件'; 
+        }
+        else if (pageId === 'boot') {
+          currentStep = 4;
+          container.classList.add('show-boot');
+          title.textContent = selectedOS; 
+          navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+          navRight.style.display = 'block'; navRight.innerHTML = '继续';
+          progressFill.style.width = '30%'; progressText.textContent = 'Step 1 of 5 · 系统'; 
+          renderBootPage();
+        }
+        else if (pageId === 'name') {
+          currentStep = 5;
+          container.classList.add('show-name');
+          title.textContent = '命名';
+          navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+          navRight.style.display = 'block'; navRight.innerHTML = '创建';
+          progressFill.style.width = '100%'; progressText.textContent = 'Step 5 of 5 · 完成';
+          
+          if (document.getElementById('vm-name-input').value === '') {
+            document.getElementById('vm-name-input').value = `New ${selectedOS}`;
+          }
+          setTimeout(() => document.getElementById('vm-name-input').focus(), 300);
+        }
+      }
+
+      function handleNavLeft() {
+        if (currentStep === 1) {
+          closeNewVMModal();
+        } else if (currentStep === 2) {
+          goToPage('start');
+        } else if (currentStep === 3) {
+          goToPage('os');
+        } else if (currentStep === 4) {
+          goToPage('hardware');
+        } else if (currentStep === 5) {
+          goToPage('boot');
+        }
+      }
+
+      function handleNavRight() {
+        if (currentStep === 3) {
+          goToPage('boot');
+        } else if (currentStep === 4) {
+          goToPage('name');
+        } else if (currentStep === 5) {
+          confirmCreateVM();
+        }
+      }
+
+      function selectOS(osType) {
+        selectedOS = osType;
+        const listContainer = document.getElementById('hardware-list-container');
+        const options = hardwareOptions[osType] || hardwareOptions['Other'];
+        
+        listContainer.innerHTML = '';
+        let defaultIndex = 3; 
+        if (osType === 'Windows') defaultIndex = 1;
+        if (osType === 'Classic Mac OS') defaultIndex = 1;
+
+        options.forEach((opt, index) => {
+          const isSelected = (index === defaultIndex);
+          if (isSelected) selectedHardwareName = opt;
+
+          const row = document.createElement('div');
+          row.className = `vm-select-row ${isSelected ? 'selected' : ''}`;
+          row.innerHTML = `
+            <span>${opt}</span>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          `;
+          row.onclick = function() {
+            document.querySelectorAll('.vm-select-row').forEach(el => el.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedHardwareName = opt;
+          };
+          listContainer.appendChild(row);
+        });
+
+        cpuCores = 1; isCpuCustom = false; updateCPUI();
+        setTimeout(() => { document.getElementById('page-hardware').scrollTop = 0; }, 50);
+        goToPage('hardware');
+      }
+
+      function renderBootPage() {
+        const bootContent = document.getElementById('boot-content');
+        let html = '';
+
+        if (selectedOS === 'Linux') {
+          html = `
+            <div class="section-title">启动映像类型</div>
+            <div class="list-group">
+              <div class="list-row"><span>从内核映像启动</span></div>
+              <div class="list-row selected"><span>从 ISO 映像启动</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <div class="list-row"><span>导入现有驱动器</span></div>
+            </div>
+            <div class="link-card">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              Ubuntu 安装指南
+            </div>
+            <div class="section-title">启动 ISO 映像</div>
+            <div class="path-card">
+              <div class="path-header">路径</div>
+              <div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>清除</div>
+              <div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>浏览...</div>
+            </div>
+          `;
+        } else if (selectedOS === 'Windows') {
+          html = `
+            <div class="section-title">启动 ISO 映像</div>
+            <div class="list-group" style="margin-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+              <div class="list-row"><span>启动设备</span></div>
+              <div class="list-row selected"><span>CD/DVD 映像</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <div class="list-row"><span>软盘映像</span></div>
+            </div>
+            <div class="path-card" style="margin-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-top: 1px solid #e5e5ea;">
+              <div class="path-header">路径</div>
+              <div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>浏览...</div>
+            </div>
+          `;
+        } else if (selectedOS === 'Classic Mac OS') {
+          html = `
+            <div class="section-title">启动 ISO 映像</div>
+            <div class="path-card">
+              <div class="path-header">路径</div>
+              <div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>浏览...</div>
+            </div>
+            <div class="tip-text">Select the installation CD image for the version of Mac OS you want to run.</div>
+            
+            <div class="section-title">Advanced Options</div>
+            <div class="list-group">
+              <div class="list-row"><span>PMU</span></div>
+              <div class="list-row selected"><span>PMU</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <div class="list-row"><span>PMU-ADB</span></div>
+              <div class="list-row"><span>CUDA</span></div>
+            </div>
+            <div class="tip-text">不同版本的 Mac OS 需要不同的 VIA 选项。</div>
+          `;
+        } else {
+          html = `
+            <div class="section-title">启动设备</div>
+            <div class="list-group">
+              <div class="list-row"><span>无</span></div>
+              <div class="list-row selected"><span>CD/DVD 映像</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <div class="list-row"><span>驱动器映像</span></div>
+            </div>
+            <div class="section-title">启动 ISO 映像</div>
+            <div class="path-card">
+              <div class="path-header">路径</div>
+              <div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>浏览...</div>
+            </div>
+            <div class="section-title">选项</div>
+            <div class="switch-card" style="margin-bottom:0;">
+              <div class="switch-label">UEFI 启动</div>
+              <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+            </div>
+          `;
+        }
+        bootContent.innerHTML = html;
+        document.getElementById('page-boot').scrollTop = 0;
+      }
+
+      function changeCPU(delta) {
+        cpuCores += delta;
+        if (cpuCores < 1) cpuCores = 1; if (cpuCores > 8) cpuCores = 8;
+        isCpuCustom = true;
+        const box = document.getElementById('cpu-value-box');
+        box.textContent = cpuCores; box.classList.add('active');
+      }
+
+      function updateCPUI() {
+        const box = document.getElementById('cpu-value-box');
+        box.textContent = '默认'; box.classList.remove('active');
+      }
+
+      function updateMemoryValue(val) { document.getElementById('memory-input').value = val; }
+      function updateSlider(val) { document.getElementById('memory-slider').value = val; }
+
+      function confirmCreateVM() {
+        const name = document.getElementById('vm-name-input').value.trim();
+        if (!name) return alert('请输入名称');
+
+        let icon = '💻'; let color = '#e5f1ff'; let desc = selectedHardwareName;
+        if (selectedOS === 'Windows') { icon = '🪟'; color = '#e5f1ff'; }
+        if (selectedOS === 'Linux') { icon = '🐧'; color = '#fff3e0'; }
+        if (selectedOS === 'Classic Mac OS') { icon = '🍎'; color = '#fce4ec'; }
+        if (selectedOS === 'Other') { icon = '💻'; color = '#e5e5ea'; }
+
+        vms.push({ name, type: selectedOS, icon, color, desc });
+        localStorage.setItem('pc_vms', JSON.stringify(vms)); 
+        
+        document.getElementById('vm-name-input').value = '';
+        closeNewVMModal();
         loadVMs();
       }
-    }
 
-    // ========== 向导流程控制 ==========
-    function openNewWizard() {
-      document.getElementById('new-vm-overlay').classList.add('active');
-      goToPage('start');
-      document.getElementById('vm-name-input').value = '';
-    }
+      function toggleEditMode() {
+        isEditMode = !isEditMode;
+        document.querySelector('.edit-btn').textContent = isEditMode ? '完成' : '编辑';
+        document.getElementById('vm-list').classList.toggle('edit-mode', isEditMode);
+      }
 
-    function closeNewWizard() {
-      document.getElementById('new-vm-overlay').classList.remove('active');
-    }
-
-    function handleOverlayClick(e) {
-      if (e.target.id === 'new-vm-overlay') closeNewWizard();
-    }
-
-    function goToPage(pageId) {
-      const container = document.getElementById('page-container');
-      const navLeft = document.getElementById('nav-btn-left');
-      const navRight = document.getElementById('nav-btn-right');
-      const title = document.getElementById('wizard-title');
-      const progressFill = document.getElementById('progress-fill');
-      const progressText = document.getElementById('progress-text');
-
-      container.classList.remove('show-os', 'show-hardware', 'show-boot', 'show-name');
-
-      if (pageId === 'start') {
-        currentStep = 1;
-        title.textContent = '开始';
-        navLeft.className = 'nav-btn left-btn'; navLeft.innerHTML = '取消';
-        navRight.style.display = 'none';
-        progressFill.style.width = '20%'; progressText.textContent = 'Step 1 of 5 · 系统';
-      } else if (pageId === 'os') {
-        currentStep = 2;
-        container.classList.add('show-os');
-        title.textContent = '操作系统';
-        navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
-        navRight.style.display = 'none';
-        progressFill.style.width = '40%'; progressText.textContent = 'Step 2 of 5 · 系统';
-      } else if (pageId === 'hardware') {
-        currentStep = 3;
-        container.classList.add('show-hardware');
-        title.textContent = '硬件';
-        navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
-        navRight.style.display = 'block'; navRight.innerHTML = '继续';
-        progressFill.style.width = '60%'; progressText.textContent = 'Step 2 of 5 · 硬件';
-      } else if (pageId === 'boot') {
-        currentStep = 4;
-        container.classList.add('show-boot');
-        title.textContent = selectedOS;
-        navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
-        navRight.style.display = 'block'; navRight.innerHTML = '继续';
-        progressFill.style.width = '30%'; progressText.textContent = 'Step 1 of 5 · 系统';
-        renderBootPage();
-      } else if (pageId === 'name') {
-        currentStep = 5;
-        container.classList.add('show-name');
-        title.textContent = '命名';
-        navLeft.className = 'nav-btn left-btn back-mode'; navLeft.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
-        navRight.style.display = 'block'; navRight.innerHTML = '创建';
-        progressFill.style.width = '100%'; progressText.textContent = 'Step 5 of 5 · 完成';
-        if (document.getElementById('vm-name-input').value === '') {
-          document.getElementById('vm-name-input').value = `New ${selectedOS}`;
+      function deleteVM(index) {
+        if(confirm('确定删除此虚拟机吗？')) {
+          vms.splice(index, 1);
+          localStorage.setItem('pc_vms', JSON.stringify(vms));
+          loadVMs();
         }
-        setTimeout(() => document.getElementById('vm-name-input').focus(), 300);
       }
-    }
-
-    function handleNavLeft() {
-      if (currentStep === 1) closeNewWizard();
-      else if (currentStep === 2) goToPage('start');
-      else if (currentStep === 3) goToPage('os');
-      else if (currentStep === 4) goToPage('hardware');
-      else if (currentStep === 5) goToPage('boot');
-    }
-
-    function handleNavRight() {
-      if (currentStep === 3) goToPage('boot');
-      else if (currentStep === 4) goToPage('name');
-      else if (currentStep === 5) confirmCreateVM();
-    }
-
-    // ========== 操作系统与硬件选择 ==========
-    function selectOS(osType) {
-      selectedOS = osType;
-      const listContainer = document.getElementById('hardware-list-container');
-      const options = hardwareOptions[osType] || hardwareOptions['Other'];
-      listContainer.innerHTML = '';
-      let defaultIndex = 3;
-      if (osType === 'Windows') defaultIndex = 1;
-      if (osType === 'Classic Mac OS') defaultIndex = 1;
-
-      options.forEach((opt, index) => {
-        const isSelected = (index === defaultIndex);
-        if (isSelected) selectedHardwareName = opt;
-        const row = document.createElement('div');
-        row.className = `vm-select-row ${isSelected ? 'selected' : ''}`;
-        row.innerHTML = `<span>${opt}</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-        row.onclick = function() {
-          document.querySelectorAll('.vm-select-row').forEach(el => el.classList.remove('selected'));
-          this.classList.add('selected');
-          selectedHardwareName = opt;
-        };
-        listContainer.appendChild(row);
-      });
-      cpuCores = 1;
-      updateCPUI();
-      setTimeout(() => { document.getElementById('page-hardware').scrollTop = 0; }, 50);
-      goToPage('hardware');
-    }
-
-    // ========== 启动配置渲染 ==========
-    function renderBootPage() {
-      const bootContent = document.getElementById('boot-content');
-      let html = '';
-      if (selectedOS === 'Linux') {
-        html = `
-          <div class="section-title">启动映像类型</div>
-          <div class="list-group">
-            <div class="list-row"><span>从内核映像启动</span></div>
-            <div class="list-row selected"><span>从 ISO 映像启动</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-            <div class="list-row"><span>导入现有驱动器</span></div>
-          </div>
-          <div class="link-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>Ubuntu 安装指南</div>
-          <div class="section-title">启动 ISO 映像</div>
-          <div class="path-card">
-            <div class="path-header">路径</div>
-            <div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>清除</div>
-            <div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>浏览...</div>
-          </div>`;
-      } else if (selectedOS === 'Windows') {
-        html = `
-          <div class="section-title">启动 ISO 映像</div>
-          <div class="list-group" style="margin-bottom:0; border-radius:16px 16px 0 0;">
-            <div class="list-row"><span>启动设备</span></div>
-            <div class="list-row selected"><span>CD/DVD 映像</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-            <div class="list-row"><span>软盘映像</span></div>
-          </div>
-          <div class="path-card" style="margin-top:0; border-radius:0 0 16px 16px; border-top:1px solid var(--hairline);">
-            <div class="path-header">路径</div>
-            <div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>浏览...</div>
-          </div>`;
-      } else if (selectedOS === 'Classic Mac OS') {
-        html = `
-          <div class="section-title">启动 ISO 映像</div>
-          <div class="path-card"><div class="path-header">路径</div><div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>浏览...</div></div>
-          <div class="tip-text">Select the installation CD image for the version of Mac OS you want to run.</div>
-          <div class="section-title">Advanced Options</div>
-          <div class="list-group">
-            <div class="list-row"><span>PMU</span></div>
-            <div class="list-row selected"><span>PMU</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-            <div class="list-row"><span>PMU-ADB</span></div>
-            <div class="list-row"><span>CUDA</span></div>
-          </div>
-          <div class="tip-text">不同版本的 Mac OS 需要不同的 VIA 选项。</div>`;
-      } else {
-        html = `
-          <div class="section-title">启动设备</div>
-          <div class="list-group">
-            <div class="list-row"><span>无</span></div>
-            <div class="list-row selected"><span>CD/DVD 映像</span><svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-            <div class="list-row"><span>驱动器映像</span></div>
-          </div>
-          <div class="section-title">启动 ISO 映像</div>
-          <div class="path-card"><div class="path-header">路径</div><div class="path-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>浏览...</div></div>
-          <div class="section-title">选项</div>
-          <div class="switch-card" style="margin-bottom:0;"><div class="switch-label">UEFI 启动</div><div class="toggle-switch" onclick="this.classList.toggle('active')"></div></div>`;
-      }
-      bootContent.innerHTML = html;
-      document.getElementById('page-boot').scrollTop = 0;
-    }
-
-    // ========== 控件交互 ==========
-    function updateMemoryValue(val) { document.getElementById('memory-input').value = val; }
-    function updateSlider(val) { document.getElementById('memory-slider').value = val; }
-
-    function changeCPU(delta) {
-      cpuCores += delta;
-      if (cpuCores < 1) cpuCores = 1;
-      if (cpuCores > 8) cpuCores = 8;
-      const box = document.getElementById('cpu-value-box');
-      box.textContent = cpuCores;
-      box.classList.add('active');
-    }
-
-    function updateCPUI() {
-      const box = document.getElementById('cpu-value-box');
-      box.textContent = '默认';
-      box.classList.remove('active');
-    }
-
-    // ========== 创建虚拟机 ==========
-    function confirmCreateVM() {
-      const name = document.getElementById('vm-name-input').value.trim();
-      if (!name) return alert('请输入名称');
-      let icon = '💻', color = '#e5f1ff', desc = selectedHardwareName;
-      if (selectedOS === 'Windows') { icon = '🪟'; color = '#e5f1ff'; }
-      if (selectedOS === 'Linux') { icon = '🐧'; color = '#fff3e0'; }
-      if (selectedOS === 'Classic Mac OS') { icon = '🍎'; color = '#fce4ec'; }
-      if (selectedOS === 'Other') { icon = '💻'; color = '#e5e5ea'; }
-      vms.push({ name, type: selectedOS, icon, color, desc });
-      localStorage.setItem('pc_vms', JSON.stringify(vms));
-      document.getElementById('vm-name-input').value = '';
-      closeNewWizard();
-      loadVMs();
-    }
-
-    // ========== 初始化 ==========
-    window.addEventListener('DOMContentLoaded', () => {
-      loadVMs();
-      document.getElementById('vm-name-input').value = '';
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
