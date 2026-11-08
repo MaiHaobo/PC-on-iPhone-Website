@@ -37,10 +37,11 @@
          💡 核心 SVG 矢量动画（解构散开效果）
          ========================================= */
       .logo-container {
-        width: 120px;
-        height: 120px;
-        color: #1d1d1f; /* 黑灰色线条 */
-        margin-bottom: 24px;
+        width: 130px;
+        height: 130px;
+        color: #111111; /* 纯黑更显干练 */
+        margin-bottom: 20px;
+        overflow: visible;
       }
 
       /* 最外层大方框：保持静止，作为底座 */
@@ -48,49 +49,46 @@
         transform-origin: 50% 50%;
       }
 
-      /* 中间方框：从中心向外散开，并顺时针旋转 */
+      /* 中间方框：向右上方散开，并顺时针旋转 */
       .box-middle {
         transform-origin: 50% 50%;
-        animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards;
+        animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards;
       }
 
-      /* 最内层小方框：从中心向外散开更远，并大幅度旋转 */
+      /* 最内层小方框：向右下方散开，并大幅度旋转 */
       .box-inner {
         transform-origin: 50% 50%;
-        animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards;
+        animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards;
       }
 
-      /* 中心圆点：一开始存在，散开时淡出消失 */
+      /* 中心圆点：一开始存在，散开时迅速淡出 */
       .dot-center {
-        animation: fade-out-dot 0.5s ease 0.3s forwards;
+        animation: fade-out-dot 0.3s ease 0.4s forwards;
       }
 
-      /* --- 动画关键帧 --- */
-      /* 中层：向右侧上方散开 */
+      /* --- 动画关键帧 (模拟你截图最后一针的错位) --- */
       @keyframes explode-middle {
         0% { transform: translate(0, 0) rotate(0deg); }
-        100% { transform: translate(12px, -10px) rotate(12deg); }
+        100% { transform: translate(6px, -6px) rotate(12deg); }
       }
 
-      /* 内层：向右侧下方散开 */
       @keyframes explode-inner {
         0% { transform: translate(0, 0) rotate(0deg); }
-        100% { transform: translate(18px, 14px) rotate(20deg); }
+        100% { transform: translate(12px, 8px) rotate(20deg); }
       }
 
-      /* 中心点消散 */
       @keyframes fade-out-dot {
         0% { opacity: 1; transform: scale(1); }
-        100% { opacity: 0; transform: scale(0.5); }
+        100% { opacity: 0; transform: scale(0.2); }
       }
 
       /* 文字动画 */
       #splash-screen p {
         color: #86868b;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 600;
         letter-spacing: 2px;
-        animation: fade-in 0.5s ease forwards;
+        animation: fade-in 0.6s ease 0.2s forwards;
         opacity: 0;
       }
 
@@ -179,15 +177,15 @@
     
     <!-- 💡 开屏动画层 -->
     <div id="splash-screen">
-      <!-- SVG 动画：初始状态是完美的图3，随后错位展开 -->
+      <!-- 调整了viewBox比例和方块坐标，让错位效果更接近截图 -->
       <svg class="logo-container" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <!-- 外层底座 -->
-        <rect class="box-outer" x="10" y="10" width="80" height="80" rx="20" stroke="currentColor" stroke-width="5" />
-        <!-- 中层 (带展开动画) -->
+        <rect class="box-outer" x="12" y="12" width="76" height="76" rx="20" stroke="currentColor" stroke-width="5" />
+        <!-- 中层 -->
         <rect class="box-middle" x="26" y="26" width="48" height="48" rx="14" stroke="currentColor" stroke-width="5" />
-        <!-- 内层 (带展开动画) -->
-        <rect class="box-inner" x="40" y="40" width="20" height="20" rx="6" stroke="currentColor" stroke-width="5" />
-        <!-- 中心点 (带淡出动画) -->
+        <!-- 内层 -->
+        <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="5" />
+        <!-- 中心点 -->
         <circle class="dot-center" cx="50" cy="50" r="3" fill="currentColor" />
       </svg>
       <p>PC on iPhone</p>
@@ -254,13 +252,13 @@
     <script>
       // 处理开屏动画的消失
       window.addEventListener('DOMContentLoaded', () => {
-        // 0.3s静止 + 0.8s散开 + 0.4s停留 = 1.5s
+        // 0.4s起始延迟 + 0.8s散开 + 0.3s定格 = 1.5s 后淡出
         setTimeout(() => {
           const splash = document.getElementById('splash-screen');
           if (splash) {
             splash.classList.add('hidden');
           }
-        }, 1500); 
+        }, 1600); 
       });
 
       // 桌面窗口逻辑
