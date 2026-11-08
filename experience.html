@@ -27,7 +27,6 @@
         width: 140px; height: 140px; color: #000000; overflow: visible; 
       }
       
-      /* 精准控制旋转中心为整个 SVG 画布的中心 (50, 50) */
       .box-middle { 
         transform-origin: 50px 50px; 
         animation: explode-middle 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; 
@@ -37,17 +36,12 @@
         animation: explode-inner 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; 
       }
       
-      /* 
-        向左下方错位 + 逆时针旋转
-      */
       @keyframes explode-middle { 
         0% { transform: translate(0, 0) rotate(0); } 
-        /* 向左平移，略微向下，逆时针旋转 */
         100% { transform: translate(-10px, 6px) rotate(-12deg); } 
       }
       @keyframes explode-inner { 
         0% { transform: translate(0, 0) rotate(0); } 
-        /* 向左平移更多，向下更多，逆时针旋转角度更大 */
         100% { transform: translate(-20px, 12px) rotate(-22deg); } 
       }
 
@@ -93,9 +87,6 @@
       }
       .edit-mode .delete-btn { display: block; }
       .edit-mode .play-btn { display: none; }
-
-      /* 空状态 */
-      .empty-state { text-align: center; padding-top: 80px; color: #8e8e93; font-size: 16px; }
 
       /* =========================================
          底部 Tab 栏
@@ -146,11 +137,8 @@
     <!-- 💡 开屏动画层 -->
     <div id="splash-screen">
       <svg class="logo-container" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- 外层 -->
         <rect class="box-outer" x="12" y="12" width="76" height="76" rx="22" stroke="currentColor" stroke-width="5" />
-        <!-- 中层 -->
         <rect class="box-middle" x="24" y="24" width="52" height="52" rx="16" stroke="currentColor" stroke-width="5" />
-        <!-- 内层 -->
         <rect class="box-inner" x="38" y="38" width="24" height="24" rx="8" stroke="currentColor" stroke-width="5" />
       </svg>
     </div>
@@ -164,15 +152,9 @@
         <button class="edit-btn" onclick="toggleEditMode()">编辑</button>
       </div>
 
-      <!-- 虚拟机列表 -->
+      <!-- 虚拟机列表 (如果没有数据，这里将完全空白) -->
       <div class="list-container">
         <div class="vm-list" id="vm-list"></div>
-        
-        <!-- 空状态提示 -->
-        <div class="empty-state" id="empty-state" style="display: none;">
-          <p>暂无虚拟机</p>
-          <p style="font-size: 14px; margin-top: 8px;">点击下方“新建”开始你的第一台 PC</p>
-        </div>
       </div>
 
       <!-- 底部 Tab -->
@@ -224,13 +206,9 @@
 
       function loadVMs() {
         const listEl = document.getElementById('vm-list');
-        const emptyEl = document.getElementById('empty-state');
         listEl.innerHTML = '';
 
-        if (vms.length === 0) {
-          emptyEl.style.display = 'block';
-        } else {
-          emptyEl.style.display = 'none';
+        if (vms.length > 0) {
           vms.forEach((vm, index) => {
             const item = document.createElement('div');
             item.className = 'vm-item';
