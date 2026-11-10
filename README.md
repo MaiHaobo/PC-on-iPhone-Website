@@ -1,6 +1,7 @@
 # PC on iPhone — Website
 
 官方网站，基于 **Vite** 多页构建 。
+[立即前往浏览]（https://maihaobo.github.io/pc-on-iphone-website/）
 
 ## 页面
 
