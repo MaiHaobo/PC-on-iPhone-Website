@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>系统画廊 - iOS 虚拟机 (VM) 镜像下载 - PC on iPhone</title>
+    <meta name="description" content="PC on iPhone 精选虚拟机镜像画廊，支持 .utm 包及 ED2K 原版系统直链下载。" />
+    
+    <meta property="og:title" content="系统画廊 - PC on iPhone" />
+    <meta property="og:description" content="发现并下载适合你的虚拟机镜像。" />
+    <meta property="og:type" content="website" />
+    
+    <link rel="icon" href="/logo.PNG" type="image/png" />
+    <link rel="stylesheet" href="./styles.css" />
+    
+    <style>
+      code {
+        background: var(--lift-strong);
+        padding: 2px 6px;
+        border-radius: 6px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.85em;
+        color: var(--tint);
+      }
+
+      /* 💡 分类标签栏容器 */
+      .filter-bar {
+        position: relative;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 4px;
+        margin-bottom: 24px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        background: var(--glass-bg);
+        border: 1px solid var(--hairline);
+        border-radius: 999px;
+        width: fit-content;
+        max-width: 100%;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+      
+      .filter-slider {
+        position: absolute;
+        top: 4px; bottom: 4px; left: 0;
+        background-color: #2f6ae0;
+        border-radius: 999px;
+        transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 1;
+        box-shadow: 0 4px 12px rgba(47, 106, 224, 0.3);
+      }
+      
+      .filter-btn {
+        position: relative;
+        z-index: 2;
+        display: inline-flex; align-items: center; justify-content: center;
+        height: 36px;
+        background: transparent; border: none;
+        color: var(--ink-soft);
+        padding: 0 20px; border-radius: 999px;
+        font-family: inherit; font-size: 0.9rem; font-weight: 500;
+        cursor: pointer; white-space: nowrap;
+        transition: color 0.3s ease;
+        -webkit-appearance: none; outline: none;
+      }
+      .filter-btn:hover { color: var(--ink); }
+      .filter-btn.active { color: #ffffff; font-weight: 600; }
+
+      .glass-item { transition: opacity 0.3s ease, transform 0.3s ease; }
+      .glass-item.hidden { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <div class="glass-scene">
+      <!-- ================= NAV ================= -->
+      <header class="site-nav-wrap">
+        <nav class="site-nav glass glass--sm" aria-label="主导航">
+          <a class="brand" href="./index.html">
+            <span class="brand-mark" aria-hidden="true">
+              <img src="/logo.PNG" alt="Logo" />
+            </span>
+            PC on iPhone
+          </a>
+
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="切换菜单">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+
+          <div class="nav-links" id="nav-menu">
+            <a href="./index.html">首页</a>
+            <a href="./features.html">功能</a>
+            <a href="./download.html">下载安装</a>
+            <a href="./gallery.html" aria-current="page">系统画廊</a>
+            <a href="./install.html">详细安装教程</a>
+            <a href="./guide.html">详细使用教程</a>
+            <a href="./faq.html">常见问题</a>
+            <a href="./about.html">关于</a>
+          </div>
+
+          <a class="nav-cta" href="./download.html">立即下载</a>
+        </nav>
+      </header>
+
+      <div class="glass-content">
+        <div class="page-bg" aria-hidden="true"></div>
+
+        <main class="shell">
+          <!-- ================= HEADER ================= -->
+          <section class="hero" style="padding-bottom: 20px;">
+            <div class="stack-lg">
+              <span class="eyebrow">
+                <span class="dot" aria-hidden="true"></span>系统资源库
+              </span>
+              <h1 class="hero-title" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
+                精选 <span class="grad">.utm 画廊</span>
+              </h1>
+              <p class="hero-sub" style="max-width: 60ch;">
+                这里收集了经过测试、可以直接导入的 <code>.utm</code> 虚拟机包与原版系统镜像。
+                <br><br>
+                <span style="color: #f5a623; font-weight: 600;">💡 提示：由于年代久远，Windows 95/2000 等老系统官方未提供直链，请前往 WinWorld 博物馆下载。带 ED2K 的按钮点击后会尝试唤起迅雷，若无反应请长按按钮复制链接。</span>
+                <br><br>
+                <span style="color: #e74c3c; font-weight: 600;">⚠️ 注意：大部分 .utm 镜像为 ARM64 架构，请确认您的设备支持。</span>
+              </p>
+            </div>
+          </section>
+
+          <!-- ================= GALLERY FILTER ================= -->
+          <section class="section" style="padding-top: 10px;">
+            
+            <div class="filter-bar" id="filter-bar">
+              <div class="filter-slider" id="filter-slider"></div>
+              <button class="filter-btn active" data-filter="all">全部系统</button>
+              <button class="filter-btn" data-filter="windows">Windows</button>
+              <button class="filter-btn" data-filter="linux">Linux</button>
+              <button class="filter-btn" data-filter="macos">macOS</button>
+              <button class="filter-btn" data-filter="other">其他工具</button>
+            </div>
+
+            <div class="grid grid-3" id="gallery-grid">
+              
+              <!-- ================= Windows 系列 ================= -->
+              
+              <!-- 1. Windows 1.0 -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 1.0</h3>
+                  </div>
+                  <p style="flex-grow: 1;">微软图形操作系统的开山之作。需自行准备原版镜像并在 UTM 中手动安装。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">WinWorld</span>
+                    <span class="tag">1985</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://winworldpc.com/product/windows-10" target="_blank" rel="noopener" style="width: 100%;">
+                    前往 WinWorld 下载
+                  </a>
+                </div>
+              </article>
+
+              <!-- 2. Windows 3.1 -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 3.1</h3>
+                  </div>
+                  <p style="flex-grow: 1;">首次引入 TrueType 字体。需自行准备原版镜像并在 UTM 中手动安装。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">WinWorld</span>
+                    <span class="tag">1992</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://winworldpc.com/product/windows-3x" target="_blank" rel="noopener" style="width: 100%;">
+                    前往 WinWorld 下载
+                  </a>
+                </div>
+              </article>
+
+              <!-- 3. Windows 95 -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 95</h3>
+                  </div>
+                  <p style="flex-grow: 1;">划时代的操作系统，引入了“开始”菜单。需自行准备原版镜像并在 UTM 中手动安装。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">WinWorld</span>
+                    <span class="tag">1995</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://winworldpc.com/product/windows-95" target="_blank" rel="noopener" style="width: 100%;">
+                    前往 WinWorld 下载
+                  </a>
+                </div>
+              </article>
+
+              <!-- 4. Windows 98 -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 98</h3>
+                  </div>
+                  <p style="flex-grow: 1;">充满回忆的千禧年系统。由社区制作成可直接运行的 <code>.utm</code> 包，极其流畅。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">.utm 直链</span>
+                    <span class="tag">1998</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://github.com/ducbao414/utm-windows-98/releases" target="_blank" rel="noopener" style="width: 100%;">
+                    直接下载 .utm.zip
+                  </a>
+                </div>
+              </article>
+
+              <!-- 5. Windows 2000 -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 2000</h3>
+                  </div>
+                  <p style="flex-grow: 1;">基于 NT 内核的经典稳定系统。需自行准备原版镜像并在 UTM 中手动安装。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">WinWorld</span>
+                    <span class="tag">2000</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://winworldpc.com/product/windows-nt-2000" target="_blank" rel="noopener" style="width: 100%;">
+                    前往 WinWorld 下载
+                  </a>
+                </div>
+              </article>
+
+              <!-- 6. Windows XP -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows XP <span style="font-size: 0.7rem; background: linear-gradient(135deg, var(--tint), var(--tint-2)); color: #fff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; margin-left: 4px;">经典</span></h3>
+                  </div>
+                  <p style="flex-grow: 1;">一代人的回忆。提供微软官方 MSDN 简体中文纯净原版。需使用迅雷等下载工具。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">ED2K 链接</span>
+                    <span class="tag">2001</span>
+                  </div>
+                  <a class="btn btn--primary" href="ed2k://|file|cn_windows_xp_professional_with_service_pack_3_x86_cd_vl_x14-74070.iso|630237184|EC51916C9D9B8B58DC001B7761C2004C|/" style="width: 100%;">
+                    唤起迅雷下载 (ED2K)
+                  </a>
+                </div>
+              </article>
+
+              <!-- 7. Windows Vista -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows Vista</h3>
+                  </div>
+                  <p style="flex-grow: 1;">引入了 Aero 玻璃特效。提供微软官方 MSDN 简体中文 SP2 纯净原版。需使用下载工具。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">ED2K 链接</span>
+                    <span class="tag">2006</span>
+                  </div>
+                  <a class="btn btn--primary" href="ed2k://|file|cn_windows_vista_with_sp2_x64_dvd_x15-36322.iso|3857948672|4B5E3E9D3A7D1C6F2B8D0A9C5E7F1B3D|/" style="width: 100%;">
+                    唤起迅雷下载 (ED2K)
+                  </a>
+                </div>
+              </article>
+
+              <!-- 8. Windows 7 -->
+              <article class="glass glass-item" data-category="windows" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 7 <span style="font-size: 0.7rem; background: linear-gradient(135deg, var(--tint), var(--tint-2)); color: #fff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; margin-left: 4px;">经典</span></h3>
+                  </div>
+                  <p style="flex-grow: 1;">兼容性极佳。提供微软官方 MSDN 简体中文旗舰版纯净原版。需使用下载工具。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">ED2K 链接</span>
+                    <span class="tag">2009</span>
+                  </div>
+                  <a class="btn btn--primary" href="ed2k://|file|cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso|3420557312|B58548681854236C7939003B583A8078|/" style="width: 100%;">
+                    唤起迅雷下载 (ED2K)
+                  </a>
+                </div>
+              </article>
+
+              <!-- 9. Windows 8.1 -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 8.1</h3>
+                  </div>
+                  <p style="flex-grow: 1;">为触控优化的系统。提供微软官方 MSDN 专业版 Update 简中原版。需使用下载工具。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">ED2K 链接</span>
+                    <span class="tag">2013</span>
+                  </div>
+                  <a class="btn btn--primary" href="ed2k://|file|cn_windows_8.1_professional_vl_with_update_x64_dvd_4050293.iso|4136626176|4D2363F9E06BFD50A78B1E6464702959|/" style="width: 100%;">
+                    唤起迅雷下载 (ED2K)
+                  </a>
+                </div>
+              </article>
+
+              <!-- 10. Windows 10 -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 10</h3>
+                  </div>
+                  <p style="flex-grow: 1;">提供长期支持。微软官方下载工具原生支持选择简体中文语言包。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">官方工具</span>
+                    <span class="tag">2015</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="noopener" style="width: 100%;">
+                    前往微软官方下载
+                  </a>
+                </div>
+              </article>
+
+              <!-- 11. Windows 11 -->
+              <article class="glass glass-item" data-category="windows" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 4.3L21 3V11.5H11.5V4.3ZM11.5 12.5H21V21L11.5 19.7V12.5Z"/></svg>
+                    </span>
+                    <h3>Windows 11</h3>
+                  </div>
+                  <p style="flex-grow: 1;">最新的 Windows 系统。建议在 HV 版本下运行，官网支持直接下载中文版。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">官方工具</span>
+                    <span class="tag">2021</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://www.microsoft.com/zh-cn/software-download/windows11" target="_blank" rel="noopener" style="width: 100%;">
+                    前往微软官方下载
+                  </a>
+                </div>
+              </article>
+
+              <!-- ================= Linux 系列 ================= -->
+              
+              <article class="glass glass-item" data-category="linux" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                    </span>
+                    <h3>Kali Linux</h3>
+                  </div>
+                  <p style="flex-grow: 1;">渗透测试系统。Kali 官方针对 UTM 提供了专门优化的预构建镜像，解压即用。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">多语言</span>
+                    <span class="tag">.utm直链</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://cdimage.kali.org/kali-2024.1/kali-linux-2024.1-utm-arm64.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
+                    直接下载 .utm.zip
+                  </a>
+                </div>
+              </article>
+
+              <article class="glass glass-item" data-category="linux" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 22h20L12 2z"></path></svg>
+                    </span>
+                    <h3>Omarchy (Arch)</h3>
+                  </div>
+                  <p style="flex-grow: 1;">社区开发者制作的极简、预配置 Arch Linux，极速启动。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">多语言</span>
+                    <span class="tag">.utm直链</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://archive.org/download/omarchy-vm.utm/OMARCHY-VM.utm.zip" target="_blank" rel="noopener" style="width: 100%;">
+                    直接下载 .utm.zip
+                  </a>
+                </div>
+              </article>
+
+              <!-- ================= macOS / 其他 ================= -->
+              
+              <article class="glass glass-item" data-category="macos" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                    </span>
+                    <h3>MacOS (UTM)</h3>
+                  </div>
+                  <p style="flex-grow: 1;">在 iPhone 上运行 Apple 自家的系统。需要自行准备恢复镜像（IPSW），并完成复杂的引导配置。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">配置指南</span>
+                    <span class="tag">多语言</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://docs.getutm.app/guest-support/macos/" target="_blank" rel="noopener" style="width: 100%;">
+                    查看官方配置教程
+                  </a>
+                </div>
+              </article>
+
+              <article class="glass glass-item" data-category="other" data-reveal style="border: 1px solid rgba(122, 63, 242, 0.3); box-shadow: 0 20px 40px -15px rgba(122, 63, 242, 0.2), inset 0 0 0 1px var(--hairline);">
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true" style="background: rgba(122, 63, 242, 0.1); color: var(--tint-2);">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    </span>
+                    <h3>UTM 社区镜像站</h3>
+                  </div>
+                  <p style="flex-grow: 1;">包含 Ubuntu、Fedora、Debian 等大量其他系统的 <code>.utm</code> 资源库。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">聚合站</span>
+                    <span class="tag">更新快</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://mirror.bouwhuis.network/utm/" target="_blank" rel="noopener" style="width: 100%;">
+                    浏览镜像库
+                  </a>
+                </div>
+              </article>
+
+              <article class="glass glass-item" data-category="other" data-reveal>
+                <div class="glass-body stack" style="display: flex; flex-direction: column; height: 100%; opacity: 0.8;">
+                  <div class="card-title">
+                    <span class="card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>
+                    </span>
+                    <h3>官方画廊存档</h3>
+                  </div>
+                  <p style="flex-grow: 1;">UTM 官方停更前留存的完整画廊备份，里面有不少好玩的系统。</p>
+                  <div class="project-tags" style="margin-bottom: 20px;">
+                    <span class="tag">备份站</span>
+                    <span class="tag">种类全</span>
+                  </div>
+                  <a class="btn btn--primary" href="https://archive.org/details/utm_gallery" target="_blank" rel="noopener" style="width: 100%;">
+                    浏览存档
+                  </a>
+                </div>
+              </article>
+
+            </div>
+          </section>
+        </main>
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="site-footer shell">
+          <div class="glass glass--md">
+            <div class="footer-inner" style="justify-content: center; text-align: center; flex-direction: column; gap: 12px;">
+              <div class="footer-brand" style="margin: 0 auto; justify-items: center; display: grid;">
+                <a class="brand" href="./index.html">
+                  <span class="brand-mark" aria-hidden="true">
+                    <img src="/logo.PNG" alt="Logo" />
+                  </span>
+                  PC on iPhone
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const filterBar = document.getElementById('filter-bar');
+        const slider = document.getElementById('filter-slider');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.glass-item');
+
+        function moveSliderToBtn(btn) {
+          const btnLeft = btn.offsetLeft;
+          const btnWidth = btn.offsetWidth;
+          if (slider.style.width === '') {
+            slider.style.transition = 'none';
+          } else {
+            slider.style.transition = 'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
+          }
+          slider.style.width = `${btnWidth}px`;
+          slider.style.transform = `translateX(${btnLeft}px)`;
+        }
+
+        const activeBtn = document.querySelector('.filter-btn.active');
+        if (activeBtn) {
+          setTimeout(() => moveSliderToBtn(activeBtn), 10);
+        }
+
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            moveSliderToBtn(btn);
+
+            const filterValue = btn.getAttribute('data-filter');
+            galleryItems.forEach(item => {
+              const category = item.getAttribute('data-category');
+              if (filterValue === 'all' || filterValue === category) {
+                item.classList.remove('hidden');
+                setTimeout(() => item.style.opacity = '1', 10);
+              } else {
+                item.style.opacity = '0';
+                setTimeout(() => item.classList.add('hidden'), 300); 
+              }
+            });
+          });
+        });
+
+        window.addEventListener('resize', () => {
+          const currentActiveBtn = document.querySelector('.filter-btn.active');
+          if (currentActiveBtn) {
+            slider.style.transition = 'none';
+            moveSliderToBtn(currentActiveBtn);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

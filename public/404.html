@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>404 - 页面走丢了 | PC on iPhone</title>
+    
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
+    
+    <style>
+      :root {
+        --page: #ffffff;
+        --ink: #14161d;
+        --ink-soft: rgba(20, 22, 29, 0.66);
+        --hairline: rgba(20, 30, 60, 0.12);
+        --tint: #2f6ae0;
+        --tint-2: #7a3ff2;
+        --lift: rgba(20, 30, 60, 0.05);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --page: #000000;
+          --ink: #f5f6fa;
+          --ink-soft: rgba(245, 246, 250, 0.68);
+          --hairline: rgba(255, 255, 255, 0.14);
+          --tint: #4c8dff;
+          --tint-2: #9a6bff;
+          --lift: rgba(255, 255, 255, 0.09);
+        }
+      }
+
+      * { box-sizing: border-box; }
+      
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+        background: var(--page);
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+      }
+
+      a { text-decoration: none; color: inherit; }
+
+      .site-nav-wrap {
+        position: absolute;
+        top: calc(14px + env(safe-area-inset-top)); 
+        left: 0;
+        right: 0;
+        z-index: 50;
+        padding-inline: 20px;
+        pointer-events: none;
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px 8px 18px;
+        border-radius: 999px; 
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(14px) saturate(1.5);
+        -webkit-backdrop-filter: blur(14px) saturate(1.5);
+        box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 0 0 1px var(--hairline);
+        pointer-events: auto;
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        .site-nav { 
+          background: rgba(30, 32, 38, 0.75);
+          box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px var(--hairline);
+        }
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 0.98rem;
+        white-space: nowrap;
+        margin-right: auto;
+      }
+      
+      .brand-mark {
+        width: 26px; height: 26px;
+        border-radius: 8px; 
+        display: grid; place-items: center;
+        background: none;
+        box-shadow: none;
+        overflow: hidden;
+      }
+      
+      .brand-mark img {
+        width: 100%; height: 100%; object-fit: cover; border-radius: inherit;
+      }
+
+      .nav-toggle {
+        display: none; width: 40px; height: 40px;
+        border: 0; border-radius: 50%; background: var(--lift);
+        color: var(--ink); cursor: pointer; place-items: center; transition: background 0.18s;
+      }
+
+      .nav-links { display: flex; align-items: center; gap: 2px; }
+      .nav-links a {
+        display: block; padding: 8px 14px; border-radius: 999px;
+        font-size: 0.9rem; color: var(--ink-soft); transition: background-color 0.18s ease, color 0.18s ease;
+      }
+      .nav-links a:hover { color: var(--ink); background: var(--lift); }
+
+      .nav-cta {
+        padding: 9px 18px; border-radius: 999px; font-size: 0.9rem;
+        font-weight: 600; background: #16181f; color: #fff; white-space: nowrap;
+      }
+
+      @media (max-width: 780px) {
+        .nav-toggle { display: grid; }
+        .site-nav { position: relative; overflow: visible !important; }
+        .nav-cta { display: none; }
+        
+        .nav-links {
+          position: absolute; top: calc(100% + 10px); left: 10px; right: 10px;
+          flex-direction: column; align-items: stretch; padding: 10px; gap: 2px; border-radius: 24px;
+          background: #ffffff; 
+          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--hairline); 
+          opacity: 0; visibility: hidden; transform: translateY(-6px);
+          transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; 
+          z-index: 9999; 
+        }
+
+        @media (prefers-color-scheme: dark) {
+          .nav-links { background: #1c1c1e; }
+        }
+
+        .site-nav[data-open="true"] .nav-links { opacity: 1; visibility: visible; transform: none; }
+        .nav-links a { padding: 12px 14px; border-radius: 14px; line-height: normal; }
+      }
+
+      .error-wrapper {
+        flex: 1; display: flex; align-items: center; justify-content: center;
+        padding: calc(100px + env(safe-area-inset-top)) 20px 40px; 
+      }
+
+      .box {
+        text-align: center; background: rgba(255, 255, 255, 0.75); padding: 40px 30px;
+        border-radius: 34px; box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 0 0 1px var(--hairline);
+        max-width: 500px; width: 100%;
+      }
+      
+      @media (prefers-color-scheme: dark) { .box { background: rgba(30, 32, 38, 0.75); } }
+
+      .error-icon-box {
+        width: 140px;
+        height: 140px;
+        margin: 0 auto 24px auto;
+        border-radius: 32px; 
+        overflow: hidden;    
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        position: relative; 
+      }
+      @media (prefers-color-scheme: dark) {
+        .error-icon-box { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); }
+      }
+
+      .error-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: translate(-50%, -50%) scale(1.24); 
+        opacity: 0;
+        transition: opacity 0.6s ease; 
+      }
+      
+      .error-image.loaded {
+        opacity: 1;
+      }
+      
+      .box h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
+      .box p { color: var(--ink-soft); margin-bottom: 30px; font-size: 0.95rem; }
+      
+      .btn {
+        display: inline-block; padding: 14px 28px; border-radius: 999px;
+        background: linear-gradient(180deg, #2f7dff, #1450e0); color: #fff;
+        font-weight: 600; font-size: 0.95rem; box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
+        transition: transform 0.18s ease;
+      }
+      .btn:hover { transform: translateY(-2px); }
+
+      .simple-footer {
+        text-align: center; padding: 20px; font-size: 0.8rem;
+        color: var(--ink-soft); margin-top: auto;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <header class="site-nav-wrap">
+      <nav class="site-nav" aria-label="主导航">
+        <a class="brand" href="/PC-on-iPhone-Website/index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <img src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" alt="Logo" />
+          </span>
+          PC on iPhone
+        </a>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="切换菜单">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+
+        <div class="nav-links" id="nav-menu">
+          <a href="/PC-on-iPhone-Website/index.html">首页</a>
+          <a href="/PC-on-iPhone-Website/features.html">功能</a>
+          <a href="/PC-on-iPhone-Website/download.html">下载安装</a>
+          <a href="/PC-on-iPhone-Website/install.html">详细安装教程</a>
+          <a href="/PC-on-iPhone-Website/guide.html">详细使用教程</a>
+          <a href="/PC-on-iPhone-Website/faq.html">常见问题</a>
+          <a href="/PC-on-iPhone-Website/about.html">关于</a>
+        </div>
+
+        <a class="nav-cta" href="/PC-on-iPhone-Website/download.html">立即下载</a>
+      </nav>
+    </header>
+
+    <main class="error-wrapper">
+      <div class="box">
+        <div class="error-icon-box">
+          <!-- 💡 后缀已改成 .JPG，并加了 v=15 刷缓存 -->
+          <img 
+            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.JPG?v=15" 
+            alt="404" 
+            class="error-image" 
+            onload="this.classList.add('loaded')"
+          />
+        </div>
+        
+        <h1>页面走丢了</h1>
+        <p>非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。</p>
+        
+        <a class="btn" href="/PC-on-iPhone-Website/index.html">返回首页</a>
+      </div>
+    </main>
+
+    <footer class="simple-footer">
+      <p style="margin: 0 0 6px 0;">
+        Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">UTM</a>
+      </p>
+      <p style="margin: 0;">
+        © <span data-year>2026</span> PC on iPhone. All rights reserved.
+      </p>
+    </footer>
+
+    <script>
+      const nav = document.querySelector(".site-nav");
+      const toggle = document.querySelector(".nav-toggle");
+      if (nav && toggle) {
+        toggle.addEventListener("click", () => {
+          const isOpen = nav.dataset.open === "true";
+          nav.dataset.open = String(!isOpen);
+          toggle.setAttribute("aria-expanded", String(!isOpen));
+        });
+      }
+
+      document.querySelectorAll("[data-year]").forEach((el) => {
+        el.textContent = String(new Date().getFullYear());
+      });
+    </script>
+  </body>
+</html>

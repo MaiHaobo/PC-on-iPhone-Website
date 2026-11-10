@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://maihaobo.github.io/PC-on-iPhone-Website/sitemap.xml
