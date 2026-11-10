@@ -2,6 +2,8 @@
 
 官方网站，基于 **Vite** 多页构建 。
 
+[点此浏览](https://maihaobo.github.io/PC-on-iPhone-Website/)
+
 ## 页面
 
 | 文件 | 路由 | 内容 |
