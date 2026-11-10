@@ -2,20 +2,32 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>404 - 页面走丢了 | PC on iPhone</title>
-    
-    <link rel="icon" href="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" type="image/png" />
-    
+    <meta name="description" content="没有找到这个页面。回到 PC on iPhone 首页，或从下载、安装教程、系统画廊继续。" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+
+    <!-- 站点部署在 Pages 子路径下；换自定义域名时只需替换下面这一处 -->
+    <link rel="icon" href="/PC-on-iPhone-Website/favicon.svg" type="image/svg+xml" />
+
     <style>
       :root {
         --page: #ffffff;
         --ink: #14161d;
         --ink-soft: rgba(20, 22, 29, 0.66);
-        --hairline: rgba(20, 30, 60, 0.12);
+        --ink-faint: rgba(20, 22, 29, 0.42);
         --tint: #2f6ae0;
         --tint-2: #7a3ff2;
         --lift: rgba(20, 30, 60, 0.05);
+        --lift-strong: rgba(20, 30, 60, 0.09);
+        --hairline: rgba(20, 30, 60, 0.12);
+        --menu-bg: rgba(255, 255, 255, 0.97);
+        --radius-lg: 34px;
+        --radius-md: 22px;
+        --gutter: clamp(20px, 5vw, 56px);
+        color-scheme: light;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -23,56 +35,85 @@
           --page: #000000;
           --ink: #f5f6fa;
           --ink-soft: rgba(245, 246, 250, 0.68);
-          --hairline: rgba(255, 255, 255, 0.14);
+          --ink-faint: rgba(245, 246, 250, 0.42);
           --tint: #4c8dff;
           --tint-2: #9a6bff;
           --lift: rgba(255, 255, 255, 0.09);
+          --lift-strong: rgba(255, 255, 255, 0.15);
+          --hairline: rgba(255, 255, 255, 0.14);
+          --menu-bg: rgba(16, 17, 22, 0.97);
+          color-scheme: dark;
         }
+        body::before { opacity: 0.5; }
       }
 
-      * { box-sizing: border-box; }
-      
+      *, *::before, *::after { box-sizing: border-box; }
+
+      html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+
       body {
         margin: 0;
         min-height: 100dvh;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
-        background: var(--page);
-        color: var(--ink);
         display: flex;
         flex-direction: column;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        background: var(--page);
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: clip;
       }
 
-      a { text-decoration: none; color: inherit; }
+      /* 与站点其它页面同款底色光晕（毛玻璃要有东西可模糊） */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: -10%;
+        z-index: -1;
+        pointer-events: none;
+        background:
+          radial-gradient(38vmax 30vmax at 16% 4%, rgba(76, 141, 255, 0.14), transparent 62%),
+          radial-gradient(32vmax 26vmax at 86% 10%, rgba(154, 107, 255, 0.12), transparent 64%),
+          radial-gradient(36vmax 30vmax at 64% 96%, rgba(24, 214, 190, 0.09), transparent 66%);
+      }
 
+      a { color: inherit; text-decoration: none; }
+
+      /* ---------------- 导航（与站点其它页面一致） ---------------- */
       .site-nav-wrap {
-        position: absolute;
-        top: calc(14px + env(safe-area-inset-top)); 
+        position: fixed;
+        top: calc(14px + env(safe-area-inset-top));
         left: 0;
         right: 0;
         z-index: 50;
-        padding-inline: 20px;
+        padding-inline: var(--gutter);
         pointer-events: none;
       }
+
+      .site-nav-wrap .site-nav { pointer-events: auto; }
 
       .site-nav {
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 8px 10px 8px 18px;
-        border-radius: 999px; 
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(14px) saturate(1.5);
-        -webkit-backdrop-filter: blur(14px) saturate(1.5);
-        box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 0 0 1px var(--hairline);
-        pointer-events: auto;
-        max-width: 1120px;
-        margin: 0 auto;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        box-shadow:
+          0 18px 44px -20px rgba(30, 45, 90, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.95),
+          inset 0 0 0 1px var(--hairline);
       }
-      
+
       @media (prefers-color-scheme: dark) {
-        .site-nav { 
-          background: rgba(30, 32, 38, 0.75);
-          box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px var(--hairline);
+        .site-nav {
+          background: rgba(26, 28, 34, 0.66);
+          box-shadow:
+            0 18px 44px -20px rgba(0, 0, 0, 0.75),
+            inset 0 1px 0 rgba(255, 255, 255, 0.09),
+            inset 0 0 0 1px var(--hairline);
         }
       }
 
@@ -80,132 +121,296 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        font-weight: 600;
+        font-weight: 640;
+        letter-spacing: -0.02em;
         font-size: 0.98rem;
         white-space: nowrap;
         margin-right: auto;
       }
-      
+
       .brand-mark {
-        width: 26px; height: 26px;
-        border-radius: 8px; 
-        display: grid; place-items: center;
-        background: none;
-        box-shadow: none;
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
         overflow: hidden;
-      }
-      
-      .brand-mark img {
-        width: 100%; height: 100%; object-fit: cover; border-radius: inherit;
+        flex: none;
       }
 
-      .nav-toggle {
-        display: none; width: 40px; height: 40px;
-        border: 0; border-radius: 50%; background: var(--lift);
-        color: var(--ink); cursor: pointer; place-items: center; transition: background 0.18s;
-      }
+      .brand-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
       .nav-links { display: flex; align-items: center; gap: 2px; }
+
       .nav-links a {
-        display: block; padding: 8px 14px; border-radius: 999px;
-        font-size: 0.9rem; color: var(--ink-soft); transition: background-color 0.18s ease, color 0.18s ease;
+        display: block;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+        white-space: nowrap;
+        transition: background-color 0.18s ease, color 0.18s ease;
       }
+
       .nav-links a:hover { color: var(--ink); background: var(--lift); }
 
       .nav-cta {
-        padding: 9px 18px; border-radius: 999px; font-size: 0.9rem;
-        font-weight: 600; background: #16181f; color: #fff; white-space: nowrap;
+        padding: 9px 18px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        background: #16181f;
+        color: #fff;
+        white-space: nowrap;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
       }
 
-      @media (max-width: 780px) {
+      .nav-cta:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px -6px rgba(20, 30, 60, 0.35);
+      }
+
+      .nav-toggle {
+        display: none;
+        width: 40px;
+        height: 40px;
+        border: 0;
+        border-radius: 50%;
+        background: var(--lift);
+        color: var(--ink);
+        cursor: pointer;
+        place-items: center;
+      }
+
+      @media (max-width: 950px) {
         .nav-toggle { display: grid; }
-        .site-nav { position: relative; overflow: visible !important; }
+        .site-nav { position: relative; z-index: 100; }
         .nav-cta { display: none; }
-        
+
         .nav-links {
-          position: absolute; top: calc(100% + 10px); left: 10px; right: 10px;
-          flex-direction: column; align-items: stretch; padding: 10px; gap: 2px; border-radius: 24px;
-          background: #ffffff; 
-          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--hairline); 
-          opacity: 0; visibility: hidden; transform: translateY(-6px);
-          transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; 
-          z-index: 9999; 
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 10px;
+          right: 10px;
+          flex-direction: column;
+          align-items: stretch;
+          padding: 10px;
+          border-radius: 24px;
+          background: var(--menu-bg);
+          backdrop-filter: blur(20px) saturate(1.5);
+          -webkit-backdrop-filter: blur(20px) saturate(1.5);
+          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--hairline);
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-6px);
+          transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+          z-index: 101;
         }
 
-        @media (prefers-color-scheme: dark) {
-          .nav-links { background: #1c1c1e; }
+        .site-nav[data-open="true"] .nav-links {
+          opacity: 1;
+          visibility: visible;
+          transform: none;
         }
 
-        .site-nav[data-open="true"] .nav-links { opacity: 1; visibility: visible; transform: none; }
-        .nav-links a { padding: 12px 14px; border-radius: 14px; line-height: normal; }
+        .nav-links a { padding: 12px 14px; border-radius: 14px; }
       }
 
-      .error-wrapper {
-        flex: 1; display: flex; align-items: center; justify-content: center;
-        padding: calc(100px + env(safe-area-inset-top)) 20px 40px; 
+      /* ---------------- 主体 ---------------- */
+      .error-main {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: calc(96px + env(safe-area-inset-top)) var(--gutter) clamp(48px, 8vw, 96px);
       }
 
-      .box {
-        text-align: center; background: rgba(255, 255, 255, 0.75); padding: 40px 30px;
-        border-radius: 34px; box-shadow: 0 20px 40px -15px rgba(30, 45, 90, 0.15), inset 0 0 0 1px var(--hairline);
-        max-width: 500px; width: 100%;
-      }
-      
-      @media (prefers-color-scheme: dark) { .box { background: rgba(30, 32, 38, 0.75); } }
-
-      .error-icon-box {
-        width: 140px;
-        height: 140px;
-        margin: 0 auto 24px auto;
-        border-radius: 32px; 
-        overflow: hidden;    
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        position: relative; 
-      }
-      @media (prefers-color-scheme: dark) {
-        .error-icon-box { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); }
-      }
-
-      .error-image {
-        position: absolute;
-        top: 50%;
-        left: 50%;
+      .panel {
+        position: relative;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform: translate(-50%, -50%) scale(1.24); 
-        opacity: 0;
-        transition: opacity 0.6s ease; 
+        max-width: 560px;
+        padding: clamp(32px, 6vw, 52px) clamp(24px, 5vw, 48px);
+        border-radius: var(--radius-lg);
+        text-align: center;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        box-shadow:
+          0 18px 44px -20px rgba(30, 45, 90, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.95),
+          inset 0 0 0 1px var(--hairline);
+        animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
       }
-      
-      .error-image.loaded {
-        opacity: 1;
-      }
-      
-      .box h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
-      .box p { color: var(--ink-soft); margin-bottom: 30px; font-size: 0.95rem; }
-      
-      .btn {
-        display: inline-block; padding: 14px 28px; border-radius: 999px;
-        background: linear-gradient(180deg, #2f7dff, #1450e0); color: #fff;
-        font-weight: 600; font-size: 0.95rem; box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
-        transition: transform 0.18s ease;
-      }
-      .btn:hover { transform: translateY(-2px); }
 
-      .simple-footer {
-        text-align: center; padding: 20px; font-size: 0.8rem;
-        color: var(--ink-soft); margin-top: auto;
+      @media (prefers-color-scheme: dark) {
+        .panel {
+          background: rgba(26, 28, 34, 0.66);
+          box-shadow:
+            0 18px 44px -20px rgba(0, 0, 0, 0.75),
+            inset 0 1px 0 rgba(255, 255, 255, 0.09),
+            inset 0 0 0 1px var(--hairline);
+        }
       }
+
+      @keyframes rise {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .panel { animation: none; }
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 18px;
+        font-size: 0.76rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--tint);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--tint) 18%, transparent);
+      }
+
+      .code {
+        display: block;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+        font-size: clamp(4.4rem, 15vw, 6.6rem);
+        font-weight: 700;
+        letter-spacing: -0.06em;
+        line-height: 0.95;
+        background: linear-gradient(105deg, #2f6ae0 0%, #7a3ff2 46%, #0d9e85 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(1.35rem, 4vw, 1.6rem);
+        font-weight: 640;
+        letter-spacing: -0.02em;
+      }
+
+      .lede {
+        margin: 0 auto;
+        max-width: 34ch;
+        font-size: 0.95rem;
+        line-height: 1.65;
+        color: var(--ink-soft);
+      }
+
+      .path-chip {
+        display: none;
+        margin: 18px auto 0;
+        padding: 7px 12px;
+        max-width: 100%;
+        border-radius: 10px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.78rem;
+        color: var(--ink-faint);
+        background: var(--lift);
+        box-shadow: inset 0 0 0 1px var(--hairline);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 28px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 13px 24px;
+        border-radius: 999px;
+        font-size: 0.94rem;
+        font-weight: 600;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+      }
+
+      .btn--primary {
+        background: linear-gradient(180deg, #2f7dff, #1450e0);
+        color: #fff;
+        box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
+      }
+
+      .btn--ghost {
+        background: var(--lift);
+        color: var(--ink);
+        box-shadow: inset 0 0 0 1px var(--hairline);
+      }
+
+      .btn:hover { transform: translateY(-2px); }
+      .btn--ghost:hover { background: var(--lift-strong); }
+
+      .divider {
+        height: 1px;
+        margin: clamp(26px, 5vw, 34px) 0 clamp(18px, 4vw, 24px);
+        background: linear-gradient(90deg, transparent, var(--hairline), transparent);
+      }
+
+      .quick-label {
+        margin: 0 0 12px;
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+
+      .quick {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .quick a {
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 0.86rem;
+        color: var(--ink-soft);
+        background: var(--lift);
+        box-shadow: inset 0 0 0 1px var(--hairline);
+        transition: background-color 0.18s ease, color 0.18s ease;
+      }
+
+      .quick a:hover { color: var(--ink); background: var(--lift-strong); }
+
+      /* ---------------- 页脚 ---------------- */
+      .site-footer {
+        padding: 0 var(--gutter) calc(24px + env(safe-area-inset-bottom));
+        text-align: center;
+        font-size: 0.78rem;
+        color: var(--ink-faint);
+      }
+
+      .site-footer p { margin: 0; }
+      .site-footer p + p { margin-top: 5px; }
+      .site-footer a { text-decoration: underline; }
     </style>
   </head>
   <body>
-    
     <header class="site-nav-wrap">
       <nav class="site-nav" aria-label="主导航">
         <a class="brand" href="/PC-on-iPhone-Website/index.html">
           <span class="brand-mark" aria-hidden="true">
-            <img src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/logo.PNG" alt="Logo" />
+            <img src="/PC-on-iPhone-Website/logo.PNG" alt="" width="26" height="26" />
           </span>
           PC on iPhone
         </a>
@@ -220,6 +425,7 @@
           <a href="/PC-on-iPhone-Website/index.html">首页</a>
           <a href="/PC-on-iPhone-Website/features.html">功能</a>
           <a href="/PC-on-iPhone-Website/download.html">下载安装</a>
+          <a href="/PC-on-iPhone-Website/gallery.html">系统画廊</a>
           <a href="/PC-on-iPhone-Website/install.html">详细安装教程</a>
           <a href="/PC-on-iPhone-Website/guide.html">详细使用教程</a>
           <a href="/PC-on-iPhone-Website/faq.html">常见问题</a>
@@ -230,48 +436,80 @@
       </nav>
     </header>
 
-    <main class="error-wrapper">
-      <div class="box">
-        <div class="error-icon-box">
-          <!-- 💡 后缀已改成 .JPG，并加了 v=15 刷缓存 -->
-          <img 
-            src="https://cdn.jsdelivr.net/gh/MaiHaobo/PC-on-iPhone-Website@main/public/404-logo.JPG?v=15" 
-            alt="404" 
-            class="error-image" 
-            onload="this.classList.add('loaded')"
-          />
+    <main class="error-main">
+      <section class="panel">
+        <span class="eyebrow">Error 404</span>
+        <span class="code" aria-hidden="true">404</span>
+        <h1>这个页面走丢了</h1>
+        <p class="lede">
+          链接可能已经失效、被重命名，或者从来没有存在过。下面这些入口应该能带你回到正轨。
+        </p>
+        <p class="path-chip" id="path-chip"></p>
+
+        <div class="actions">
+          <a class="btn btn--primary" href="/PC-on-iPhone-Website/index.html">
+            返回首页
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13M13 6l6 6-6 6" />
+            </svg>
+          </a>
+          <a class="btn btn--ghost" href="/PC-on-iPhone-Website/faq.html">常见问题</a>
         </div>
-        
-        <h1>页面走丢了</h1>
-        <p>非常抱歉，您访问的页面可能已被移除、重命名，或者暂时不可用。</p>
-        
-        <a class="btn" href="/PC-on-iPhone-Website/index.html">返回首页</a>
-      </div>
+
+        <div class="divider" role="presentation"></div>
+
+        <p class="quick-label">或者从这里继续</p>
+        <nav class="quick" aria-label="快捷入口">
+          <a href="/PC-on-iPhone-Website/download.html">下载安装</a>
+          <a href="/PC-on-iPhone-Website/install.html">安装教程</a>
+          <a href="/PC-on-iPhone-Website/guide.html">使用教程</a>
+          <a href="/PC-on-iPhone-Website/gallery.html">系统画廊</a>
+          <a href="/PC-on-iPhone-Website/fandback.html">问题反馈</a>
+        </nav>
+      </section>
     </main>
 
-    <footer class="simple-footer">
-      <p style="margin: 0 0 6px 0;">
-        Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">UTM</a>
-      </p>
-      <p style="margin: 0;">
-        © <span data-year>2026</span> PC on iPhone. All rights reserved.
-      </p>
+    <footer class="site-footer">
+      <p>Powered by <a href="https://getutm.app" target="_blank" rel="noopener">UTM</a></p>
+      <p>© <span data-year>2026</span> PC on iPhone. All rights reserved.</p>
     </footer>
 
     <script>
-      const nav = document.querySelector(".site-nav");
-      const toggle = document.querySelector(".nav-toggle");
-      if (nav && toggle) {
-        toggle.addEventListener("click", () => {
-          const isOpen = nav.dataset.open === "true";
-          nav.dataset.open = String(!isOpen);
-          toggle.setAttribute("aria-expanded", String(!isOpen));
-        });
-      }
+      (function () {
+        var nav = document.querySelector(".site-nav");
+        var toggle = document.querySelector(".nav-toggle");
+        if (nav && toggle) {
+          toggle.addEventListener("click", function () {
+            var open = nav.dataset.open !== "true";
+            nav.dataset.open = String(open);
+            toggle.setAttribute("aria-expanded", String(open));
+          });
+          document.addEventListener("click", function (e) {
+            if (!nav.contains(e.target)) {
+              nav.dataset.open = "false";
+              toggle.setAttribute("aria-expanded", "false");
+            }
+          });
+          document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+              nav.dataset.open = "false";
+              toggle.setAttribute("aria-expanded", "false");
+            }
+          });
+        }
 
-      document.querySelectorAll("[data-year]").forEach((el) => {
-        el.textContent = String(new Date().getFullYear());
-      });
+        document.querySelectorAll("[data-year]").forEach(function (el) {
+          el.textContent = String(new Date().getFullYear());
+        });
+
+        // 把访问失败的那个地址显示出来，方便用户核对是不是打错了
+        var chip = document.getElementById("path-chip");
+        var path = decodeURIComponent(location.pathname).replace("/PC-on-iPhone-Website", "");
+        if (chip && path && path !== "/" && path.indexOf("404") === -1) {
+          chip.textContent = path + location.search;
+          chip.style.display = "block";
+        }
+      })();
     </script>
   </body>
 </html>
