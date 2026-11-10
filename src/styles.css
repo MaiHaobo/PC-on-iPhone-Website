@@ -14,7 +14,7 @@
   --lift: rgba(20, 30, 60, 0.05);
   --lift-strong: rgba(20, 30, 60, 0.09);
   --hairline: rgba(20, 30, 60, 0.12);
-  --menu-bg: rgba(255, 255, 255, 0.92);
+  --menu-bg: rgba(255, 255, 255, 0.97);
 
   /* Layout --------------------------------------------------- */
   --page-max: 1120px;
@@ -45,7 +45,7 @@
     --lift: rgba(255, 255, 255, 0.09);
     --lift-strong: rgba(255, 255, 255, 0.15);
     --hairline: rgba(255, 255, 255, 0.14);
-    --menu-bg: rgba(16, 17, 22, 0.92);
+    --menu-bg: rgba(16, 17, 22, 0.97);
 
     color-scheme: dark;
   }
@@ -75,28 +75,22 @@ body {
   overflow-x: clip;
 }
 
-/* Plain page backdrop */
-.page-bg {
+/* Page backdrop: 纯色底 + 极淡的光晕
+   （毛玻璃需要有东西可模糊，这层光晕就是它的“前景”） */
+body::before {
+  content: "";
   position: fixed;
-  inset: 0;
+  inset: -10%;
   z-index: -1;
   pointer-events: none;
-  background: var(--page);
-}
-
-.page-bg::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
   background:
-    radial-gradient(38vmax 30vmax at 16% 4%, rgba(76, 141, 255, 0.13), transparent 62%),
-    radial-gradient(32vmax 26vmax at 86% 10%, rgba(154, 107, 255, 0.11), transparent 64%),
-    radial-gradient(36vmax 30vmax at 64% 96%, rgba(24, 214, 190, 0.08), transparent 66%);
-  filter: blur(6px);
+    radial-gradient(38vmax 30vmax at 16% 4%, rgba(76, 141, 255, 0.14), transparent 62%),
+    radial-gradient(32vmax 26vmax at 86% 10%, rgba(154, 107, 255, 0.12), transparent 64%),
+    radial-gradient(36vmax 30vmax at 64% 96%, rgba(24, 214, 190, 0.09), transparent 66%);
 }
 
 @media (prefers-color-scheme: dark) {
-  .page-bg::before { opacity: 0.55; }
+  body::before { opacity: 0.5; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -181,27 +175,37 @@ main {
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
 
 /* ============================================================
-   Glass surfaces (纯 CSS 质感)
+   Glass surfaces — 纯 CSS 毛玻璃
    ============================================================ */
 
 .glass {
   position: relative;
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.75); 
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow:
-    0 20px 40px -15px rgba(30, 45, 90, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 1),
+    0 18px 44px -20px rgba(30, 45, 90, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
     inset 0 0 0 1px var(--hairline);
   overflow: hidden;
 }
 
+/* 不支持 backdrop-filter 时用更实的底色兜底 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: rgba(255, 255, 255, 0.94); }
+}
+
 @media (prefers-color-scheme: dark) {
   .glass {
-    background: rgba(30, 32, 38, 0.75);
+    background: rgba(26, 28, 34, 0.66);
     box-shadow:
-      0 20px 40px -15px rgba(0, 0, 0, 0.6),
-      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+      0 18px 44px -20px rgba(0, 0, 0, 0.75),
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
       inset 0 0 0 1px var(--hairline);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass { background: rgba(24, 26, 31, 0.94); }
   }
 }
 
@@ -227,25 +231,11 @@ main {
 }
 
 /* ============================================================
-   Glass scene layering
-   ============================================================ */
-
-.glass-scene {
-  position: relative;
-  isolation: isolate;
-}
-
-.glass-content {
-  padding-bottom: env(safe-area-inset-bottom); 
-}
-
-/* ============================================================
    Navigation
    ============================================================ */
 
 .site-nav-wrap {
-  /* Fixed: the scene spans the whole document, so `absolute` would let
-     the nav scroll away with the page. */
+  /* 固定顶部：内容正常文档流滚动，导航永远在视口上方 */
   position: fixed;
   top: calc(14px + env(safe-area-inset-top)); 
   left: 0;
@@ -253,6 +243,18 @@ main {
   z-index: 50;
   padding-inline: var(--gutter);
   pointer-events: none;
+  transition: filter 0.25s ease;
+}
+
+/* 滚起来后给导航加一层投影，和内容区分开 */
+.site-nav-wrap[data-stuck="true"] {
+  filter: drop-shadow(0 10px 24px rgba(20, 30, 60, 0.12));
+}
+
+@media (prefers-color-scheme: dark) {
+  .site-nav-wrap[data-stuck="true"] {
+    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.55));
+  }
 }
 
 .site-nav-wrap .site-nav { pointer-events: auto; }
@@ -304,7 +306,7 @@ main {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url('/logo.PNG'); 
+  background-image: url('./logo.PNG'); 
   background-size: cover;
   background-position: center;
   border-radius: inherit;
@@ -675,23 +677,8 @@ main {
 }
 
 /* ============================================================
-   Capability notice & Utilities
+   Utilities
    ============================================================ */
-
-.glass-note {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.78rem;
-  color: var(--ink-faint);
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: var(--lift);
-  box-shadow: inset 0 0 0 1px var(--hairline);
-  width: fit-content;
-}
-
-.glass-note[data-visible="true"] { display: inline-flex; }
 
 .visually-hidden {
   position: absolute;

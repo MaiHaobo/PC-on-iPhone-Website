@@ -1,5 +1,10 @@
 import './styles.css';
-import { bootGlass, initGlassResync, initReveal } from './glass.js';
+
+/* ============================================================
+   PC on iPhone — site behaviour
+   No WebGPU / no liquid-glass dependency: every surface is plain
+   CSS frosted glass (backdrop-filter), which is stable in Safari.
+   ============================================================ */
 
 function initMobileNav() {
   const nav = document.querySelector(".site-nav");
@@ -28,18 +33,18 @@ function initMobileNav() {
   });
 }
 
-/* 💡 全站自动注入“系统画廊”导航链接 */
+/* 全站自动注入“系统画廊”导航链接 */
 function injectGalleryLink() {
-  const navLinks = document.querySelector('.nav-links');
+  const navLinks = document.querySelector(".nav-links");
   if (!navLinks) return;
   if (navLinks.querySelector('a[href*="gallery.html"]')) return;
 
-  const galleryLink = document.createElement('a');
-  galleryLink.href = './gallery.html';
-  galleryLink.textContent = '系统画廊';
+  const galleryLink = document.createElement("a");
+  galleryLink.href = "./gallery.html";
+  galleryLink.textContent = "系统画廊";
 
-  if (window.location.pathname.includes('gallery.html')) {
-    galleryLink.setAttribute('aria-current', 'page');
+  if (window.location.pathname.includes("gallery.html")) {
+    galleryLink.setAttribute("aria-current", "page");
   }
 
   // 插在“下载安装”的后面
@@ -51,22 +56,23 @@ function injectGalleryLink() {
   }
 }
 
-/* 💡 全站自动注入页脚版权信息 */
+/* 全站自动注入页脚版权信息 */
 function injectCopyright() {
-  const footerInner = document.querySelector('.footer-inner');
+  const footerInner = document.querySelector(".footer-inner");
   if (!footerInner) return;
 
   // 先把 HTML 里原有的版权信息全部删掉（防止残留或格式不统一）
-  footerInner.querySelectorAll('.footer-legal').forEach((el) => el.remove());
+  footerInner.querySelectorAll(".footer-legal").forEach((el) => el.remove());
 
   const currentYear = new Date().getFullYear();
 
-  const utmText = document.createElement('p');
+  const utmText = document.createElement("p");
   utmText.className = "footer-legal";
   utmText.style.margin = "0 0 4px 0";
-  utmText.innerHTML = 'Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>';
+  utmText.innerHTML =
+    'Powered by <a href="https://getutm.app" target="_blank" rel="noopener" style="color: var(--ink-soft); text-decoration: underline;">UTM</a>';
 
-  const mainText = document.createElement('p');
+  const mainText = document.createElement("p");
   mainText.className = "footer-legal";
   mainText.style.margin = "0";
   mainText.innerHTML = `© ${currentYear} PC on iPhone. All rights reserved.`;
@@ -81,22 +87,71 @@ function stampCurrentYear() {
   });
 }
 
-/* 独立页（如 experience.html）没有导航/页脚，跳过玻璃场景 */
-const hasScene = Boolean(document.querySelector('.glass-scene'));
+/* Reveal-on-scroll（渐进增强：默认可见，JS 不可用也不会空白） */
+function initReveal() {
+  const targets = document.querySelectorAll("[data-reveal]");
+  if (!targets.length) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) return;
+
+  targets.forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(18px)";
+    el.style.transition =
+      "opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1)";
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "none";
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -12% 0px", threshold: 0.08 }
+  );
+
+  targets.forEach((el) => observer.observe(el));
+
+  // 兜底：万一观察器没触发，2.5s 后强制显示
+  setTimeout(() => {
+    targets.forEach((el) => {
+      if (el.style.opacity === "0") {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+        observer.unobserve(el);
+      }
+    });
+  }, 2500);
+}
+
+/* 滚动后给导航加投影，让它在内容上方分层 */
+function initNavShadow() {
+  const wrap = document.querySelector(".site-nav-wrap");
+  if (!wrap) return;
+  let ticking = false;
+  const update = () => {
+    wrap.dataset.stuck = window.scrollY > 8 ? "true" : "false";
+    ticking = false;
+  };
+  update();
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    },
+    { passive: true }
+  );
+}
 
 initMobileNav();
 injectGalleryLink();
 injectCopyright();
 stampCurrentYear();
-
-if (hasScene) {
-  initReveal();
-  initGlassResync();
-
-  // Let the first paint happen before allocating GPU resources.
-  if ("requestIdleCallback" in window) {
-    requestIdleCallback(() => bootGlass(), { timeout: 1200 });
-  } else {
-    window.addEventListener("load", () => bootGlass(), { once: true });
-  }
-}
+initReveal();
+initNavShadow();
