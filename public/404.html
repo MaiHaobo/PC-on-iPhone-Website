@@ -435,6 +435,7 @@
       }
 
       .footer-card {
+        position: relative;
         display: flex;
         flex-direction: column;
         gap: 12px;
@@ -460,6 +461,23 @@
             inset 0 0 0 1px var(--hairline);
         }
       }
+
+      /* 站点 .glass::after 同款顶部高光 sheen */
+      .footer-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 34%);
+        mix-blend-mode: screen;
+        opacity: 0.5;
+      }
+
+      .footer-card > * { position: relative; z-index: 1; }
 
       .footer-card .brand {
         display: inline-flex;
