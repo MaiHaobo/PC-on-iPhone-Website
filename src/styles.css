@@ -306,10 +306,15 @@ main {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url('./logo.PNG'); 
+  background-image: url('./logo.PNG');
   background-size: cover;
   background-position: center;
   border-radius: inherit;
+}
+
+/* 深色模式切换为深色版 Logo */
+@media (prefers-color-scheme: dark) {
+  .brand-mark::after { background-image: url('./logo-dark.webp'); }
 }
 /* ============================================================ */
 
