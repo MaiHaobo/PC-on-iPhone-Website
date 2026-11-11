@@ -399,9 +399,13 @@
       }
 
       .footer-card {
-        padding: clamp(22px, 4vw, 30px) clamp(24px, 4vw, 32px);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+        padding: clamp(24px, 4vw, 32px);
         border-radius: var(--radius-md);
-        text-align: center;
+        text-align: left;
         background: rgba(255, 255, 255, 0.72);
         backdrop-filter: blur(24px) saturate(180%);
         -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -423,17 +427,15 @@
 
       .footer-card .brand {
         display: inline-flex;
-        justify-content: center;
-        margin: 0;
+        margin: 0 auto;
       }
 
       .footer-legal {
-        margin: 12px 0 0;
+        margin: 0;
         font-size: 0.78rem;
         color: var(--ink-faint);
       }
 
-      .footer-legal + .footer-legal { margin-top: 5px; }
       .footer-legal a { text-decoration: underline; }
     </style>
   </head>
@@ -509,8 +511,8 @@
           </span>
           PC on iPhone
         </a>
-        <p class="footer-legal">Powered by <a href="https://getutm.app" target="_blank" rel="noopener">UTM</a></p>
-        <p class="footer-legal">© <span data-year>2026</span> PC on iPhone. All rights reserved.</p>
+        <p class="footer-legal" style="margin: 0 0 4px 0;">Powered by <a href="https://getutm.app" target="_blank" rel="noopener">UTM</a></p>
+        <p class="footer-legal" style="margin: 0;">© <span data-year>2026</span> PC on iPhone. All rights reserved.</p>
       </div>
     </footer>
 
