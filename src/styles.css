@@ -139,6 +139,19 @@ a {
 
 .muted { color: var(--ink-faint); }
 
+/* 选区与键盘焦点 */
+::selection { background: color-mix(in srgb, var(--tint) 30%, transparent); }
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--tint);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
 /* ============================================================
    Layout primitives
    ============================================================ */
@@ -171,8 +184,9 @@ main {
   .grid { gap: 24px; }
 }
 
-.grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
-.grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+/* auto-fill：最后一行卡片不再拉伸占满整行 */
+.grid-2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
 
 /* ============================================================
    Glass surfaces — 纯 CSS 毛玻璃
@@ -359,6 +373,17 @@ main {
   box-shadow: 0 8px 22px -6px rgba(20, 30, 60, 0.35);
 }
 
+/* 深色模式下 CTA 反色，避免黑底黑按钮看不清 */
+@media (prefers-color-scheme: dark) {
+  .nav-cta {
+    background: #f5f6fa;
+    color: #0c0d12;
+  }
+  .nav-cta:hover {
+    box-shadow: 0 8px 22px -6px rgba(0, 0, 0, 0.6);
+  }
+}
+
 .nav-toggle {
   display: none;
   width: 40px;
@@ -434,10 +459,21 @@ main {
 }
 
 .btn--primary {
-  background: linear-gradient(180deg, #2f7dff, #1450e0);
+  background: linear-gradient(135deg, #2f7dff, #1c5af0 55%, #4a5cf0);
   color: #fff;
-  box-shadow: 0 12px 30px -12px rgba(20, 80, 224, 0.6);
+  box-shadow:
+    0 12px 30px -12px rgba(20, 80, 224, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
+
+.btn--primary:hover {
+  box-shadow:
+    0 16px 38px -12px rgba(20, 80, 224, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.btn--primary svg { transition: transform 0.18s ease; }
+.btn--primary:hover svg { transform: translateX(3px); }
 
 .btn--ghost {
   background: var(--lift);
@@ -508,10 +544,26 @@ main {
 /* Phone mock ------------------------------------------------ */
 
 .phone-stage {
+  position: relative;
   display: grid;
   place-items: center;
   padding: clamp(10px, 2vw, 20px);
 }
+
+/* 深色背景下给手机截图垫一层品牌色辉光，避免融入黑底 */
+.phone-stage::before {
+  content: "";
+  position: absolute;
+  inset: -6% -4%;
+  background: radial-gradient(
+    58% 52% at 50% 44%,
+    color-mix(in srgb, var(--tint) 16%, transparent),
+    transparent 72%
+  );
+  filter: blur(8px);
+}
+
+.phone-stage > * { position: relative; z-index: 1; }
 
 .hero-shot {
   display: block;
@@ -531,17 +583,32 @@ main {
 }
 
 .card-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
   flex: none;
-  background: var(--lift-strong);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--tint) 16%, transparent),
+    color-mix(in srgb, var(--tint-2) 16%, transparent)
+  );
   box-shadow: inset 0 0 0 1px var(--hairline);
 }
 
-.card-icon svg { width: 18px; height: 18px; opacity: 0.92; }
+.card-icon svg { width: 18px; height: 18px; opacity: 0.95; color: var(--tint); }
+
+/* 可交互卡片：hover 轻微上浮 */
+article.glass {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+article.glass:hover { transform: translateY(-3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  article.glass, article.glass:hover { transition: none; transform: none; }
+}
 
 .card p { 
   margin-top: 14px; 
@@ -705,6 +772,35 @@ main {
 }
 
 /* ==== HTML 优化配套工具类 ==== */
+
+/* 行内代码 */
+code {
+  background: var(--lift-strong);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  color: var(--tint);
+}
+
+/* 项目标签（画廊等页面的卡片角标） */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  background: var(--lift);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
 .mb-40 {
   margin-bottom: clamp(32px, 5vw, 40px); 
 }
