@@ -64,7 +64,8 @@
         overflow-x: clip;
       }
 
-      /* 与站点其它页面同款底色光晕（毛玻璃要有东西可模糊） */
+      /* 与站点其它页面同款底色光晕（毛玻璃要有东西可模糊）；
+         404 页面板较大，额外在面板后方加一团居中光晕，保证深色模式下玻璃透亮感与其他页面一致 */
       body::before {
         content: "";
         position: fixed;
@@ -72,6 +73,9 @@
         z-index: -1;
         pointer-events: none;
         background:
+          radial-gradient(30vmax 26vmax at 50% 44%, rgba(76, 141, 255, 0.36), transparent 64%),
+          radial-gradient(26vmax 22vmax at 34% 58%, rgba(154, 107, 255, 0.26), transparent 66%),
+          radial-gradient(24vmax 20vmax at 66% 52%, rgba(24, 214, 190, 0.14), transparent 66%),
           radial-gradient(38vmax 30vmax at 16% 4%, rgba(76, 141, 255, 0.14), transparent 62%),
           radial-gradient(32vmax 26vmax at 86% 10%, rgba(154, 107, 255, 0.12), transparent 64%),
           radial-gradient(36vmax 30vmax at 64% 96%, rgba(24, 214, 190, 0.09), transparent 66%);
