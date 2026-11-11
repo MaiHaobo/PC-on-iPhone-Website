@@ -392,17 +392,51 @@
 
       .quick a:hover { color: var(--ink); background: var(--lift-strong); }
 
-      /* ---------------- 页脚 ---------------- */
+      /* ---------------- 页脚（与站点其它页面同款毛玻璃卡片） ---------------- */
       .site-footer {
-        padding: 0 var(--gutter) calc(24px + env(safe-area-inset-bottom));
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 var(--gutter) calc(28px + env(safe-area-inset-bottom));
+      }
+
+      .footer-card {
+        padding: clamp(22px, 4vw, 30px) clamp(24px, 4vw, 32px);
+        border-radius: var(--radius-md);
         text-align: center;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        box-shadow:
+          0 18px 44px -20px rgba(30, 45, 90, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.95),
+          inset 0 0 0 1px var(--hairline);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .footer-card {
+          background: rgba(26, 28, 34, 0.66);
+          box-shadow:
+            0 18px 44px -20px rgba(0, 0, 0, 0.75),
+            inset 0 1px 0 rgba(255, 255, 255, 0.09),
+            inset 0 0 0 1px var(--hairline);
+        }
+      }
+
+      .footer-card .brand {
+        display: inline-flex;
+        justify-content: center;
+        margin: 0;
+      }
+
+      .footer-legal {
+        margin: 12px 0 0;
         font-size: 0.78rem;
         color: var(--ink-faint);
       }
 
-      .site-footer p { margin: 0; }
-      .site-footer p + p { margin-top: 5px; }
-      .site-footer a { text-decoration: underline; }
+      .footer-legal + .footer-legal { margin-top: 5px; }
+      .footer-legal a { text-decoration: underline; }
     </style>
   </head>
   <body>
@@ -470,8 +504,16 @@
     </main>
 
     <footer class="site-footer">
-      <p>Powered by <a href="https://getutm.app" target="_blank" rel="noopener">UTM</a></p>
-      <p>© <span data-year>2026</span> PC on iPhone. All rights reserved.</p>
+      <div class="footer-card">
+        <a class="brand" href="/PC-on-iPhone-Website/index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <img src="/PC-on-iPhone-Website/logo.PNG" alt="Logo" width="26" height="26" />
+          </span>
+          PC on iPhone
+        </a>
+        <p class="footer-legal">Powered by <a href="https://getutm.app" target="_blank" rel="noopener">UTM</a></p>
+        <p class="footer-legal">© <span data-year>2026</span> PC on iPhone. All rights reserved.</p>
+      </div>
     </footer>
 
     <script>
