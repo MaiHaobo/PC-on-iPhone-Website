@@ -58,9 +58,10 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  background: var(--page);
-  /* The glass lens host extends past the right edge by design
-     (refraction outsets); clip it so no horizontal scrollbar shows. */
+  /* 不要在这里设背景色：根元素一旦有不透明背景，body 的背景就不再
+     传播到画布，而是绘制在 body 盒子上，从而盖住 z-index:-1 的
+     body::before 光晕层（首页“背景被白色挡住”的根因）。
+     底色统一交给 body，由它传播成画布底色。 */
   overflow-x: clip;
 }
 
