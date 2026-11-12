@@ -836,3 +836,59 @@ code {
   font-size: 0.95rem;
   line-height: 1.6;
 }
+/* ============================================================
+   🗺️ 网站地图（每页页脚前的页面导航）
+   ============================================================ */
+.sitemap-section {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(28px, 5vw, 48px);
+}
+
+.sitemap-crumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 0;
+  border-top: 1px solid var(--hairline);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.sitemap-crumb .brand-mark { width: 26px; height: 26px; border-radius: 6px; }
+.sitemap-crumb .crumb-sep { color: var(--ink-faint); }
+
+.sitemap-list {
+  border-top: 1px solid var(--hairline);
+}
+
+.sitemap-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 2px;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: var(--ink);
+  transition: color 0.18s ease;
+}
+
+.sitemap-list a:hover { color: var(--tint); }
+
+.sitemap-list a[aria-current="page"] {
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+
+.sitemap-list .go {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  color: var(--ink-faint);
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.sitemap-list a:hover .go { color: var(--tint); transform: translateX(2px); }
