@@ -256,7 +256,7 @@
       .error-main > *:nth-child(4) { animation-delay: 0.29s; }
 
       @media (prefers-reduced-motion: reduce) {
-        .error-main > *, details[open] .acc-body { animation: none !important; }
+        .error-main > * { animation: none !important; }
       }
 
       h1 {
@@ -450,64 +450,33 @@
 
       .crumb-sep { color: var(--ink-faint); }
 
-      .acc { border-top: 1px solid var(--hairline); }
+      /* 网站地图：直接平铺全部页面链接 */
+      .sitemap-list { border-top: 1px solid var(--hairline); }
 
-      .acc-item { border-bottom: 1px solid var(--hairline); }
-
-      .acc-head {
+      .sitemap-list a {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 16px 2px;
-        cursor: pointer;
-        list-style: none;
+        padding: 14px 2px;
+        border-bottom: 1px solid var(--hairline);
         font-size: 0.96rem;
         font-weight: 600;
         color: var(--ink);
         transition: color 0.18s ease;
       }
 
-      .acc-head::-webkit-details-marker { display: none; }
-      .acc-head:hover { color: var(--link); }
+      .sitemap-list a:hover { color: var(--link); }
 
-      .acc-chev {
+      .sitemap-list .go {
         flex: none;
-        width: 15px;
-        height: 15px;
+        width: 14px;
+        height: 14px;
         color: var(--ink-faint);
-        transition: transform 0.22s ease;
+        transition: transform 0.18s ease, color 0.18s ease;
       }
 
-      .acc-item[open] .acc-chev { transform: rotate(180deg); }
-
-      .acc-body {
-        padding: 2px 2px 18px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 10px;
-        animation: rise 0.3s ease both;
-      }
-
-      .acc-body a {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        min-width: 0;
-        padding: 12px 16px;
-        border-radius: 14px;
-        background: var(--lift);
-        box-shadow: inset 0 0 0 1px var(--hairline);
-        transition: background-color 0.18s ease, transform 0.18s ease;
-      }
-
-      .acc-body a:hover {
-        background: var(--lift-strong);
-        transform: translateY(-1px);
-      }
-
-      .acc-body .q-name { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
-      .acc-body .q-desc { font-size: 0.75rem; color: var(--ink-faint); }
+      .sitemap-list a:hover .go { color: var(--link); transform: translateX(2px); }
 
       a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible {
         outline: 2px solid var(--tint);
@@ -618,47 +587,25 @@
         <span>页面找不到</span>
       </div>
 
-      <nav class="acc">
-        <details class="acc-item">
-          <summary class="acc-head">快速开始
-            <svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-          </summary>
-          <div class="acc-body">
-            <a href="/PC-on-iPhone-Website/download.html"><span class="q-name">下载安装</span><span class="q-desc">获取最新安装包</span></a>
-            <a href="/PC-on-iPhone-Website/install.html"><span class="q-name">详细安装教程</span><span class="q-desc">从零开始配置</span></a>
-            <a href="/PC-on-iPhone-Website/guide.html"><span class="q-name">详细使用教程</span><span class="q-desc">玩转虚拟机</span></a>
-          </div>
-        </details>
-
-        <details class="acc-item">
-          <summary class="acc-head">探索更多
-            <svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-          </summary>
-          <div class="acc-body">
-            <a href="/PC-on-iPhone-Website/features.html"><span class="q-name">功能</span><span class="q-desc">了解全部特性</span></a>
-            <a href="/PC-on-iPhone-Website/gallery.html"><span class="q-name">系统画廊</span><span class="q-desc">看看能跑什么</span></a>
-          </div>
-        </details>
-
-        <details class="acc-item">
-          <summary class="acc-head">帮助与支持
-            <svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-          </summary>
-          <div class="acc-body">
-            <a href="/PC-on-iPhone-Website/faq.html"><span class="q-name">常见问题</span><span class="q-desc">解决安装难题</span></a>
-            <a href="/PC-on-iPhone-Website/fandback.html"><span class="q-name">问题反馈</span><span class="q-desc">反馈与建议</span></a>
-          </div>
-        </details>
-
-        <details class="acc-item">
-          <summary class="acc-head">关于本站
-            <svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-          </summary>
-          <div class="acc-body">
-            <a href="/PC-on-iPhone-Website/index.html"><span class="q-name">首页</span><span class="q-desc">回到站点首页</span></a>
-            <a href="/PC-on-iPhone-Website/about.html"><span class="q-name">关于</span><span class="q-desc">了解这个项目</span></a>
-          </div>
-        </details>
+      <nav class="sitemap-list" aria-label="网站地图">
+        <a href="/PC-on-iPhone-Website/index.html">首页
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
+        <a href="/PC-on-iPhone-Website/features.html">功能
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
+        <a href="/PC-on-iPhone-Website/download.html">下载安装
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
+        <a href="/PC-on-iPhone-Website/install.html">详细安装教程
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
+        <a href="/PC-on-iPhone-Website/guide.html">详细使用教程
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
+        <a href="/PC-on-iPhone-Website/gallery.html">系统画廊
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
+        <a href="/PC-on-iPhone-Website/faq.html">常见问题
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
+        <a href="/PC-on-iPhone-Website/fandback.html">问题反馈
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
+        <a href="/PC-on-iPhone-Website/about.html">关于
+          <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></a>
       </nav>
     </section>
 
@@ -798,7 +745,6 @@
 
         // ---- 网站地图：展开全部并滚动过去 ----
         document.getElementById("sitemap-link").addEventListener("click", function () {
-          document.querySelectorAll(".acc-item").forEach(function (d) { d.open = true; });
           document.getElementById("directory").scrollIntoView({ behavior: "smooth", block: "start" });
         });
       })();
