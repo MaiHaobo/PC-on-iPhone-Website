@@ -255,6 +255,9 @@
       .error-main > *:nth-child(3) { animation-delay: 0.21s; }
       .error-main > *:nth-child(4) { animation-delay: 0.29s; }
 
+      /* 入场动画结束后释放（.entered 由脚本加上），后续的显隐过渡才能生效 */
+      .error-main.entered > * { animation: none; }
+
       @media (prefers-reduced-motion: reduce) {
         .error-main > * { animation: none !important; }
       }
@@ -315,6 +318,7 @@
       /* 搜索框 */
       .search-wrap {
         position: relative;
+        z-index: 40;
         width: 100%;
         max-width: 560px;
         margin-top: clamp(28px, 5vw, 44px);
@@ -415,6 +419,13 @@
         background: none;
         border: 0;
         font-family: inherit;
+        transition: opacity 0.2s ease;
+      }
+
+      /* 搜索建议弹出时淡出下方链接，避免与浮层交错 */
+      .error-main.searching .sitemap-link {
+        opacity: 0;
+        pointer-events: none;
       }
 
       .sitemap-link:hover { text-decoration: underline; }
@@ -712,7 +723,15 @@
           });
         }
 
-        function hide() { pop.dataset.show = "false"; }
+        var main = document.querySelector(".error-main");
+
+        // 入场动画播完后释放 fill 状态，避免压住后续的显隐过渡
+        setTimeout(function () { main.classList.add("entered"); }, 950);
+
+        function hide() {
+          pop.dataset.show = "false";
+          main.classList.remove("searching");
+        }
 
         function search(q) {
           q = q.trim().toLowerCase();
@@ -721,6 +740,7 @@
             return (p.name + " " + p.desc + " " + p.kw).toLowerCase().indexOf(q) !== -1;
           });
           render(list);
+          main.classList.add("searching");
         }
 
         input.addEventListener("input", function () { search(input.value); });
