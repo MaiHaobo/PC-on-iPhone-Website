@@ -534,18 +534,18 @@
 
       /* iOS 式连续曲率圆角（Squircle） */
       @supports (corner-shape: squircle) {
-        .brand-mark,
-        .nav-links,
-        .nav-links a,
-        .path-chip,
-        .search-box,
-        .search-pop,
-        .search-pop .hit,
-        .crumb-row img,
+        .brand-mark { corner-shape: squircle; border-radius: 11px; }
+        .nav-links { corner-shape: squircle; border-radius: 32px; }
+        .nav-links a { corner-shape: squircle; border-radius: 20px; }
+        .path-chip { corner-shape: squircle; border-radius: 15px; }
+        .search-box { corner-shape: squircle; border-radius: 22px; }
+        .search-pop { corner-shape: squircle; border-radius: 26px; }
+        .search-pop .hit { corner-shape: squircle; border-radius: 17px; }
+        .crumb-row img { corner-shape: squircle; border-radius: 9px; }
         a:focus-visible,
         button:focus-visible,
         summary:focus-visible,
-        input:focus-visible { corner-shape: squircle; }
+        input:focus-visible { corner-shape: squircle; border-radius: 14px; }
       }
     </style>
   </head>

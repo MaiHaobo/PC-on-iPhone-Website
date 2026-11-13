@@ -897,6 +897,12 @@ code {
    🍎 iOS 式连续曲率圆角（Squircle）
    ============================================================ */
 @supports (corner-shape: squircle) {
+  :root {
+    --radius-lg: 46px;
+    --radius-md: 30px;
+    --radius-sm: 20px;
+  }
+
   .glass,
   .glass--md,
   .glass--sm,
@@ -912,5 +918,18 @@ code {
   summary:focus-visible,
   textarea:focus-visible { corner-shape: squircle; }
 
+  .card-icon { border-radius: 16px; }
+  .nav-links { border-radius: 32px; }
+  .nav-links a { border-radius: 20px; }
+  .brand-mark { border-radius: 11px; }
+  .sitemap-crumb .brand-mark { border-radius: 9px; }
+  code { border-radius: 9px; }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  summary:focus-visible,
+  textarea:focus-visible { border-radius: 14px; }
+
   .glass::after { corner-shape: inherit; }
+  .brand-mark::after { corner-shape: inherit; }
 }
