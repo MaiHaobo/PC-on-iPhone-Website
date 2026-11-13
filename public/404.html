@@ -531,6 +531,22 @@
         color: var(--ink-faint);
         opacity: 0.6;
       }
+
+      /* iOS 式连续曲率圆角（Squircle） */
+      @supports (corner-shape: squircle) {
+        .brand-mark,
+        .nav-links,
+        .nav-links a,
+        .path-chip,
+        .search-box,
+        .search-pop,
+        .search-pop .hit,
+        .crumb-row img,
+        a:focus-visible,
+        button:focus-visible,
+        summary:focus-visible,
+        input:focus-visible { corner-shape: squircle; }
+      }
     </style>
   </head>
   <body>

@@ -892,3 +892,25 @@ code {
 }
 
 .sitemap-list a:hover .go { color: var(--tint); transform: translateX(2px); }
+
+/* ============================================================
+   🍎 iOS 式连续曲率圆角（Squircle）
+   ============================================================ */
+@supports (corner-shape: squircle) {
+  .glass,
+  .glass--md,
+  .glass--sm,
+  .card-icon,
+  .nav-links,
+  .nav-links a,
+  .brand-mark,
+  .sitemap-crumb .brand-mark,
+  code,
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  summary:focus-visible,
+  textarea:focus-visible { corner-shape: squircle; }
+
+  .glass::after { corner-shape: inherit; }
+}
