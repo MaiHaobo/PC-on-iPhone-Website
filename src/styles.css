@@ -919,6 +919,7 @@ code {
   textarea:focus-visible { corner-shape: squircle; }
 
   .card-icon { border-radius: 16px; }
+  .tag { corner-shape: squircle; border-radius: 11px; }
   .nav-links { border-radius: 32px; }
   .nav-links a { border-radius: 20px; }
   .brand-mark { border-radius: 11px; }

@@ -16,7 +16,7 @@
       .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
       .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
       .form-control {
-        width: 100%; padding: 12px 16px; border-radius: 12px;
+        width: 100%; padding: 12px 16px; border-radius: 14px; corner-shape: squircle;
         background: var(--page); border: 1px solid var(--hairline);
         color: var(--ink); font-family: inherit; font-size: 0.95rem;
         transition: border-color 0.18s ease, box-shadow 0.18s ease;
@@ -27,7 +27,7 @@
       
       /* 提交状态提示 */
       #form-status {
-        display: none; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 0.9rem;
+        display: none; padding: 12px; border-radius: 12px; corner-shape: squircle; margin-bottom: 16px; font-size: 0.9rem;
       }
       #form-status.success { display: block; background: rgba(70, 214, 168, 0.15); color: #2e8b57; border: 1px solid rgba(70, 214, 168, 0.3); }
       #form-status.error { display: block; background: rgba(255, 71, 87, 0.15); color: #ff4757; border: 1px solid rgba(255, 71, 87, 0.3); }
@@ -146,7 +146,7 @@
                     如果左侧提交失败，您有 GitHub 账号的话，建议直接在仓库提交 Issue。这样所有的报错日志和讨论都能被完整保留，方便其他用户查阅。
                   </p>
                   
-                  <div style="background: var(--lift); padding: 16px; border-radius: 12px; margin-bottom: 24px; border: 1px solid var(--hairline);">
+                  <div style="background: var(--lift); padding: 16px; border-radius: 16px; corner-shape: squircle; margin-bottom: 24px; border: 1px solid var(--hairline);">
                     <p style="font-size: 0.85rem; margin-bottom: 8px;"><strong>提交 Issue 前建议：</strong></p>
                     <ul style="list-style: none; padding: 0; margin: 0; color: var(--ink-soft); font-size: 0.85rem; display: grid; gap: 6px;">
                       <li>• 搜索是否已有相同问题</li>
