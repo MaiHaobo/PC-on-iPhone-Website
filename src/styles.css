@@ -280,6 +280,7 @@ main {
   gap: 8px;
   padding: 8px 10px 8px 18px;
   border-radius: 999px;
+  corner-shape: squircle;
 }
 
 .brand {
@@ -344,6 +345,7 @@ main {
   display: block;
   padding: 8px 12px; /* 💡 稍微缩小两侧内边距，给文字留空间 */
   border-radius: 999px;
+  corner-shape: squircle;
   font-size: 0.9rem;
   color: var(--ink-soft);
   transition: background-color 0.18s ease, color 0.18s ease;
@@ -361,6 +363,7 @@ main {
 .nav-cta {
   padding: 9px 18px;
   border-radius: 999px;
+  corner-shape: squircle;
   font-size: 0.9rem;
   font-weight: 600;
   background: #16181f;
@@ -452,6 +455,7 @@ main {
   padding: 14px 26px;
   border: 0;
   border-radius: 999px;
+  corner-shape: squircle;
   font: inherit;
   font-size: 0.95rem;
   font-weight: 600;
@@ -794,6 +798,7 @@ code {
 .tag {
   padding: 3px 10px;
   border-radius: 999px;
+  corner-shape: squircle;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -919,9 +924,8 @@ code {
   textarea:focus-visible { corner-shape: squircle; }
 
   .card-icon { border-radius: 16px; }
-  .tag { corner-shape: squircle; border-radius: 11px; }
   .nav-links { border-radius: 32px; }
-  .nav-links a { border-radius: 20px; }
+  .nav-links a { corner-shape: squircle; }
   .brand-mark { border-radius: 11px; }
   .sitemap-crumb .brand-mark { border-radius: 9px; }
   code { border-radius: 9px; }

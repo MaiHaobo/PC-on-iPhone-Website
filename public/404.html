@@ -99,6 +99,7 @@
         gap: 8px;
         padding: 8px 10px 8px 18px;
         border-radius: 999px;
+        corner-shape: squircle;
         background: rgba(255, 255, 255, 0.72);
         backdrop-filter: blur(24px) saturate(180%);
         -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -161,6 +162,7 @@
         display: block;
         padding: 8px 12px;
         border-radius: 999px;
+        corner-shape: squircle;
         font-size: 0.9rem;
         color: var(--ink-soft);
         white-space: nowrap;
@@ -172,6 +174,7 @@
       .nav-cta {
         padding: 9px 18px;
         border-radius: 999px;
+        corner-shape: squircle;
         font-size: 0.9rem;
         font-weight: 600;
         background: #16181f;
@@ -536,7 +539,7 @@
       @supports (corner-shape: squircle) {
         .brand-mark { corner-shape: squircle; border-radius: 11px; }
         .nav-links { corner-shape: squircle; border-radius: 32px; }
-        .nav-links a { corner-shape: squircle; border-radius: 20px; }
+        .nav-links a { corner-shape: squircle; }
         .path-chip { corner-shape: squircle; border-radius: 15px; }
         .search-box { corner-shape: squircle; border-radius: 22px; }
         .search-pop { corner-shape: squircle; border-radius: 26px; }
