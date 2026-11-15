@@ -13,6 +13,7 @@ export default defineConfig({
         main: resolve(__dirname, "index.html"),
         "main-en-GB": resolve(__dirname, "en-GB/index.html"),
         features: resolve(__dirname, "features.html"),
+        "features-en-GB": resolve(__dirname, "en-GB/features.html"),
         download: resolve(__dirname, "download.html"),
         install: resolve(__dirname, "install.html"),
         guide: resolve(__dirname, "guide.html"),
