@@ -15,6 +15,7 @@ export default defineConfig({
         features: resolve(__dirname, "features.html"),
         "features-en-GB": resolve(__dirname, "en-GB/features.html"),
         download: resolve(__dirname, "download.html"),
+        "download-en-GB": resolve(__dirname, "en-GB/download.html"),
         install: resolve(__dirname, "install.html"),
         guide: resolve(__dirname, "guide.html"),
         faq: resolve(__dirname, "faq.html"),
