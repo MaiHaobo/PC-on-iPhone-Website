@@ -21,6 +21,7 @@ export default defineConfig({
         faq: resolve(__dirname, "faq.html"),
         fandback: resolve(__dirname, "fandback.html"),
         gallery: resolve(__dirname, "gallery.html"),
+        "gallery-en-GB": resolve(__dirname, "en-GB/gallery.html"),
         about: resolve(__dirname, "about.html"),
         experience: resolve(__dirname, "experience.html"),
       },
