@@ -10,8 +10,12 @@
 |---|---|
 | `index.html`  | 首屏、核心亮点、上手流程、结尾 CTA |
 | `features.html` | 功能分组（输入 / 窗口 / 文件与外设） |
+| `download.html` | 下载安装 |
+| `install.html` | 详细安装教程 |
+| `guide.html` | 详细使用教程 |
 | `faq.html`  | 常见问题 |
-
+| `fandback.html` | 问题反馈 |
+| `gallery.html` | 系统画廊 |
 | `about.html` | 项目背景、技术栈、联系方式 |
 
 ## 本地开发
