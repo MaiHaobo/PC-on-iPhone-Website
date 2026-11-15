@@ -6,12 +6,13 @@
 
 ## 页面
 
-| 文件 | 路由 | 内容 |
+| 文件 | 内容 |
 |---|---|---|
-| `index.html` | `/` | 首屏、核心亮点、上手流程、结尾 CTA |
-| `features.html` | `/features.html` | 功能分组（输入 / 窗口 / 文件与外设） |
-| `faq.html` | `/faq.html` | 常见问题手风琴 |
-| `about.html` | `/about.html` | 项目背景、技术栈、联系方式 |
+| `index.html`  | 首屏、核心亮点、上手流程、结尾 CTA |
+| `features.html` | 功能分组（输入 / 窗口 / 文件与外设） |
+| `faq.html`  | 常见问题 |
+
+| `about.html` | 项目背景、技术栈、联系方式 |
 
 ## 本地开发
 
