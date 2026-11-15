@@ -11,7 +11,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        main-en-GB: resolve(__dirname, "en-GB/index.html"),
+        "main-en-GB": resolve(__dirname, "en-GB/index.html"),
         features: resolve(__dirname, "features.html"),
         download: resolve(__dirname, "download.html"),
         install: resolve(__dirname, "install.html"),
